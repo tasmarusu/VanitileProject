@@ -58,6 +58,11 @@ namespace VANITILE
             InGoal = 30,
 
             /// <summary>
+            /// 失敗
+            /// </summary>
+            Miss = 40,
+
+            /// <summary>
             /// 遷移中
             /// </summary>
             Transition = 80,
@@ -84,6 +89,16 @@ namespace VANITILE
         public void GameStart()
         {
             this.CurrentGameState = MainGameState.NotAbleGoal;
+        }
+
+        /// <summary>
+        /// プレイヤーの失敗
+        /// </summary>
+        public void MissPlayer()
+        {
+            Debug.Log($"[Player]Missしたので同ステージの再開");
+            this.CurrentGameState = MainGameState.Miss;
+            GameMain.Instance.TransitionCurrentStage();
         }
 
         /// <summary>

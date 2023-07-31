@@ -9,6 +9,11 @@ namespace VANITILE
     public class PlayerManager : StageManagerBase
     {
         /// <summary>
+        /// プレイヤー失敗ポイント
+        /// </summary>
+        [SerializeField, Header("プレイヤー失敗ポイント")] private PlayerMissPoint playerMissPoint = null;
+
+        /// <summary>
         /// PlayerController 
         /// </summary>
         private List<PlayerController> playerControllers = new List<PlayerController>();
@@ -25,6 +30,7 @@ namespace VANITILE
         {
             this.playerControllers.Clear();
             base.Init();
+            this.playerMissPoint.Init();
             StageDataModel.Instance.SetPlayerCount(this.playerControllers.Count);
         }
 

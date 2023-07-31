@@ -44,17 +44,28 @@ namespace VANITILE
             this.StartCoroutine(this.TransitionNextStageImpl());
         }
 
+        /// <summary>
+        /// 次のステージへ遷移
+        /// </summary>
+        public void TransitionCurrentStage()
+        {
+            this.StartCoroutine(this.TransitionNextStageImpl(false));
+        }
 
         /// <summary>
         /// 次のステージへ遷移
         /// </summary>
-        private IEnumerator TransitionNextStageImpl()
+        private IEnumerator TransitionNextStageImpl(bool isNext = true)
         {
             Debug.Log($"[Stage]遷移開始");
             var transition = GameObject.Instantiate(Resources.Load<Transition>("Prefabs/Common/Transition"));
             yield return transition.In();
 
-            this.NextStageId();
+            if (isNext)
+            {
+                this.NextStageId();
+            }
+
             this.Transition();
 
             yield return transition.Out();

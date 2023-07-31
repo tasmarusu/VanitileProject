@@ -51,6 +51,14 @@ namespace VANITILE
         }
 
         /// <summary>
+        /// 失敗
+        /// </summary>
+        public void Miss()
+        {
+            GameObject.Destroy(this.gameObject);
+        }
+
+        /// <summary>
         /// Update
         /// </summary>
         private void Update()
