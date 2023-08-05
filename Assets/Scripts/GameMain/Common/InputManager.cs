@@ -1,6 +1,5 @@
-﻿using UnityEngine;
-using UniRx;
-using System;
+﻿using UniRx;
+using UnityEngine;
 
 namespace VANITILE
 {
@@ -100,7 +99,7 @@ namespace VANITILE
                 {
                     Observable.Timer(System.TimeSpan.FromSeconds(0f), System.TimeSpan.FromSeconds(interval))
                         .Take(take)
-                        .DoOnCompleted(()=>
+                        .DoOnCompleted(() =>
                         {
                             Debug.Log($"指定回数の移動終了 take:{take} StartConsecutiveVerticalSubject");
                             this.ConsecutiveVerticalSubject.OnCompleted();

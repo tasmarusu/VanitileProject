@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using UniRx;
 using UnityEngine;
-using UniRx;
 
 
 namespace VANITILE
@@ -90,7 +88,7 @@ namespace VANITILE
             Observable.EveryUpdate().Subscribe(_ =>
             {
                 var input = Mathf.Abs(InputManager.Instance.Horizontal);
-                this.animator.SetFloat(StateName.Walk.ToString(),input);
+                this.animator.SetFloat(StateName.Walk.ToString(), input);
             }).AddTo(this);
         }
     }

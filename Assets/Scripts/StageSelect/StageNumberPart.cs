@@ -1,9 +1,6 @@
-﻿using DG.Tweening;
-using System.Collections;
-using System.Collections.Generic;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 namespace VANITILE
 {
@@ -65,7 +62,7 @@ namespace VANITILE
                 var playUp = info.IsName(AnimatorName.Up.ToString());
                 var playDown = info.IsName(AnimatorName.Down.ToString());
                 var time = info.normalizedTime < 1.0f;
-                return (playUp || playDown) && time ;
+                return (playUp || playDown) && time;
             }
         }
 

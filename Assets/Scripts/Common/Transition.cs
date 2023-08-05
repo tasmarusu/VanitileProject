@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,7 +20,7 @@ namespace VANITILE
         /// <summary>
         /// 透過度
         /// </summary>
-        [SerializeField,HideInInspector] private float threshold = .0f;
+        [SerializeField, HideInInspector] private float threshold = .0f;
 
         /// <summary>
         /// 遷移中のオブジェクト

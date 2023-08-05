@@ -1,8 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using UniRx;
-using System;
+using UnityEngine;
 
 namespace VANITILE
 {
@@ -57,7 +56,7 @@ namespace VANITILE
             /// <summary>
             /// 回数
             /// </summary>
-            [field:SerializeField] public int count { get; private set; }
+            [field: SerializeField] public int count { get; private set; }
 
             /// <summary>
             /// スピード
