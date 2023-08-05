@@ -56,6 +56,7 @@ namespace VANITILE
         public override IEnumerator Finalize()
         {
             yield return new WaitUntil(() => TitleDataModel.Instance.IsTitleSelect);
+            this.SaveVolume();
             GameObject.Destroy(this.gameObject);
         }
 
@@ -68,26 +69,59 @@ namespace VANITILE
         }
 
         /// <summary>
+        /// 音量のセーブ
+        /// </summary>
+        private void SaveVolume()
+        {
+            GameSaveDataModel.Instance.BgmVolume = SoundManager.Instance.BgmVolume;
+            GameSaveDataModel.Instance.SeVolume = SoundManager.Instance.SeVolume;
+        }
+
+        /// <summary>
         /// 音量調整クラス
         /// </summary>
         [System.Serializable]
         public class AudioProperity
         {
             /// <summary>
-            /// BGM音量調節スライダー
+            /// 音量調節スライダー
             /// </summary>
             [SerializeField] private Slider slider = null;
 
             /// <summary>
-            /// BGM音量テキスト
+            /// 音量テキスト
             /// </summary>
             [SerializeField] private TMPro.TextMeshProUGUI volumeText = null;
+
+            /// <summary>
+            /// 音量テキスト
+            /// </summary>
+            [SerializeField] private AudioType audioType = AudioType.Bgm;
+
+            /// <summary>
+            /// 音量タイプ
+            /// </summary>
+            private enum AudioType
+            {
+                Bgm,
+                Se,
+            }
 
             /// <summary>
             /// 初期化
             /// </summary>
             public void Init()
             {
+                var volume = .0f;
+                switch (this.audioType)
+                {
+                    case AudioType.Bgm: volume = GameSaveDataModel.Instance.BgmVolume; break;
+                    case AudioType.Se: volume = GameSaveDataModel.Instance.SeVolume; break;
+                    default: Debug.LogError($"[Audio]はいるな"); break;
+                }
+
+                this.SetAudioVolume(volume);
+                this.slider.value = volume;
                 this.slider.onValueChanged.AddListener(SetAudioVolume);
             }
 
@@ -97,7 +131,13 @@ namespace VANITILE
             /// <param name="volume"></param>
             private void SetAudioVolume(float volume)
             {
-                SoundManager.Instance.BgmVolume = volume;
+                switch (this.audioType)
+                {
+                    case AudioType.Bgm: SoundManager.Instance.BgmVolume = volume; break;
+                    case AudioType.Se: SoundManager.Instance.SeVolume = volume; break;
+                    default: Debug.LogError($"[Audio]はいるな"); break;
+                }
+
                 this.volumeText.text = volume.ToString("F2");
             }
         }

@@ -62,7 +62,7 @@ namespace VANITILE
         /// <summary>
         /// ゲーム実行前に呼び出す
         /// </summary>
-        [RuntimeInitializeOnLoadMethod()]
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         static void Init()
         {
             var obj = Resources.Load<SoundManager>($"Prefabs/Common/SoundManager");
