@@ -5,6 +5,7 @@ namespace VANITILE
 {
     /// <summary>
     /// タイトルセレクトのベース
+    /// オプションとステージセレクトで使用予定
     /// </summary>
     public abstract class TitleSelectBase : MonoBehaviour
     {

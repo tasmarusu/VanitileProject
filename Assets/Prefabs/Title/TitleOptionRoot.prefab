@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6721420928316484458}
   - component: {fileID: 6721420928316484437}
   m_Layer: 5
-  m_Name: TitleOption
+  m_Name: TitleOptionRoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -50,6 +50,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 522b7f149da2f114c93ccca92218dbb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
   rootObj: {fileID: 6721420928526379446}
   selectables:
   - {fileID: 6721420929182566217}
@@ -460,7 +461,7 @@ GameObject:
   - component: {fileID: 6721420930318853355}
   - component: {fileID: 6721420930318853352}
   m_Layer: 5
-  m_Name: StageSelectText
+  m_Name: TitleText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
