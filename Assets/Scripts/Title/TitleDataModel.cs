@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace VANITILE
+﻿namespace VANITILE
 {
     /// <summary>
     /// タイトルの状況

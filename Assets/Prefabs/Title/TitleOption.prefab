@@ -55,10 +55,12 @@ MonoBehaviour:
   - {fileID: 6721420929182566217}
   - {fileID: 1791273946401025553}
   - {fileID: 6721420929145751068}
-  bgmSlider: {fileID: 6721420929182566217}
-  bgmVolumeText: {fileID: 6721420929366723664}
-  seSlider: {fileID: 1791273946401025553}
-  seVolumeText: {fileID: 1791273945009169672}
+  bgmProperity:
+    slider: {fileID: 6721420929182566217}
+    volumeText: {fileID: 6721420929366723664}
+  seProperity:
+    slider: {fileID: 1791273946401025553}
+    volumeText: {fileID: 1791273945009169672}
   backButton: {fileID: 6721420929145751068}
 --- !u!1 &6721420928526379446
 GameObject:
@@ -731,23 +733,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5484155874099757540, guid: bdd0f77fc1a3c5f4e82f06971b54c90e, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 0
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5484155874099757540, guid: bdd0f77fc1a3c5f4e82f06971b54c90e, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 6721420929366723670}
+      objectReference: {fileID: 6721420928316484437}
     - target: {fileID: 5484155874099757540, guid: bdd0f77fc1a3c5f4e82f06971b54c90e, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5484155874099757540, guid: bdd0f77fc1a3c5f4e82f06971b54c90e, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: 
+      value: OnSliderChange
       objectReference: {fileID: 0}
     - target: {fileID: 5484155874099757540, guid: bdd0f77fc1a3c5f4e82f06971b54c90e, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: UnityEngine.UI.Slider, UnityEngine.UI
+      value: VANITILE.OptionManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5484155874099757540, guid: bdd0f77fc1a3c5f4e82f06971b54c90e, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5484155874099757540, guid: bdd0f77fc1a3c5f4e82f06971b54c90e, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -784,17 +790,12 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5484155875526216445, guid: bdd0f77fc1a3c5f4e82f06971b54c90e, type: 3}
   m_PrefabInstance: {fileID: 1251132147274286765}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6721420929366723670}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &6721420929366723670 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5484155875526216443, guid: bdd0f77fc1a3c5f4e82f06971b54c90e, type: 3}
-  m_PrefabInstance: {fileID: 1251132147274286765}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6106952150488952821
 PrefabInstance:
   m_ObjectHideFlags: 0

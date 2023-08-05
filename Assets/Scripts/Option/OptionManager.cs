@@ -1,16 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using System.Collections.Generic;
+using System.Collections;
 using UniRx;
+using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace VANITILE
 {
     /// <summary>
     /// タイトルで使用するオプション画面 
     /// </summary>
-    public class OptionManager : MonoBehaviour
+    public class OptionManager : TitleSelectBase
     {
         /// <summary>
         /// 纏めるオブジェクト
@@ -23,24 +23,14 @@ namespace VANITILE
         [SerializeField] private List<Selectable> selectables = new List<Selectable>();
 
         /// <summary>
-        /// BGM音量調節スライダー
+        /// BGM音量
         /// </summary>
-        [SerializeField] private Slider bgmSlider = null;
+        [SerializeField] private AudioProperity bgmProperity = null;
 
         /// <summary>
-        /// BGM音量テキスト
+        /// SE音量
         /// </summary>
-        [SerializeField] private TMPro.TextMeshProUGUI bgmVolumeText = null;
-
-        /// <summary>
-        /// SE音量調節スライダー
-        /// </summary>
-        [SerializeField] private Slider seSlider = null;
-
-        /// <summary>
-        /// SE音量テキスト
-        /// </summary>
-        [SerializeField] private TMPro.TextMeshProUGUI seVolumeText = null;
+        [SerializeField] private AudioProperity seProperity = null;
 
         /// <summary>
         /// 戻るボタン
@@ -48,111 +38,68 @@ namespace VANITILE
         [SerializeField] private Button backButton = null;
 
         /// <summary>
-        /// 選択中番号
-        /// </summary>
-        private int selectNum = 0;
-
-        /// <summary>
-        /// CompositeDisposable
-        /// </summary>
-        private CompositeDisposable disposables = new CompositeDisposable();
-
-        /// <summary>
         /// 初期化
         /// </summary>
-        public void Init()
+        public override void Init()
         {
             TitleDataModel.Instance.PlayingState = DefineData.TitlePlayingState.Option;
-            this.SetSoundValue();
             EventSystem.current.SetSelectedGameObject(this.selectables[0].gameObject);
-            //this.UpdateSelectionStatus();
 
-            // この辺稼働中メソッドのような物で共通参照出来る様にしてぇ
-            // ボタン
-            this.backButton.OnClickAsObservable()
-                .Subscribe(_ =>
-                {
-                    TitleDataModel.Instance.PlayingState = DefineData.TitlePlayingState.TitleSelect;
-                    GameObject.Destroy(this.gameObject);
-                }).AddTo(this);
-
-            //// 選択状況の変更
-            //InputManager.Instance.VerticalOneSubject
-            //    .Subscribe(input =>
-            //    {
-            //        var tempSelectNum = this.selectNum;
-
-            //        if (input > .0f)
-            //        {
-            //            this.selectNum = --this.selectNum < 0 ? this.selectables.Count - 1 : this.selectNum;
-            //        }
-            //        else if (input < .0f)
-            //        {
-            //            this.selectNum = ++this.selectNum > this.selectables.Count - 1 ? 0 : this.selectNum;
-            //        }
-
-            //        Debug.Log($"[Option]this.selectNum :{this.selectNum }");
-            //        this.UpdateSelectionStatus();
-
-            //    }).AddTo(this.disposables);
+            this.bgmProperity.Init();
+            this.seProperity.Init();
         }
-        
+
+        /// <summary>
+        /// 終了処理
+        /// </summary>
+        /// <returns></returns>
+        public override IEnumerator Finalize()
+        {
+            yield return new WaitUntil(() => TitleDataModel.Instance.IsTitleSelect);
+            GameObject.Destroy(this.gameObject);
+        }
+
         /// <summary>
         /// 戻るボタン押下
         /// </summary>
         public void OnBackButton()
         {
             TitleDataModel.Instance.PlayingState = DefineData.TitlePlayingState.TitleSelect;
-            GameObject.Destroy(this.gameObject);
         }
 
         /// <summary>
-        /// 
-        /// </summary>
-        private void SetSoundValue()
-        {
-            this.bgmSlider.value = SoundManager.Instance.BgmVolume;
-            this.seSlider.value = SoundManager.Instance.SeVolume;
-
-            this.bgmSlider.OnValueChangedAsObservable().Subscribe(value =>
-            {
-                var v = Mathf.Round(value * 10.0f);
-                SoundManager.Instance.BgmVolume = v * 0.1f;
-                this.bgmVolumeText.text = v.ToString();
-            }).AddTo(this);
-
-            this.seSlider.OnValueChangedAsObservable().Subscribe(value =>
-            {
-                var v = Mathf.Round(value * 10.0f);
-                SoundManager.Instance.SeVolume = v * 0.1f;
-                this.seVolumeText.text = v.ToString();
-            }).AddTo(this);
-        }
-
-        /// <summary>
-        /// 選択状況の更新
-        /// </summary>
-        private void UpdateSelectionStatus()
-        {
-            EventSystem.current.SetSelectedGameObject(this.selectables[this.selectNum].gameObject);
-            Debug.Log($"[Option]:{EventSystem.current.currentSelectedGameObject.name}");
-        }
-
-        private void OnDestroy()
-        {
-            this.disposables.Clear();
-        }
-
-        /// <summary>
-        /// オプション画面で使用するUI
+        /// 音量調整クラス
         /// </summary>
         [System.Serializable]
-        public class SelectableUI
+        public class AudioProperity
         {
             /// <summary>
-            /// 選択UI
+            /// BGM音量調節スライダー
             /// </summary>
-            [field: SerializeField] public Selectable Selectable { get; private set; } = null;
+            [SerializeField] private Slider slider = null;
+
+            /// <summary>
+            /// BGM音量テキスト
+            /// </summary>
+            [SerializeField] private TMPro.TextMeshProUGUI volumeText = null;
+
+            /// <summary>
+            /// 初期化
+            /// </summary>
+            public void Init()
+            {
+                this.slider.onValueChanged.AddListener(SetAudioVolume);
+            }
+
+            /// <summary>
+            /// 音量設定
+            /// </summary>
+            /// <param name="volume"></param>
+            private void SetAudioVolume(float volume)
+            {
+                SoundManager.Instance.BgmVolume = volume;
+                this.volumeText.text = volume.ToString("F2");
+            }
         }
     }
 }

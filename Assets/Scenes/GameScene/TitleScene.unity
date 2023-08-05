@@ -615,6 +615,38 @@ PrefabInstance:
       propertyPath: m_Navigation.m_SelectOnDown
       value: 
       objectReference: {fileID: 674299115}
+    - target: {fileID: 61715703725788832, guid: 878167b35d89c6b4c986f815bf140851, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 61715703725788832, guid: 878167b35d89c6b4c986f815bf140851, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 61715703725788832, guid: 878167b35d89c6b4c986f815bf140851, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1169043390}
+    - target: {fileID: 61715703725788832, guid: 878167b35d89c6b4c986f815bf140851, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 61715703725788832, guid: 878167b35d89c6b4c986f815bf140851, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 61715703725788832, guid: 878167b35d89c6b4c986f815bf140851, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: VANITILE.TitleSelectController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 61715703725788832, guid: 878167b35d89c6b4c986f815bf140851, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 61715703725788832, guid: 878167b35d89c6b4c986f815bf140851, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 61715703855661238, guid: 878167b35d89c6b4c986f815bf140851, type: 3}
       propertyPath: m_Navigation.m_SelectOnUp
       value: 
@@ -623,6 +655,22 @@ PrefabInstance:
       propertyPath: m_Navigation.m_SelectOnDown
       value: 
       objectReference: {fileID: 1878316146}
+    - target: {fileID: 61715703855661238, guid: 878167b35d89c6b4c986f815bf140851, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 61715703855661238, guid: 878167b35d89c6b4c986f815bf140851, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1169043390}
+    - target: {fileID: 61715703855661238, guid: 878167b35d89c6b4c986f815bf140851, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 61715703855661238, guid: 878167b35d89c6b4c986f815bf140851, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 61715704976075725, guid: 878167b35d89c6b4c986f815bf140851, type: 3}
       propertyPath: m_Navigation.m_SelectOnUp
       value: 
@@ -631,6 +679,38 @@ PrefabInstance:
       propertyPath: m_Navigation.m_SelectOnDown
       value: 
       objectReference: {fileID: 2049995936}
+    - target: {fileID: 61715704976075725, guid: 878167b35d89c6b4c986f815bf140851, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 61715704976075725, guid: 878167b35d89c6b4c986f815bf140851, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 61715704976075725, guid: 878167b35d89c6b4c986f815bf140851, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1169043390}
+    - target: {fileID: 61715704976075725, guid: 878167b35d89c6b4c986f815bf140851, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 61715704976075725, guid: 878167b35d89c6b4c986f815bf140851, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 61715704976075725, guid: 878167b35d89c6b4c986f815bf140851, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: VANITILE.TitleSelectController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 61715704976075725, guid: 878167b35d89c6b4c986f815bf140851, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 61715704976075725, guid: 878167b35d89c6b4c986f815bf140851, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 61715705439192614, guid: 878167b35d89c6b4c986f815bf140851, type: 3}
       propertyPath: m_Navigation.m_SelectOnUp
       value: 
@@ -639,6 +719,38 @@ PrefabInstance:
       propertyPath: m_Navigation.m_SelectOnDown
       value: 
       objectReference: {fileID: 308528006}
+    - target: {fileID: 61715705439192614, guid: 878167b35d89c6b4c986f815bf140851, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 61715705439192614, guid: 878167b35d89c6b4c986f815bf140851, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 61715705439192614, guid: 878167b35d89c6b4c986f815bf140851, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1169043390}
+    - target: {fileID: 61715705439192614, guid: 878167b35d89c6b4c986f815bf140851, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 61715705439192614, guid: 878167b35d89c6b4c986f815bf140851, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 61715705439192614, guid: 878167b35d89c6b4c986f815bf140851, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: VANITILE.TitleSelectController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 61715705439192614, guid: 878167b35d89c6b4c986f815bf140851, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 99
+      objectReference: {fileID: 0}
+    - target: {fileID: 61715705439192614, guid: 878167b35d89c6b4c986f815bf140851, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 722286639367988475, guid: 878167b35d89c6b4c986f815bf140851, type: 3}
       propertyPath: m_Navigation.m_SelectOnUp
       value: 
@@ -647,6 +759,38 @@ PrefabInstance:
       propertyPath: m_Navigation.m_SelectOnDown
       value: 
       objectReference: {fileID: 1819038551}
+    - target: {fileID: 722286639367988475, guid: 878167b35d89c6b4c986f815bf140851, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 722286639367988475, guid: 878167b35d89c6b4c986f815bf140851, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 722286639367988475, guid: 878167b35d89c6b4c986f815bf140851, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1169043390}
+    - target: {fileID: 722286639367988475, guid: 878167b35d89c6b4c986f815bf140851, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 722286639367988475, guid: 878167b35d89c6b4c986f815bf140851, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 722286639367988475, guid: 878167b35d89c6b4c986f815bf140851, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: VANITILE.TitleSelectController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 722286639367988475, guid: 878167b35d89c6b4c986f815bf140851, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 722286639367988475, guid: 878167b35d89c6b4c986f815bf140851, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 1621257271680816081, guid: 878167b35d89c6b4c986f815bf140851, type: 3}
       propertyPath: m_RootOrder
       value: 2

@@ -1,8 +1,8 @@
-﻿using UnityEngine;
+﻿using System.Collections;
 using UniRx;
-using UnityEngine.UI;
+using UnityEngine;
 using UnityEngine.SceneManagement;
-using System.Collections;
+using static DefineData;
 
 namespace VANITILE
 {
@@ -36,53 +36,51 @@ namespace VANITILE
         /// </summary>
         private void Start()
         {
+            TitleDataModel.Instance.Release();
             StageDataModel.Instance.Release();
 
             InputManager.Instance.StartVerticalSubject();
 
-            //this.optionManager.gameObject.SetActive(false);
             this.titleSelectController.Init();
 
-            this.StartCoroutine(this.CheckDecideSelect());
+            this.CheckDecideSelect();
         }
 
         /// <summary>
         /// 選択画面での決定
         /// </summary>
-        private IEnumerator CheckDecideSelect()
+        private void CheckDecideSelect()
         {
-            // TODO:あとでけす
-            yield return null;
-
             this.titleSelectController.SelectSubject.Subscribe(type =>
             {
                 switch (type)
                 {
-                    case DefineData.TitleSelectType.Start:
+                    case TitleSelectType.Start:
                         Debug.Log($"[TitleSelect]{type.ToString()} が選択されました");
                         StageDataModel.Instance.CurrentStageId = 0;
-                        SceneManager.LoadScene(DefineData.SceneName.GameMainScene.ToString());
+                        SceneManager.LoadScene(SceneName.GameMainScene.ToString());
                         break;
 
-                    case DefineData.TitleSelectType.Continue:
+                    case TitleSelectType.Continue:
                         Debug.Log($"[TitleSelect]{type.ToString()} が選択されました");
                         // TDOO:クリアステージ数の保存をする
                         StageDataModel.Instance.CurrentStageId = 0;
-                        SceneManager.LoadScene(DefineData.SceneName.GameMainScene.ToString());
+                        SceneManager.LoadScene(SceneName.GameMainScene.ToString());
                         break;
 
-                    case DefineData.TitleSelectType.StageSelect:
+                    case TitleSelectType.StageSelect:
                         Debug.Log($"[TitleSelect]{type.ToString()} が選択されました");
                         break;
 
-                    case DefineData.TitleSelectType.Option:
-                        var obj = GameObject.Instantiate(this.optionManager.gameObject, this.parent);
-                        obj.GetComponent<OptionManager>().Init();
+                    case TitleSelectType.Option:
+                        var option = GameObject.Instantiate(this.optionManager.gameObject, this.parent).GetComponent<OptionManager>();
+                        option.Init();
+                        this.StartCoroutine(this.StartBackSelect(option, type));
 
                         Debug.Log($"[TitleSelect]{type.ToString()} が選択されました");
                         break;
 
-                    case DefineData.TitleSelectType.Exit:
+                    case TitleSelectType.Exit:
                         Debug.Log($"[TitleSelect]{type.ToString()} が選択されました");
 #if UNITY_EDITOR
                         UnityEditor.EditorApplication.isPlaying = false;
@@ -96,6 +94,16 @@ namespace VANITILE
                         break;
                 }
             }).AddTo(this);
+        }
+
+        /// <summary>
+        /// セレクト選択画面に戻る処理
+        /// </summary>
+        /// <returns>IEnumerator</returns>
+        private IEnumerator StartBackSelect(TitleSelectBase select, TitleSelectType type)
+        {
+            yield return select.Finalize();
+            this.titleSelectController.SetEventSelectedState(type);
         }
     }
 }

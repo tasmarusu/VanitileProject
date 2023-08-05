@@ -1,8 +1,5 @@
-﻿using DG.Tweening;
-using System;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace VANITILE
 {
@@ -22,17 +19,9 @@ namespace VANITILE
         public abstract void Init();
 
         /// <summary>
-        /// 進行度
-        /// </summary>
-        protected abstract void InputController();
-
-        /// <summary>
         /// 終了処理
         /// </summary>
-        protected virtual IEnumerator Finalize()
-        {
-            yield return this.Out();
-        }
+        public abstract IEnumerator Finalize();
 
         /// <summary>
         /// 表示アニメーション再生
@@ -40,7 +29,7 @@ namespace VANITILE
         /// <returns></returns>
         protected IEnumerator In()
         {
-            this.animator.Play("In" , 0, .0f);
+            this.animator.Play("In", 0, .0f);
             yield return null;
             yield return new WaitUntil(() => this.animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f);
         }
