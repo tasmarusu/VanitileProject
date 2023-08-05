@@ -96,7 +96,7 @@ namespace VANITILE
         {
             // 上下入力の監視
             var inputObservable = Observable.EveryUpdate()
-                .Select(_ => Input.GetAxis("Vertical"))
+                .Select(_ => InputManager.Instance.Horizontal)
                 .Select(input => Mathf.Floor(input));
 
             // 値変化時の初回

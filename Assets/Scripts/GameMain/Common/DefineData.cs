@@ -109,6 +109,58 @@
     }
 
     /// <summary>
+    /// タイトルの選択画面の種類
+    /// </summary>
+    public enum TitleSelectType
+    {
+        /// <summary>
+        /// はじめから
+        /// </summary>
+        Start = 1,
+
+        /// <summary>
+        /// 続きから
+        /// </summary>
+        Continue = 5,
+
+        /// <summary>
+        /// ステージセレクト
+        /// </summary>
+        StageSelect = 10,
+
+        /// <summary>
+        /// 設定
+        /// </summary>
+        Option = 20,
+
+        /// <summary>
+        /// ゲーム終了
+        /// </summary>
+        Exit = 99,
+    }
+
+    /// <summary>
+    /// 実行中の状態
+    /// </summary>
+    public enum TitlePlayingState
+    {
+        /// <summary>
+        /// タイトルの選択画面
+        /// </summary>
+        TitleSelect,
+
+        /// <summary>
+        /// ステージセレクト
+        /// </summary>
+        StageSelect,
+
+        /// <summary>
+        /// オプション
+        /// </summary>
+        Option,
+    }
+
+    /// <summary>
     /// ロードするステージオブジェクトの種類
     /// </summary>
     public enum ResourcesStageType

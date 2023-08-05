@@ -132,7 +132,7 @@ namespace VANITILE
         void Update()
         {
             // 入力方向によって回転させる
-            this.Rotate(Input.GetAxis("Horizontal"));
+            this.Rotate(InputManager.Instance.Horizontal);
 
             // 壁張り付き時間
             this.WallJumpingProgressFrame++;
@@ -193,7 +193,7 @@ namespace VANITILE
         public void Horizontal()
         {
             // 入力と壁ジャンプ力を徐々に入力に割合として加算していく
-            var input = Input.GetAxis("Horizontal") * (1.0f - Mathf.Abs(this.WallJumpPower / playerData.JumpWallSidePower));
+            var input = InputManager.Instance.Horizontal * (1.0f - Mathf.Abs(this.WallJumpPower / playerData.JumpWallSidePower));
 
             // 壁ジャンプ開始中か
             if (this.IsWallJumping == false)
@@ -245,7 +245,7 @@ namespace VANITILE
         public bool UpJump()
         {
             // ジャンプ入力
-            if (Input.GetKeyDown(KeyCode.Space) == false)
+            if (InputManager.Instance.Jump == false)
             {
                 return false;
             }
@@ -277,7 +277,7 @@ namespace VANITILE
         public bool WallJump()
         {
             // ジャンプ入力
-            if (Input.GetKeyDown(KeyCode.Space) == false)
+            if (InputManager.Instance.Jump == false)
             {
                 return false;
             }

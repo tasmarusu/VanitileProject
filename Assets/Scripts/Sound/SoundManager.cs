@@ -20,6 +20,48 @@ namespace VANITILE
         [SerializeField] private AudioSource seSource = null;
 
         /// <summary>
+        /// BGM音量設定
+        /// </summary>
+        public float BgmVolume
+        {
+            get
+            {
+                return bgmSource.volume;
+            }
+            set
+            {
+                if (value < .0f && value > 1.0f)
+                {
+                    Debug.LogError($"[Audio]BGM音量設定の幅を超えています value:{value}");
+                    return;
+                }
+
+                bgmSource.volume = value;
+            }
+        }
+
+        /// <summary>
+        /// SE音量設定
+        /// </summary>
+        public float SeVolume
+        {
+            get
+            {
+                return seSource.volume;
+            }
+            set
+            {
+                if (value < .0f && value > 1.0f)
+                {
+                    Debug.LogError($"[Audio]SE音量設定の幅を超えています value:{value}");
+                    return;
+                }
+
+                bgmSource.volume = value;
+            }
+        }
+
+        /// <summary>
         /// ゲーム実行前に呼び出す
         /// </summary>
         [RuntimeInitializeOnLoadMethod()]
@@ -50,21 +92,6 @@ namespace VANITILE
             var clipName = Resources.Load<AudioClip>($"Sounds/Se/{type.ToString()}");
             seSource.clip = (AudioClip)clipName;
             seSource.Play();
-        }
-
-        /// <summary>
-        /// BGM音量 0~1
-        /// </summary>
-        /// <param name="value">音量</param>
-        public void SetBgmValue(float value)
-        {
-            if (value < .0f && value > 1.0f)
-            {
-                Debug.LogError($"[Audio]BGM音量設定の幅を超えています value:{value}");
-                return;
-            }
-
-            bgmSource.volume = value;
         }
 
         /// <summary>

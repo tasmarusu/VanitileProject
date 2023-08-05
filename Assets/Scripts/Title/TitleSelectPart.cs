@@ -6,33 +6,32 @@ namespace VANITILE
 {
     /// <summary>
     /// タイトルセレクトの各パーツ
+    /// TODO:いらないかも知れないぞ
     /// </summary>
-    public class TitleSelectPart : MonoBehaviour
+    [System.Serializable]
+    public class TitleSelectPart
     {
         /// <summary>
-        /// 選択中の画像
+        /// 選択中のボタン
         /// </summary>
-        [SerializeField] private Image selectImage = null;
+        [field: SerializeField] public Button SelectButton { get; private set; } = null;
 
         /// <summary>
         /// タイトル画面の選択画面
         /// </summary>
-        [field:SerializeField] public TitleSelectType SelectType { get; private set; }
+        [field: SerializeField] public DefineData.TitleSelectType SelectType { get; private set; }
 
         /// <summary>
-        /// 選択する
+        /// ボタンの文字
         /// </summary>
-        public void Select()
-        {
-            this.selectImage.enabled = true;
-        }
+        [SerializeField] private string word = string.Empty;
 
         /// <summary>
-        /// 選択解除
+        /// 初期化
         /// </summary>
-        public void Deselect()
+        public void Init()
         {
-            this.selectImage.enabled = false;
+            this.SelectButton.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = $"{this.word}";
         }
     }
 }

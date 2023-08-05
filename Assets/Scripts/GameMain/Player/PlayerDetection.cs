@@ -92,7 +92,7 @@ namespace VANITILE
                     }
 
                     // 地面に着いていたらステートを変える
-                    var input = Input.GetAxis("Horizontal");
+                    var input = InputManager.Instance.Horizontal;
                     Debug.Log($"[input]{input}");
                     if ((this.IsRightAngle == true && input >= .5f) || (this.IsRightAngle == false && input <= -.5f))
                     {

@@ -3,45 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace VANITILE
 {
     /// <summary>
     /// タイトルの選択画面
     /// </summary>
-    public class TitleSelectController : MonoBehaviour
+    public class TitleSelectController : TitleSelectBase
     {
-        /// <summary>
-        /// タイトルの選択画面の種類
-        /// </summary>
-        public enum TitleSelectType
-        {
-            /// <summary>
-            /// はじめから
-            /// </summary>
-            Start = 1,
-
-            /// <summary>
-            /// 続きから
-            /// </summary>
-            Continue = 5,
-
-            /// <summary>
-            /// ステージセレクト
-            /// </summary>
-            StageSelect = 10,
-
-            /// <summary>
-            /// 設定
-            /// </summary>
-            Option = 20,
-
-            /// <summary>
-            /// ゲーム終了
-            /// </summary>
-            Exit = 99,
-        }
-
         /// <summary>
         /// タイトルセレクトの各パーツ
         /// </summary>
@@ -60,60 +30,78 @@ namespace VANITILE
         /// <summary>
         /// 選択画面で決定ボタンを押下した時に流れる
         /// </summary>
-        public Subject<TitleSelectType> SelectSubject { get; private set; } = new Subject<TitleSelectType>();
+        public Subject<DefineData.TitleSelectType> SelectSubject { get; private set; } = new Subject<DefineData.TitleSelectType>();
 
         /// <summary>
         /// 初期化
         /// </summary>
-        public void Init()
+        public override void Init()
         {
+            foreach(var part in this.titleSelectParts)
+            {
+                part.Init();
+            }
+
+            // 初期選択y
+            EventSystem.current.SetSelectedGameObject(this.titleSelectParts[0].SelectButton.gameObject);
+
             this.UpdateSelectPart();
-            this.CheckInput();
+            this.InputController();
+        }
+
+        /// <summary>
+        /// オプションボタン押下
+        /// </summary>
+        public void OnOptionButton()
+        {
+            this.SelectSubject.OnNext(this.titleSelectParts[3].SelectType);
         }
 
         /// <summary>
         /// 入力状況
         /// </summary>
-        private void CheckInput()
+        protected override void InputController()
         {
-            // セレクト押下
-            Observable.EveryUpdate()
-                .Where(x => Input.GetButtonDown("Decide"))
-                .Subscribe(x =>
-                {
-                    this.SelectSubject.OnNext(this.titleSelectParts[this.selectNum].SelectType);
-                }).AddTo(this);
+            // ボタン押下
+            //Observable.EveryUpdate()
+            //    .Where(x => InputManager.Instance.Decide)
+            //    .Where(x => TitleDataModel.Instance.IsTitleSelect)
+            //    .Subscribe(x =>
+            //    {
+            //        this.SelectSubject.OnNext(this.titleSelectParts[this.selectNum].SelectType);
+            //    }).AddTo(this);
 
             // 上下入力監視
             var inputObservable = Observable.EveryUpdate()
-                .Select(_ => Input.GetAxis("Vertical"))
+                .Where(x => TitleDataModel.Instance.IsTitleSelect)
+                .Select(_ => InputManager.Instance.Vertical)
                 .Select(input => Mathf.Floor(input));
 
-            // 上下入力あり 
-            inputObservable.DistinctUntilChanged()
-                .Where(input => input != .0f)
-                .Subscribe(input =>
-                {
-                    this.disposable?.Dispose();
+            //// 上下入力あり 
+            //inputObservable.DistinctUntilChanged()
+            //    .Where(input => input != .0f)
+            //    .Subscribe(input =>
+            //    {
+            //        this.disposable?.Dispose();
 
-                    // 上下入力の監視
-                    this.disposable = Observable.Timer(System.TimeSpan.FromSeconds(0f), System.TimeSpan.FromSeconds(.25f))
-                        .Subscribe(_ =>
-                        {
-                            // 上
-                            if (input > 0)
-                            {
-                                this.selectNum = --this.selectNum < 0 ? this.titleSelectParts.Count - 1 : this.selectNum;
-                            }
-                            else
-                            {
-                                this.selectNum = ++this.selectNum >= this.titleSelectParts.Count ? 0 : this.selectNum;
-                            }
+            //        // 上下入力の監視
+            //        this.disposable = Observable.Timer(System.TimeSpan.FromSeconds(0f), System.TimeSpan.FromSeconds(.25f))
+            //            .Subscribe(_ =>
+            //            {
+            //                // 上
+            //                if (input > 0)
+            //                {
+            //                    this.selectNum = --this.selectNum < 0 ? this.titleSelectParts.Count - 1 : this.selectNum;
+            //                }
+            //                else
+            //                {
+            //                    this.selectNum = ++this.selectNum >= this.titleSelectParts.Count ? 0 : this.selectNum;
+            //                }
 
-                            this.UpdateSelectPart();
+            //                this.UpdateSelectPart();
 
-                        }).AddTo(this);
-                }).AddTo(this);
+            //            }).AddTo(this);
+            //    }).AddTo(this);
 
             // 入力無し
             inputObservable.DistinctUntilChanged()
@@ -130,18 +118,7 @@ namespace VANITILE
         /// </summary>
         private void UpdateSelectPart()
         {
-            // セレクトの各パーツの更新
-            for (int i = 0; i < this.titleSelectParts.Count; i++)
-            {
-                if (i == this.selectNum)
-                {
-                    this.titleSelectParts[i].Select();
-                }
-                else
-                {
-                    this.titleSelectParts[i].Deselect();
-                }
-            }
+            EventSystem.current.SetSelectedGameObject(this.titleSelectParts[this.selectNum].SelectButton.gameObject);
         }
     }
 }

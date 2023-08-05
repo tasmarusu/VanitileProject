@@ -89,7 +89,7 @@ namespace VANITILE
         {
             Observable.EveryUpdate().Subscribe(_ =>
             {
-                var input = Mathf.Abs(Input.GetAxis("Horizontal"));
+                var input = Mathf.Abs(InputManager.Instance.Horizontal);
                 this.animator.SetFloat(StateName.Walk.ToString(),input);
             }).AddTo(this);
         }
