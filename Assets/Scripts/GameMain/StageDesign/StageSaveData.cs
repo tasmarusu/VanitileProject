@@ -58,6 +58,15 @@ namespace VANITILE
         }
 
         /// <summary>
+        /// 保存先セーブパス
+        /// </summary>
+        /// <returns>string</returns>
+        public string GetSaveFilePath()
+        {
+            return $"{Application.dataPath}/Data/Resources/StageData";
+        }
+
+        /// <summary>
         /// セーブデータが存在するか
         /// </summary>
         /// <param name="stageId"></param>
@@ -74,7 +83,7 @@ namespace VANITILE
         /// <returns></returns>
         private string GetSaveDataPath(int stageId)
         {
-            var fileName = $"{Application.dataPath}/Data/Resources/StageData/Stage_{stageId.ToString("D3")}.json";
+            var fileName = $"{this.GetSaveFilePath()}/Stage_{stageId.ToString("D3")}.json";
             Debug.Log($"[File] fileName:{Application.dataPath}/Data/Resources/StageData/");
             return fileName;
         }
@@ -97,7 +106,23 @@ namespace VANITILE
             public List<StageLoadData> Parts { get; private set; } = new List<StageLoadData>();
 
             /// <summary>
+            /// コンストラクタ 
+            /// デザインシーンから入る際に使用
+            /// </summary>
+            public Data(List<StageLoadData> parts)
+            {
+                for (int i = 0; i < parts.Count; i++)
+                {
+                    var type = parts[i].Type;
+                    var point = parts[i].Point;
+                    var prefab = this.LoadPrefabFromResources(type);
+                    this.Parts.Add(new StageLoadData(type, point, prefab));
+                }
+            }
+
+            /// <summary>
             /// コンストラクタ
+            /// 通常起動時に使用
             /// </summary>
             /// <param name="jsonData">ロードしたステージデータ</param>
             public Data(JsonData loadJsonData)

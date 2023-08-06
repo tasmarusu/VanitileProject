@@ -33,7 +33,7 @@ namespace VANITILE
         /// <summary>
         /// StageDataManager
         /// </summary>
-        public StageSaveData.Data CurrentStageData { get; private set; }
+        public StageSaveData.Data CurrentStageData { get; protected set; }
 
         /// <summary>
         /// 次のステージへ遷移
@@ -59,6 +59,16 @@ namespace VANITILE
             Debug.Log($"[Stage]遷移開始");
             var transition = GameObject.Instantiate(Resources.Load<Transition>("Prefabs/Common/Transition"));
             yield return transition.In();
+
+            // GameDesignScene なら終了する
+            if (SceneManager.GetActiveScene().name == "StageDesignScene")
+            {
+#if UNITY_EDITOR
+                UnityEditor.EditorApplication.isPlaying = false;
+#elif !UNITY_EDITOR
+                        UnityEngine.Application.Quit();
+#endif
+            }
 
             if (isNext)
             {
@@ -123,9 +133,12 @@ namespace VANITILE
         /// </summary>
         private void Start()
         {
-            // 開始ステージの設定 -1の初期値ならデバッグステージ番号の開始
-            this.currentStageId = StageDataModel.Instance.CurrentStageId == -1 ? this.debugStageId : StageDataModel.Instance.CurrentStageId;
-            this.Transition();
+            if (SceneManager.GetActiveScene().name != $"StageDesignManager")
+            {
+                // 開始ステージの設定 -1の初期値ならデバッグステージ番号の開始
+                this.currentStageId = StageDataModel.Instance.CurrentStageId == -1 ? this.debugStageId : StageDataModel.Instance.CurrentStageId;
+                this.Transition();
+            }
 
             // メインBGM再生
             SoundManager.Instance.PlayBgm(DefineData.BgmType.Main);

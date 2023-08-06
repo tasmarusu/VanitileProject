@@ -30,7 +30,7 @@ namespace VANITILE
         {
             this.playerControllers.Clear();
             base.Init();
-            this.playerMissPoint.Init();
+            this.playerMissPoint?.Init();
             StageDataModel.Instance.SetPlayerCount(this.playerControllers.Count);
         }
 

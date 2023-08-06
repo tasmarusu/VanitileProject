@@ -9,7 +9,7 @@ namespace VANITILE
     public abstract class StageManagerBase : MonoBehaviour
     {
         /// <summary>
-        /// 親になる地形種類の設定
+        /// 親になる地形種類の設定 TODO:なんでこれListなんやっけ？？？
         /// </summary>
         [field: SerializeField, Header("親になる地形種類")] public List<DefineData.StagePartType> PartTypes = new List<DefineData.StagePartType>();
 

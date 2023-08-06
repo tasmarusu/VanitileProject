@@ -18,6 +18,11 @@ namespace VANITILE
         [SerializeField, Header("Rigitbody")] private Rigidbody2D rig2D;
 
         /// <summary>
+        /// ContactFilter2D
+        /// </summary>
+        [SerializeField, Header("ContactFilter2D")] private ContactFilter2D filter2D;
+
+        /// <summary>
         /// PlayerDataScriptable
         /// </summary>
         [SerializeField, Header("PlayerDataScriptable")] private PlayerDataScriptable playerData;
