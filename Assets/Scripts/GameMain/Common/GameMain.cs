@@ -44,7 +44,7 @@ namespace VANITILE
         }
 
         /// <summary>
-        /// 次のステージへ遷移
+        /// 現在のステージを再リロード
         /// </summary>
         public void TransitionCurrentStage()
         {

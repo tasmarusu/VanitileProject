@@ -15,10 +15,21 @@ namespace VANITILE
         [SerializeField] private BoxCollider2D boxCollider2D = null;
 
         /// <summary>
+        /// 初期化済みか
+        /// </summary>
+        private bool IsInit = false;
+
+        /// <summary>
         /// 初期化
         /// </summary>
         public void Init()
         {
+            if (this.IsInit)
+            {
+                return;
+            }
+
+            this.IsInit = true;
             this.boxCollider2D.OnTriggerEnter2DAsObservable()
                 .Where(collider => collider.CompareTag("Player"))
                 .Select(collider => collider.transform.parent.GetComponent<PlayerController>())
