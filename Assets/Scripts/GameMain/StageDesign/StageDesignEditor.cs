@@ -46,7 +46,29 @@ namespace VANITILE
             var currentStageStr = this.currentStage == 0 ? "現在のステージ分からんからセーブかロードして下さい" : $"{this.currentStage}ステージ調整中";
             EditorGUILayout.HelpBox(currentStageStr, MessageType.Info);
 
-            #region ブロック調整
+            #region ボタン
+
+            if (GUILayout.Button("セーブ先の表示"))
+            {
+                string[] guids = AssetDatabase.FindAssets("", new string[] { $"Assets/Data/Resources/StageData" });
+                string[] paths = guids.Select(guid => AssetDatabase.GUIDToAssetPath(guid)).ToArray();
+                EditorGUIUtility.PingObject(AssetDatabase.LoadAllAssetsAtPath(paths[0])[0]);
+            }
+
+            if (GUILayout.Button("ステージ順の調整"))
+            {
+                string[] guids = AssetDatabase.FindAssets("", new string[] { $"Assets/Data" });
+                string[] paths = guids.Select(guid => AssetDatabase.GUIDToAssetPath(guid)).ToArray();
+
+                for (int i = 0; i < paths.Length; i++)
+                {
+                    if (paths[i].ToString().Replace("Assets/Data/", "").Substring(0, 5) == "Stage")
+                    {
+                        EditorGUIUtility.PingObject(AssetDatabase.LoadAllAssetsAtPath(paths[i])[0]);
+                        break;
+                    }
+                }
+            }
 
             if (GUILayout.Button("ブロック調整"))
             {

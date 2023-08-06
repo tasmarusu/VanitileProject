@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -19,13 +20,26 @@ namespace VANITILE
         {
             try
             {
-                using (StreamWriter sw = new StreamWriter(this.GetSaveDataPath(data.StageId), false))
+                var path = this.GetSaveDataPath(data.StageId);
+                using (StreamWriter sw = new StreamWriter(path, false))
                 {
                     sw.Write(JsonUtility.ToJson(data, true));
                     sw.Flush();
                     Debug.Log($"[Save]セーブ成功 ID:{data.StageId}");
 
                     AssetDatabase.Refresh(ImportAssetOptions.ForceUpdate);
+
+                    string[] guids = AssetDatabase.FindAssets("", new string[] { $"Assets/Data/Resources/StageData" });
+                    string[] paths = guids.Select(guid => AssetDatabase.GUIDToAssetPath(guid)).ToArray();
+
+                    for (int i = 0; i < paths.Length; i++)
+                    {
+                        if (paths[i].ToString().Replace("Assets/Data/Resources/StageData/Stage_", "").Substring(0, 3) == data.StageId.ToString("D3"))
+                        {
+                            EditorGUIUtility.PingObject(AssetDatabase.LoadAllAssetsAtPath(paths[i])[0]);
+                            break;
+                        }
+                    }
                 }
             }
             catch (Exception e)
