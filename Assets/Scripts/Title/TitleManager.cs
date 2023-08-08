@@ -53,35 +53,31 @@ namespace VANITILE
         {
             this.titleSelectController.SelectSubject.Subscribe(type =>
             {
+                Debug.Log($"[TitleSelect]{type.ToString()} が選択されました");
+
                 switch (type)
                 {
                     case TitleSelectType.Start:
-                        Debug.Log($"[TitleSelect]{type.ToString()} が選択されました");
                         StageDataModel.Instance.CurrentStageId = 0;
                         SceneManager.LoadScene(SceneName.GameMainScene.ToString());
                         break;
 
                     case TitleSelectType.Continue:
-                        Debug.Log($"[TitleSelect]{type.ToString()} が選択されました");
                         // TDOO:クリアステージ数の保存をする
-                        StageDataModel.Instance.CurrentStageId = 0;
+                        StageDataModel.Instance.CurrentStageId = GameSaveDataModel.Instance.PlayLastStageId;
                         SceneManager.LoadScene(SceneName.GameMainScene.ToString());
                         break;
 
                     case TitleSelectType.StageSelect:
-                        Debug.Log($"[TitleSelect]{type.ToString()} が選択されました");
                         break;
 
                     case TitleSelectType.Option:
                         var option = GameObject.Instantiate(this.optionManager.gameObject, this.parent).GetComponent<OptionManager>();
                         option.Init();
                         this.StartCoroutine(this.StartBackSelect(option, type));
-
-                        Debug.Log($"[TitleSelect]{type.ToString()} が選択されました");
                         break;
 
                     case TitleSelectType.Exit:
-                        Debug.Log($"[TitleSelect]{type.ToString()} が選択されました");
 #if UNITY_EDITOR
                         UnityEditor.EditorApplication.isPlaying = false;
 #elif !UNITY_EDITOR

@@ -33,11 +33,6 @@ namespace VANITILE
         [SerializeField] private AudioProperity seProperity = null;
 
         /// <summary>
-        /// 戻るボタン
-        /// </summary>
-        [SerializeField] private Button backButton = null;
-
-        /// <summary>
         /// 初期化
         /// </summary>
         public override void Init()

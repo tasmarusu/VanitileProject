@@ -54,28 +54,33 @@ namespace VANITILE
         /// <summary>
         /// 次のステージへ遷移
         /// </summary>
+        /// <param name="isNext"> 同ステージを再開するなら false </param>
+        /// <returns>IEnumerator</returns>
         private IEnumerator TransitionNextStageImpl(bool isNext = true)
         {
             Debug.Log($"[Stage]遷移開始");
             var transition = GameObject.Instantiate(Resources.Load<Transition>("Prefabs/Common/Transition"));
             yield return transition.In();
 
+#if UNITY_EDITOR
             // GameDesignScene なら終了する
             if (SceneManager.GetActiveScene().name == "StageDesignScene")
             {
-#if UNITY_EDITOR
                 UnityEditor.EditorApplication.isPlaying = false;
-#elif !UNITY_EDITOR
-                        UnityEngine.Application.Quit();
-#endif
+                Debug.Log($"[Stage]クリアしたので強制終了");
+                yield break;
             }
+#endif
 
             if (isNext)
             {
                 this.NextStageId();
             }
+            else
+            {
+                this.Transition();
+            }
 
-            this.Transition();
 
             yield return transition.Out();
             GameObject.Destroy(transition.gameObject);
@@ -89,14 +94,25 @@ namespace VANITILE
         /// </summary>
         private void NextStageId()
         {
-            // 次のステージへ
-            this.currentStageId++;
-            if (this.currentStageId > this.stageTransitionData.StageIds.Count)
-            {
-                this.currentStageId = this.stageTransitionData.StageIds.Count;
-            }
+            // クリアステージ数を保存
+            GameSaveDataModel.Instance.ClearStageCount = this.currentStageId;
 
-            Debug.Log($"[Stage]arrayId:{this.currentStageId} :{this.stageTransitionData.StageIds.Count}");
+            // 現在のステージで終了か
+            if (this.stageTransitionData.StageDatas[this.currentStageId].IsEndStage())
+            {
+                Debug.Log($"[Stage]設定されているステージを全てクリア");
+                SceneManager.LoadScene(DefineData.SceneName.TitleScene.ToString());
+            }
+            else
+            {
+                // 次のステージへ
+                this.currentStageId++;
+
+                // 最新のプレイステージIdを保存
+                GameSaveDataModel.Instance.PlayLastStageId = this.currentStageId;
+
+                Debug.Log($"[Stage]arrayId:{this.currentStageId} :{this.stageTransitionData.StageDatas.Count}");
+            }
         }
 
         /// <summary>
@@ -104,14 +120,8 @@ namespace VANITILE
         /// </summary>
         private void Transition()
         {
-            if (this.currentStageId == this.stageTransitionData.StageIds.Count)
-            {
-                SceneManager.LoadScene(DefineData.SceneName.TitleScene.ToString());
-                return;
-            }
-
             // ステージ遷移
-            var stageIds = this.stageTransitionData.StageIds;
+            var stageIds = this.stageTransitionData.StageDatas;
             var changeStage = new ChangeStage(this);
             changeStage.Transition(stageIds[this.currentStageId]);
             this.CurrentStageData = changeStage.CurrentStageData;

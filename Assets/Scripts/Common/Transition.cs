@@ -57,6 +57,7 @@ namespace VANITILE
         private void Update()
         {
             // this.imageだと取って来てくれないから Get してる
+            // TODO:これ無駄じゃね？別方法知りてぇ
             this.GetComponentInChildren<Image>().material.SetFloat("_Threshold", this.threshold);
         }
     }

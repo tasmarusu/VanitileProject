@@ -1231,7 +1231,7 @@ MonoBehaviour:
   - {fileID: 452796460}
   - {fileID: 889472686}
   - {fileID: 1753845814}
-  debugStageId: 1
+  debugStageId: 0
   stageTransitionData: {fileID: 11400000, guid: 2e9bbf47dc5e0534e954cc3fa3266922, type: 2}
 --- !u!1 &1481688713
 GameObject:

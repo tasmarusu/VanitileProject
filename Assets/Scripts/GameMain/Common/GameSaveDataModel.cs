@@ -19,6 +19,11 @@ namespace VANITILE
         public const string SeKeyName = "SEVolume";
 
         /// <summary>
+        /// 最後にプレイしたステージ
+        /// </summary>
+        public const string PlayLastStageName = "PlayLastStage";
+
+        /// <summary>
         /// クリアステージ数の保存
         /// </summary>
         public const string ClearStageCountName = "ClearStageCount";
@@ -30,7 +35,9 @@ namespace VANITILE
         {
             get
             {
-                return PlayerPrefs.GetFloat(BgmKeyName);
+                var num = PlayerPrefs.GetFloat(BgmKeyName);
+                Debug.Log($"[UserData]BgmVolume:{num}");
+                return num;
             }
             set
             {
@@ -46,12 +53,32 @@ namespace VANITILE
         {
             get
             {
-                return PlayerPrefs.GetFloat(SeKeyName);
+                var num = PlayerPrefs.GetFloat(SeKeyName);
+                Debug.Log($"[UserData]SeVolume:{num}");
+                return num;
             }
             set
             {
                 Debug.Log($"[GameSave]SeVolume の保存:{value}");
                 PlayerPrefs.SetFloat(SeKeyName, value);
+            }
+        }
+
+        /// <summary>
+        /// 最後にプレイしたステージId
+        /// </summary>
+        public int PlayLastStageId
+        {
+            get
+            {
+                var num = PlayerPrefs.GetInt(PlayLastStageName);
+                Debug.Log($"[UserData]PlayLastStageId:{num}");
+                return num;
+            }
+            set
+            {
+                Debug.Log($"[GameSave]PlayLastStage の保存:{value}");
+                PlayerPrefs.SetInt(PlayLastStageName, value);
             }
         }
 
@@ -62,7 +89,9 @@ namespace VANITILE
         {
             get
             {
-                return PlayerPrefs.GetInt(ClearStageCountName);
+                var num = PlayerPrefs.GetInt(ClearStageCountName);
+                Debug.Log($"[UserData]ClearStageCount:{num}");
+                return num;
             }
             set
             {
