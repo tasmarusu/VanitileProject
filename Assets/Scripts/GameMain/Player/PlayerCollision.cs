@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using static DefineData;
+using static VANITILE.BlockPart;
 
 namespace VANITILE
 {
@@ -24,6 +25,11 @@ namespace VANITILE
         /// 接触中
         /// </summary>
         public bool IsTouch { get; private set; } = false;
+
+        /// <summary>
+        /// 壁ジャンプ以外で壁に接触していた場合は true
+        /// </summary>
+        public bool IsBlockAngleWait { private get; set; } = false;
 
         /// <summary>
         /// in
@@ -83,7 +89,9 @@ namespace VANITILE
 #endif
                     // 接触ブロック解除
                     this.hitBlocks.Remove(hitObj);
-                    part.LeavePlayer();
+
+                    // 壁の跳ねる方向
+                    this.DecideAngleType(part, hitObj.transform.position.x);
                 }
                 else
                 {
@@ -95,6 +103,41 @@ namespace VANITILE
                 {
                     this.IsTouch = false;
                 }
+            }
+        }
+
+        /// <summary>
+        /// ブロックの跳ねる方向を決定
+        /// </summary>
+        /// <param name="part">接触したブロック</param>
+        /// <param name="hitPosX">接触したブロックの X座標</param>
+        private void DecideAngleType(BlockPart part,float hitPosX)
+        {
+            // 地面から離れた時
+            if(this.collistionType == CollisionType.Ground)
+            {
+                part.LeavePlayer(AngleType.Down);
+                return;
+            }
+
+            // 壁滑り中
+            if (this.IsBlockAngleWait == true)
+            {
+                part.LeavePlayer(AngleType.Wait);
+                return;
+            }
+
+            // 壁ジャンプしたので左右に飛ばす
+            var pos = this.transform.position;
+            if (pos.x < hitPosX)
+            {
+                part.LeavePlayer(AngleType.Right);
+                return;
+            }
+            else
+            {
+                part.LeavePlayer(AngleType.Left);
+                return;
             }
         }
     }

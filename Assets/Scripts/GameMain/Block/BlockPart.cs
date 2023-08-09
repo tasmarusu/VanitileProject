@@ -39,6 +39,32 @@ namespace VANITILE
         [SerializeField] private TextMeshProUGUI text;
 
         /// <summary>
+        /// 角度種類
+        /// </summary>
+        public enum AngleType
+        {
+            /// <summary>
+            /// 壁滑り中に消える
+            /// </summary>
+            Wait,
+
+            /// <summary>
+            /// 下
+            /// </summary>
+            Down,
+
+            /// <summary>
+            /// 右
+            /// </summary>
+            Right,
+
+            /// <summary>
+            /// 左
+            /// </summary>
+            Left,
+        }
+
+        /// <summary>
         /// 初期化
         /// </summary>
         public void Initialize()
@@ -68,7 +94,7 @@ namespace VANITILE
         /// <summary>
         /// プレイヤーが離れる
         /// </summary>
-        public void LeavePlayer()
+        public void LeavePlayer(AngleType angleType = AngleType.Down)
         {
             if (this.IsContactPlayer == true)
             {
@@ -82,16 +108,36 @@ namespace VANITILE
                 StageDataModel.Instance.TouchBlockInPlayer();
 
                 // エフェクト再生
-                this.StartCoroutine(this.StartDestroyEffect());
+                this.StartCoroutine(this.StartDestroyEffect(angleType));
             }
         }
 
         /// <summary>
         /// 削除エフェクトの開始
         /// </summary>
-        private IEnumerator StartDestroyEffect()
+        private IEnumerator StartDestroyEffect(AngleType angleType)
         {
-            this.gameObject.AddComponent<Rigidbody2D>();
+            // 重力追加して指定方向に飛ばす
+            switch (angleType)
+            {
+                case AngleType.Wait:
+
+                    break;
+
+                case AngleType.Down:
+                    this.gameObject.AddComponent<Rigidbody2D>();
+                    break;
+
+                case AngleType.Right:
+                    var force = new Vector2(100.0f, 80.0f);
+                    this.gameObject.AddComponent<Rigidbody2D>().AddForce(force);
+                    break;
+
+                case AngleType.Left:
+                    force = new Vector2(-100.0f, 80.0f);
+                    this.gameObject.AddComponent<Rigidbody2D>().AddForce(force);
+                    break;
+            }
 
             var timer = .0f;
             var pos = this.spRenderer.transform.position;

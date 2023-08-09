@@ -33,11 +33,16 @@ namespace VANITILE
             Observable.EveryLateUpdate()
                 .Where(_ => this.Movement == MovementState.Air) // 空中
                 .Where(_ => this.IsTouchWall)              // 壁接触中
-                .Where(_ => this.WallJumpingProgressFrame >= 10)    // 壁ジャンプ中でない TODO:ここが原因で壁ジャンプ時に上に上がる処理が止まらない
+                .Where(_ => this.WallJumpingProgressFrame >= 10)    // 壁ジャンプ中でない NOTE:ここが原因で壁ジャンプ時に上に上がる処理が止まらない
                 .Subscribe(deltaTime =>
                 {
                     // ステートを壁判定へ
                     this.SetMovementState(MovementState.Wall);
+
+                    // ブロックの方向を指定 TODO:ここじゃないやり方がいいなぁ2
+                    this.groundCollision.IsBlockAngleWait = true;
+                    this.wallCollision.IsBlockAngleWait = true;
+
                 }).AddTo(this);
         }
 
@@ -101,6 +106,11 @@ namespace VANITILE
                     {
                         this.SetMovementState(MovementState.Wait);
                     }
+
+                    // ブロックの方向を指定 TODO:ここじゃないやり方がいいなぁ2
+                    this.groundCollision.IsBlockAngleWait = true;
+                    this.wallCollision.IsBlockAngleWait = true;
+
                 }).AddTo(this);
         }
     }

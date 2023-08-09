@@ -304,11 +304,13 @@ namespace VANITILE
             this.WallJumpPower = playerData.JumpWallSidePower * rightValue;
             this.Rotate(rightValue);
 
-            // 壁ジャンプ上
+            // 壁ジャンプ上の後、一定時間操作不可
             this.rig2D.AddForce(this.transform.up * playerData.JumpWallUpPower);
-
-            // 壁ジャンプ後、一定時間操作不可
             this.IsWallJumping = false;
+
+            // ブロックの方向を指定 TODO:ここじゃないやり方がいいなぁ
+            this.groundCollision.IsBlockAngleWait = false;
+            this.wallCollision.IsBlockAngleWait = false;
 
             // 壁ジャンプ開始時の進行フレームのリセット
             this.WallJumpingProgressFrame = 0;
@@ -363,6 +365,10 @@ namespace VANITILE
                     // 操作解除して速度低下開始
                     this.IsWallJumping = true;
 
+                    // ブロックの方向を指定 TODO:ここじゃないやり方がいいなぁ
+                    this.groundCollision.IsBlockAngleWait = true;
+                    this.wallCollision.IsBlockAngleWait = true;
+
                     // 壁ジャンプ力を一定時間掛けて0にする
                     wallDownTimer += Time.deltaTime * playerData.JumpWallDownTime;
                     this.WallJumpPower = Mathf.Lerp(this.WallJumpPower, .0f, wallDownTimer);
@@ -413,6 +419,10 @@ namespace VANITILE
 
             // ステートを待機に変更
             this.SetMovementState(MovementState.Wait);
+
+            // ブロックの方向を指定 TODO:ここじゃないやり方がいいなぁ2
+            this.groundCollision.IsBlockAngleWait = true;
+            this.wallCollision.IsBlockAngleWait = true;
         }
     }
 }

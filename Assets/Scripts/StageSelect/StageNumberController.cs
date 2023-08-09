@@ -35,8 +35,6 @@ namespace VANITILE
         /// </summary>
         [SerializeField, Header("セレクトスピードタイプ")] private List<SelectInputType> selectInputTypes = new List<SelectInputType>();
 
-
-
         /// <summary>
         /// Coroutine
         /// </summary>
