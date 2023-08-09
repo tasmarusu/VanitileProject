@@ -75,12 +75,12 @@ namespace VANITILE
             if (isNext)
             {
                 this.NextStageId();
+                this.Transition();
             }
             else
             {
                 this.Transition();
             }
-
 
             yield return transition.Out();
             GameObject.Destroy(transition.gameObject);
