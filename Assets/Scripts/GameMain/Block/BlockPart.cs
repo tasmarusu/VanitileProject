@@ -118,26 +118,7 @@ namespace VANITILE
         private IEnumerator StartDestroyEffect(AngleType angleType)
         {
             // 重力追加して指定方向に飛ばす
-            switch (angleType)
-            {
-                case AngleType.Wait:
-
-                    break;
-
-                case AngleType.Down:
-                    this.gameObject.AddComponent<Rigidbody2D>();
-                    break;
-
-                case AngleType.Right:
-                    var force = new Vector2(100.0f, 80.0f);
-                    this.gameObject.AddComponent<Rigidbody2D>().AddForce(force);
-                    break;
-
-                case AngleType.Left:
-                    force = new Vector2(-100.0f, 80.0f);
-                    this.gameObject.AddComponent<Rigidbody2D>().AddForce(force);
-                    break;
-            }
+            this.AddForceRig(angleType);
 
             var timer = .0f;
             var pos = this.spRenderer.transform.position;
@@ -157,6 +138,40 @@ namespace VANITILE
 
             // 時間経過後ブロック完全削除
             GameObject.Destroy(this.gameObject);
+        }
+
+        /// <summary>
+        /// 飛ばす方向に傾けて重力を付ける
+        /// </summary>
+        private void AddForceRig(AngleType angleType)
+        {
+            switch (angleType)
+            {
+                case AngleType.Wait:
+                    break;
+
+                case AngleType.Down:
+                    this.gameObject.AddComponent<Rigidbody2D>();
+                    break;
+
+                case AngleType.Right:
+                    var force = new Vector2(100.0f, 80.0f);
+                    this.gameObject.AddComponent<Rigidbody2D>().AddForce(force);
+
+                    var euler = this.transform.eulerAngles;
+                    this.transform.eulerAngles = new Vector3(euler.x, euler.y, euler.z + 5.0f);
+
+                    break;
+
+                case AngleType.Left:
+                    force = new Vector2(-100.0f, 80.0f);
+                    this.gameObject.AddComponent<Rigidbody2D>().AddForce(force);
+
+                    euler = this.transform.eulerAngles;
+                    this.transform.eulerAngles = new Vector3(euler.x, euler.y, euler.z - 5.0f);
+
+                    break;
+            }
         }
     }
 }
