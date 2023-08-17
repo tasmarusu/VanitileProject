@@ -86,6 +86,7 @@ namespace VANITILE
         {
             // 決定ボタン押下
             InputManager.Instance.ObserveEveryValueChanged(x => x.Decide)
+                .TakeUntilDestroy(this)
                 .Where(x => x)
                 .Where(_ => TitleDataModel.Instance.IsTitleSelect)
                 .Subscribe(_ =>
@@ -95,6 +96,7 @@ namespace VANITILE
 
             // 上下移動
             InputManager.Instance.VerticalOneSubject
+                .TakeUntilDestroy(this)
                 .Where(_ => TitleDataModel.Instance.IsTitleSelect)
                 .Subscribe(value =>
                 {

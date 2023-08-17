@@ -1,25 +1,33 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UniRx;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using static DefineData;
 
 namespace VANITILE
 {
     /// <summary>
     /// ステージセレクトマネージャー
     /// </summary>
-    public class StageSelectManager : TitleSelectBase, IPointerMoveHandler
+    public class StageSelectManager : TitleSelectBase, IPointerClickHandler
     {
         /// <summary>
-        /// テキスト
+        /// 使用するステージ情報
         /// </summary>
-        [SerializeField, Header("テキスト")] private StageNumberController stageNumberController = null;
+        [SerializeField, Header("使用するステージ情報")] private StageTransitionScriptable stageTransitionData = null;
 
         /// <summary>
         /// 選択UI群
         /// </summary>
-        [SerializeField] private List<Selectable> selectables = new List<Selectable>();
+        [SerializeField, Header("選択UI群")] private List<StageNumberPart> stageNumberParts = null;
+
+        /// <summary>
+        /// 選択する中心番号
+        /// </summary>
+        [SerializeField] private int centerSelectNum = 3;
 
         /// <summary>
         /// 選択中の番号
@@ -27,14 +35,9 @@ namespace VANITILE
         private int currentSelectNum = 0;
 
         /// <summary>
-        /// 事後処理
+        /// CompositeDisposable
         /// </summary>
-        /// <returns></returns>
-        public override IEnumerator Finalize()
-        {
-            yield return new WaitUntil(() => TitleDataModel.Instance.IsStageSelect);
-            GameObject.Destroy(this.gameObject);
-        }
+        private CompositeDisposable disposables = new CompositeDisposable();
 
         /// <summary>
         /// 初期化
@@ -42,18 +45,95 @@ namespace VANITILE
         public override void Init()
         {
             Debug.Log($"[StageSelectManager]Init");
+
             TitleDataModel.Instance.PlayingState = DefineData.TitlePlayingState.StageSelect;
-            this.Animator();
+            this.SelectPart(this.currentSelectNum);
+            this.UpdateNumberPart();
+
+            this.StartCoroutine(this.InitEnumrator());
         }
 
         /// <summary>
-        /// マウスがUI上に来る
+        /// 事後処理
+        /// </summary>
+        /// <returns></returns>
+        public override IEnumerator Finalize()
+        {
+            yield return new WaitUntil(() => TitleDataModel.Instance.IsTitleSelect);
+            this.disposables.Clear();
+            GameObject.Destroy(this.gameObject);
+        }
+
+        ///// <summary>
+        ///// マウスがUI上に来る
+        ///// </summary>
+        ///// <param name="eventData"></param>
+        //public void OnPointerMove(PointerEventData eventData)
+        //{
+        //    var index = this.selectables.FindIndex(x => x.gameObject.GetHashCode() == eventData.pointerEnter.gameObject.GetHashCode());
+        //    this.SelectPart(index);
+        //}
+
+        /// <summary>
+        /// クリック
         /// </summary>
         /// <param name="eventData"></param>
-        public void OnPointerMove(PointerEventData eventData)
+        public void OnPointerClick(PointerEventData eventData)
         {
-            var index = this.selectables.FindIndex(x => x.gameObject.GetHashCode() == eventData.pointerEnter.gameObject.GetHashCode());
-            this.SelectPart(index);
+            StageDataModel.Instance.CurrentStageId = GameSaveDataModel.Instance.PlayLastStageId;
+            SceneManager.LoadScene(SceneName.GameMainScene.ToString());
+        }
+
+        /// <summary>
+        /// ステージ番号の更新
+        /// </summary>
+        private void UpdateNumberPart()
+        {
+            for (int i = 0; i < this.stageNumberParts.Count; i++)
+            {
+                var str = "";
+                var num = this.currentSelectNum - this.centerSelectNum + i;
+
+                if (num >= 0 && num < this.stageTransitionData.StageDatas.Count)
+                {
+                    // 0 始めなので 1 足す
+                    str = (num + 1).ToString();
+                }
+
+                this.stageNumberParts[i].UpdateStageText(str);
+            }
+        }
+
+        /// <summary>
+        /// 初期化
+        /// TODO:アニメーションで出す事なったら絶対消す
+        /// </summary>
+        /// <returns></returns>
+        private IEnumerator InitEnumrator()
+        {
+            yield return null;
+
+            // 決定ボタン押下
+            InputManager.Instance.ObserveEveryValueChanged(x => x.Decide)
+                .Where(x => x)
+                .Where(_ => TitleDataModel.Instance.IsStageSelect)
+                .Subscribe(_ =>
+                {
+                    TitleDataModel.Instance.PlayingState = DefineData.TitlePlayingState.TitleSelect;
+
+                    //StageDataModel.Instance.CurrentStageId = this.currentSelectNum;
+                    //SceneManager.LoadScene(SceneName.GameMainScene.ToString());
+                }).AddTo(this.disposables);
+
+            // 上下移動
+            InputManager.Instance.VerticalOneSubject
+                .Subscribe(value =>
+                {
+                    this.currentSelectNum -= value;
+                    this.SelectPart(this.currentSelectNum);
+                    this.UpdateNumberPart();
+
+                }).AddTo(this.disposables);
         }
 
         /// <summary>
@@ -61,14 +141,13 @@ namespace VANITILE
         /// </summary>
         private void SelectPart(int num)
         {
-            this.currentSelectNum = (int)Mathf.Repeat(num, this.selectables.Count);
-            this.selectables[this.currentSelectNum].Select();
+            this.currentSelectNum = Mathf.Clamp(num, 0, this.stageTransitionData.StageDatas.Count - 1);
         }
 
         /// <summary>
-        /// Animator
+        /// ステージ番号の移動
         /// </summary>
-        private void Animator()
+        private void MovePart()
         {
 
         }

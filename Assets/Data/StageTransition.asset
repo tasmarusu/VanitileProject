@@ -23,5 +23,8 @@ MonoBehaviour:
     <nextDataType>k__BackingField: 1
     <Json>k__BackingField: {fileID: 4900000, guid: f2ed3a53c26a950459f26cfe9e76a144, type: 3}
   - <Id>k__BackingField: 0
+    <nextDataType>k__BackingField: 1
+    <Json>k__BackingField: {fileID: 4900000, guid: afb882a43384a6343bf6d9491d50610f, type: 3}
+  - <Id>k__BackingField: 0
     <nextDataType>k__BackingField: 2
     <Json>k__BackingField: {fileID: 4900000, guid: e4305c45f7e75dd4a886f2fb7f3486d1, type: 3}

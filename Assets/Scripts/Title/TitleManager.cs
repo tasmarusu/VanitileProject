@@ -32,6 +32,11 @@ namespace VANITILE
         [SerializeField] private StageSelectManager stageSelectManagerPrefab = null;
 
         /// <summary>
+        /// CompositeDisposable
+        /// </summary>
+        private CompositeDisposable disposables = new CompositeDisposable();
+
+        /// <summary>
         /// 表示中オブジェクト
         /// </summary>
         private GameObject appearingObj = null;
@@ -44,7 +49,7 @@ namespace VANITILE
             TitleDataModel.Instance.Release();
             StageDataModel.Instance.Release();
 
-            InputManager.Instance.StartVerticalSubject();
+            this.disposables.Add(InputManager.Instance.StartVerticalSubject());
 
             this.titleSelectController.Init();
 
@@ -68,7 +73,6 @@ namespace VANITILE
                         break;
 
                     case TitleSelectType.Continue:
-                        // TDOO:クリアステージ数の保存をする
                         StageDataModel.Instance.CurrentStageId = GameSaveDataModel.Instance.PlayLastStageId;
                         SceneManager.LoadScene(SceneName.GameMainScene.ToString());
                         break;
@@ -109,6 +113,14 @@ namespace VANITILE
             yield return select.Finalize();
             yield return null;  // 反映まで1f待つが、Animation制御したらいらなくなるかも知れない
             this.titleSelectController.RestartInput();
+        }
+
+        /// <summary>
+        /// 破棄時
+        /// </summary>
+        private void OnDestroy()
+        {
+            this.disposables?.Clear();
         }
     }
 }
