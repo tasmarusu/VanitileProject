@@ -24,7 +24,12 @@ namespace VANITILE
         /// <summary>
         /// OptionManager
         /// </summary>
-        [SerializeField] private OptionManager optionManager = null;
+        [SerializeField] private OptionManager optionManagerPrefab = null;
+
+        /// <summary>
+        /// StageSelectManager
+        /// </summary>
+        [SerializeField] private StageSelectManager stageSelectManagerPrefab = null;
 
         /// <summary>
         /// 表示中オブジェクト
@@ -69,10 +74,13 @@ namespace VANITILE
                         break;
 
                     case TitleSelectType.StageSelect:
+                        var select = GameObject.Instantiate(this.stageSelectManagerPrefab.gameObject, this.parent).GetComponent<StageSelectManager>();
+                        select.Init();
+                        this.StartCoroutine(this.StartBackSelect(select, type));
                         break;
 
                     case TitleSelectType.Option:
-                        var option = GameObject.Instantiate(this.optionManager.gameObject, this.parent).GetComponent<OptionManager>();
+                        var option = GameObject.Instantiate(this.optionManagerPrefab.gameObject, this.parent).GetComponent<OptionManager>();
                         option.Init();
                         this.StartCoroutine(this.StartBackSelect(option, type));
                         break;
@@ -99,7 +107,8 @@ namespace VANITILE
         private IEnumerator StartBackSelect(TitleSelectBase select, TitleSelectType type)
         {
             yield return select.Finalize();
-            this.titleSelectController.SetEventSelectedState(type);
+            yield return null;  // 反映まで1f待つが、Animation制御したらいらなくなるかも知れない
+            this.titleSelectController.RestartInput();
         }
     }
 }

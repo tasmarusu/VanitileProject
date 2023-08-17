@@ -1,6 +1,4 @@
-﻿
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -11,7 +9,7 @@ namespace VANITILE
     /// <summary>
     /// タイトルの選択画面
     /// </summary>
-    public class TitleSelectController : MonoBehaviour
+    public class TitleSelectController : MonoBehaviour, IPointerMoveHandler,IPointerClickHandler
     {
         /// <summary>
         /// タイトルセレクトの各パーツ
@@ -24,6 +22,16 @@ namespace VANITILE
         public Subject<TitleSelectType> SelectSubject { get; private set; } = new Subject<TitleSelectType>();
 
         /// <summary>
+        /// 選択中の番号
+        /// </summary>
+        private int currentSelectNum = 0;
+
+        /// <summary>
+        /// CompositeDisposable
+        /// </summary>
+        private CompositeDisposable disposables = new CompositeDisposable();
+
+        /// <summary>
         /// 初期化
         /// </summary>
         public void Init()
@@ -33,26 +41,85 @@ namespace VANITILE
                 part.Init();
             }
 
+            this.RestartInput();
+        }
+
+        /// <summary>
+        /// インプットの再スタート
+        /// </summary>
+        public void RestartInput()
+        {
+            TitleDataModel.Instance.PlayingState = DefineData.TitlePlayingState.TitleSelect;
+
             // 初期選択
-            this.SetEventSelectedState(TitleSelectType.Start);
+            this.titleSelectParts[this.currentSelectNum].SelectButton.Select();
+
+            // 操作
+            this.InputController();
         }
 
         /// <summary>
-        /// UI選択状態の設定
+        /// マウスがUI上に来る
         /// </summary>
-        /// <param name="state">TitlePlayingState</param>
-        public void SetEventSelectedState(TitleSelectType type)
+        /// <param name="eventData"></param>
+        public void OnPointerMove(PointerEventData eventData)
         {
-            EventSystem.current.SetSelectedGameObject(this.titleSelectParts.Find(x => x.SelectType == type).SelectButton.gameObject);
+            var index = this.titleSelectParts.FindIndex(x => x.SelectButton.gameObject.GetHashCode() == eventData.pointerEnter.gameObject.GetHashCode());
+            this.SelectPart(index);
         }
 
         /// <summary>
-        /// オプションボタン押下
+        /// クリック
         /// </summary>
-        /// <param name="type"></param>
-        public void OnButton(int type)
+        /// <param name="eventData"></param>
+        public void OnPointerClick(PointerEventData eventData)
         {
-            this.SelectSubject.OnNext(this.titleSelectParts.Find(x => x.SelectType == (DefineData.TitleSelectType)type).SelectType);
+            var index = this.titleSelectParts.FindIndex(x => x.SelectButton.gameObject.GetHashCode() == eventData.pointerEnter.gameObject.GetHashCode());
+            this.SelectPart(index);
+            this.Dedide();
+        }
+
+        /// <summary>
+        /// 操作
+        /// </summary>
+        private void InputController()
+        {
+            // 決定ボタン押下
+            InputManager.Instance.ObserveEveryValueChanged(x => x.Decide)
+                .Where(x => x)
+                .Where(_ => TitleDataModel.Instance.IsTitleSelect)
+                .Subscribe(_ =>
+                {
+                    this.Dedide();
+                }).AddTo(this.disposables);
+
+            // 上下移動
+            InputManager.Instance.VerticalOneSubject
+                .Where(_ => TitleDataModel.Instance.IsTitleSelect)
+                .Subscribe(value =>
+                {
+                    this.currentSelectNum -= value;
+                    this.SelectPart(this.currentSelectNum);
+
+                }).AddTo(this.disposables);
+        }
+
+        /// <summary>
+        /// 決定
+        /// </summary>
+        private void Dedide()
+        {
+            this.disposables?.Clear();
+            this.SelectSubject.OnNext(this.titleSelectParts[this.currentSelectNum].SelectType);
+        }
+
+        /// <summary>
+        /// 選択
+        /// </summary>
+        private void SelectPart(int num)
+        {
+            this.currentSelectNum = (int)Mathf.Repeat(num, this.titleSelectParts.Count);
+            this.titleSelectParts[this.currentSelectNum].SelectButton.Select();
         }
     }
 }

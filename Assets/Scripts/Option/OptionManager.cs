@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -10,7 +11,7 @@ namespace VANITILE
     /// <summary>
     /// タイトルで使用するオプション画面 
     /// </summary>
-    public class OptionManager : TitleSelectBase
+    public class OptionManager : TitleSelectBase, IPointerMoveHandler
     {
         /// <summary>
         /// 纏めるオブジェクト
@@ -18,9 +19,14 @@ namespace VANITILE
         [SerializeField] private GameObject rootObj;
 
         /// <summary>
-        /// 
+        /// 選択UI群
         /// </summary>
         [SerializeField] private List<Selectable> selectables = new List<Selectable>();
+
+        /// <summary>
+        /// 戻るボタン
+        /// </summary>
+        [SerializeField] private Button backButton = null;
 
         /// <summary>
         /// BGM音量
@@ -33,15 +39,40 @@ namespace VANITILE
         [SerializeField] private AudioProperity seProperity = null;
 
         /// <summary>
+        /// 選択中の番号
+        /// </summary>
+        private int currentSelectNum = 0;
+
+        /// <summary>
         /// 初期化
         /// </summary>
         public override void Init()
         {
             TitleDataModel.Instance.PlayingState = DefineData.TitlePlayingState.Option;
-            EventSystem.current.SetSelectedGameObject(this.selectables[0].gameObject);
-
             this.bgmProperity.Init();
             this.seProperity.Init();
+
+            // 一個目を選択中
+            this.selectables[this.currentSelectNum].Select();
+
+            // 上下移動
+            InputManager.Instance.VerticalOneSubject
+                .TakeUntilDestroy(this)
+                .Subscribe(value =>
+                {
+                    this.currentSelectNum -= value;
+                    this.SelectPart(this.currentSelectNum);
+                });
+
+            this.backButton.onClick.AddListener(this.OnBackButton);
+        }
+
+        /// <summary>
+        /// State を変えて Finalize で勝手に終わる様に。
+        /// </summary>
+        public void OnBackButton()
+        {
+            TitleDataModel.Instance.PlayingState = DefineData.TitlePlayingState.TitleSelect;
         }
 
         /// <summary>
@@ -56,11 +87,13 @@ namespace VANITILE
         }
 
         /// <summary>
-        /// 戻るボタン押下
+        /// マウスがUI上に来る
         /// </summary>
-        public void OnBackButton()
+        /// <param name="eventData"></param>
+        public void OnPointerMove(PointerEventData eventData)
         {
-            TitleDataModel.Instance.PlayingState = DefineData.TitlePlayingState.TitleSelect;
+            var index = this.selectables.FindIndex(x => x.gameObject.GetHashCode() == eventData.pointerEnter.gameObject.GetHashCode());
+            this.SelectPart(index);
         }
 
         /// <summary>
@@ -70,6 +103,15 @@ namespace VANITILE
         {
             GameSaveDataModel.Instance.BgmVolume = SoundManager.Instance.BgmVolume;
             GameSaveDataModel.Instance.SeVolume = SoundManager.Instance.SeVolume;
+        }
+
+        /// <summary>
+        /// 選択
+        /// </summary>
+        private void SelectPart(int num)
+        {
+            this.currentSelectNum = (int)Mathf.Repeat(num, this.selectables.Count);
+            this.selectables[this.currentSelectNum].Select();
         }
 
         /// <summary>

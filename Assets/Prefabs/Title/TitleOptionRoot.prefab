@@ -56,6 +56,7 @@ MonoBehaviour:
   - {fileID: 6721420929182566217}
   - {fileID: 1791273946401025553}
   - {fileID: 6721420929145751068}
+  backButton: {fileID: 6721420929145751068}
   bgmProperity:
     slider: {fileID: 6721420929182566217}
     volumeText: {fileID: 6721420929366723664}
@@ -64,7 +65,6 @@ MonoBehaviour:
     slider: {fileID: 1791273946401025553}
     volumeText: {fileID: 1791273945009169672}
     audioType: 1
-  backButton: {fileID: 6721420929145751068}
 --- !u!1 &6721420928526379446
 GameObject:
   m_ObjectHideFlags: 0
@@ -197,7 +197,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 4
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 1791273946401025553}
     m_SelectOnDown: {fileID: 6721420929182566217}
@@ -300,7 +300,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -376,7 +376,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -511,7 +511,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -719,10 +719,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5484155874099757540, guid: bdd0f77fc1a3c5f4e82f06971b54c90e, type: 3}
-      propertyPath: m_Navigation.m_Mode
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 5484155874099757540, guid: bdd0f77fc1a3c5f4e82f06971b54c90e, type: 3}
       propertyPath: m_Navigation.m_SelectOnUp
       value: 
       objectReference: {fileID: 6721420929145751068}
@@ -897,10 +893,6 @@ PrefabInstance:
     - target: {fileID: 5484155874099757538, guid: bdd0f77fc1a3c5f4e82f06971b54c90e, type: 3}
       propertyPath: m_Name
       value: SeSlider
-      objectReference: {fileID: 0}
-    - target: {fileID: 5484155874099757540, guid: bdd0f77fc1a3c5f4e82f06971b54c90e, type: 3}
-      propertyPath: m_Navigation.m_Mode
-      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5484155874099757540, guid: bdd0f77fc1a3c5f4e82f06971b54c90e, type: 3}
       propertyPath: m_Navigation.m_SelectOnUp
