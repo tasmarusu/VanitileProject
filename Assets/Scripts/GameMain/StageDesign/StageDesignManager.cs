@@ -18,7 +18,7 @@ namespace VANITILE
         {
             this.ReLoadStage();
 
-   
+
 
             // 終了直後に State の変更を行う
             // TODO:初期化後に配置するかも

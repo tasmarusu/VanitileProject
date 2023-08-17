@@ -103,7 +103,7 @@ namespace VANITILE
         /// <summary>
         /// ゲーム実行前に呼び出す
         /// </summary>
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)] 
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         static void Init()
         {
             var obj = Resources.Load<GameSaveDataModel>($"Prefabs/Common/GameSaveDataModel");

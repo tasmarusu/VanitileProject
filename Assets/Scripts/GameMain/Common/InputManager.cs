@@ -48,6 +48,8 @@ namespace VANITILE
             var obj = GameObject.Instantiate(new GameObject("InputManager"));
             obj.AddComponent<InputManager>();
             GameObject.DontDestroyOnLoad(obj);
+
+            //Cursor.visible = false;
         }
 
         /// <summary>

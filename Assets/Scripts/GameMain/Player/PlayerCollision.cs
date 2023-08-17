@@ -111,10 +111,10 @@ namespace VANITILE
         /// </summary>
         /// <param name="part">接触したブロック</param>
         /// <param name="hitPosX">接触したブロックの X座標</param>
-        private void DecideAngleType(BlockPart part,float hitPosX)
+        private void DecideAngleType(BlockPart part, float hitPosX)
         {
             // 地面から離れた時
-            if(this.collistionType == CollisionType.Ground)
+            if (this.collistionType == CollisionType.Ground)
             {
                 part.LeavePlayer(AngleType.Down);
                 return;

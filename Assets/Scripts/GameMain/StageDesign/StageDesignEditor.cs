@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System;
 using UnityEditor;
 using UnityEngine;
 
@@ -229,7 +228,7 @@ namespace VANITILE
         {
             var loadCounts = Resources.LoadAll("StageData");
             var result = new List<int>();
-            foreach(var obj in loadCounts)
+            foreach (var obj in loadCounts)
             {
                 var str = obj.name.ToString().Replace("Stage_", "");
                 var stageNum = int.Parse(str.Substring(0, 3));
