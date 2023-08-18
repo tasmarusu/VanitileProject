@@ -12,11 +12,6 @@ namespace VANITILE
     public class HowToPlayManager : TitleSelectBase
     {
         /// <summary>
-        /// CompositeDisposable
-        /// </summary>
-        private CompositeDisposable disposables = new CompositeDisposable();
-
-        /// <summary>
         /// 初期化
         /// </summary>
         /// <returns></returns>
@@ -24,23 +19,11 @@ namespace VANITILE
         {
             TitleDataModel.Instance.PlayingState = DefineData.TitlePlayingState.HowToPlay;
 
+            // 表示アニメーション再生
             yield return this.In();
 
-            // 決定ボタン押下
-            InputManager.Instance.ObserveEveryValueChanged(x => x.Decide)
-                .Where(x => x)
-                .Subscribe(_ =>
-                {
-                    TitleDataModel.Instance.PlayingState = DefineData.TitlePlayingState.TitleSelect;
-                }).AddTo(this.disposables);
-
-            // 戻るボタン押下
-            InputManager.Instance.ObserveEveryValueChanged(x => x.Back)
-                .Where(x => x)
-                .Subscribe(_ =>
-                {
-                    TitleDataModel.Instance.PlayingState = DefineData.TitlePlayingState.TitleSelect;
-                }).AddTo(this.disposables);
+            // 操作開始
+            this.StartButtonController();
         }
 
         /// <summary>
@@ -49,13 +32,27 @@ namespace VANITILE
         /// <returns>IEnumerator</returns>
         public override IEnumerator Finalize()
         {
+            // 待機
             yield return new WaitUntil(() => TitleDataModel.Instance.IsTitleSelect);
 
-            this.disposables.Clear();
+            // 操作を終了して閉じる
             yield return this.Out();
-
-            GameObject.Destroy(this.gameObject);
         }
 
+        /// <summary>
+        /// 決定ボタン押下
+        /// </summary>
+        protected override void OnDecideButton()
+        {
+            TitleDataModel.Instance.PlayingState = DefineData.TitlePlayingState.TitleSelect;
+        }
+
+        /// <summary>
+        /// 戻るボタン押下
+        /// </summary>
+        protected override void OnBackButton()
+        {
+            TitleDataModel.Instance.PlayingState = DefineData.TitlePlayingState.TitleSelect;
+        }
     }
 }

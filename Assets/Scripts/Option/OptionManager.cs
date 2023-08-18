@@ -52,31 +52,9 @@ namespace VANITILE
 
             yield return this.In();
 
-            // 決定ボタン押下
-            InputManager.Instance.ObserveEveryValueChanged(x => x.Decide)
-                .Where(x => x)
-                .Subscribe(_ =>
-                {
-                    this.SaveVolume();
-                    TitleDataModel.Instance.PlayingState = DefineData.TitlePlayingState.TitleSelect;
-                }).AddTo(this.disposables);
-
-            // 戻るボタン押下
-            InputManager.Instance.ObserveEveryValueChanged(x => x.Back)
-                .Where(x => x)
-                .Subscribe(_ =>
-                {
-                    TitleDataModel.Instance.PlayingState = DefineData.TitlePlayingState.TitleSelect;
-                }).AddTo(this.disposables);
-
-            // 上下移動
-            InputManager.Instance.VerticalOneSubject
-                .TakeUntilDestroy(this)
-                .Subscribe(value =>
-                {
-                    this.currentSelectNum -= value;
-                    this.SelectPart(this.currentSelectNum);
-                });
+            // 操作開始
+            this.StartButtonController();
+            this.InputController();
         }
 
         /// <summary>
@@ -91,6 +69,37 @@ namespace VANITILE
             yield return this.Out();
 
             GameObject.Destroy(this.gameObject);
+        }
+
+        /// <summary>
+        /// 決定ボタン押下
+        /// </summary>
+        protected override void OnDecideButton()
+        {
+            TitleDataModel.Instance.PlayingState = DefineData.TitlePlayingState.TitleSelect;
+        }
+
+        /// <summary>
+        /// 戻るボタン押下
+        /// </summary>
+        protected override void OnBackButton()
+        {
+            TitleDataModel.Instance.PlayingState = DefineData.TitlePlayingState.TitleSelect;
+        }
+
+        /// <summary>
+        /// 操作開始
+        /// </summary>
+        /// <returns></returns>
+        private void InputController()
+        {
+            InputManager.Instance.VerticalOneSubject
+                .TakeUntilDestroy(this)
+                .Subscribe(value =>
+                {
+                    this.currentSelectNum -= value;
+                    this.SelectPart(this.currentSelectNum);
+                }).AddTo(this.disposables);
         }
 
         /// <summary>

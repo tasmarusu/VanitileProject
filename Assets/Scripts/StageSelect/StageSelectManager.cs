@@ -53,11 +53,6 @@ namespace VANITILE
         private bool isControll = false;
 
         /// <summary>
-        /// CompositeDisposable
-        /// </summary>
-        private CompositeDisposable disposables = new CompositeDisposable();
-
-        /// <summary>
         /// 初期化
         /// </summary>
         public override IEnumerator Init()
@@ -78,6 +73,7 @@ namespace VANITILE
             yield return this.In();
 
             // 操作開始
+            this.StartButtonController();
             this.InputController();
 
             // 選択中のパーツを選定し、選択状態にする
@@ -95,11 +91,24 @@ namespace VANITILE
             yield return new WaitUntil(() => TitleDataModel.Instance.IsTitleSelect);
 
             // 操作削除して閉じる
-            this.disposables.Clear();
             yield return this.Out();
+        }
 
-            // 完全削除
-            GameObject.Destroy(this.gameObject);
+        /// <summary>
+        /// 決定ボタン押下
+        /// </summary>
+        protected override void OnDecideButton()
+        {
+            StageDataModel.Instance.CurrentStageId = this.currentSelectNum;
+            SceneManager.LoadScene(SceneName.GameMainScene.ToString());
+        }
+
+        /// <summary>
+        /// 戻るボタン押下
+        /// </summary>
+        protected override void OnBackButton()
+        {
+            TitleDataModel.Instance.PlayingState = DefineData.TitlePlayingState.TitleSelect;
         }
 
         ///// <summary>
@@ -150,27 +159,6 @@ namespace VANITILE
         {
             this.isControll = true;
 
-            // 決定ボタン押下
-            InputManager.Instance.ObserveEveryValueChanged(x => x.Decide)
-                .Where(x => x)
-                .Where(_ => this.isControll)
-                .Where(_ => TitleDataModel.Instance.IsStageSelect)
-                .Subscribe(_ =>
-                {
-                    Debug.Log($"[Scene]遷移");
-                    StageDataModel.Instance.CurrentStageId = this.currentSelectNum;
-                    SceneManager.LoadScene(SceneName.GameMainScene.ToString());
-                    
-                }).AddTo(this.disposables);
-
-            // 戻るボタン押下
-            InputManager.Instance.ObserveEveryValueChanged(x => x.Back)
-                .Where(x => x)
-                .Subscribe(_ =>
-                {
-                    TitleDataModel.Instance.PlayingState = DefineData.TitlePlayingState.TitleSelect;
-                }).AddTo(this.disposables);
-
             // 上下移動
             InputManager.Instance.VerticalOneSubject
                 .Where(_ => this.isControll)
@@ -191,7 +179,7 @@ namespace VANITILE
                             this.UpdateNumberPart();
                         });
 
-                }).AddTo(this.disposables);
+                }).AddTo(this.controllDisposables);
         }
 
         /// <summary>
@@ -232,14 +220,6 @@ namespace VANITILE
             // 終了通知
             observer.OnNext(Unit.Default);
             observer.OnCompleted();
-        }
-
-        /// <summary>
-        /// 破棄時に呼ばれる
-        /// </summary>
-        private void OnDestroy()
-        {
-            this.disposables?.Clear();
         }
     }
 }

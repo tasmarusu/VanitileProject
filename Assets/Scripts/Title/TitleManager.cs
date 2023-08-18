@@ -55,7 +55,6 @@ namespace VANITILE
             StageDataModel.Instance.Release();
 
             this.disposables.Add(InputManager.Instance.StartVerticalSubject());
-
             this.titleSelectController.Init();
 
             this.CheckDecideSelect();
