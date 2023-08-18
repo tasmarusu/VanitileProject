@@ -33,6 +33,14 @@ namespace VANITILE
                 {
                     TitleDataModel.Instance.PlayingState = DefineData.TitlePlayingState.TitleSelect;
                 }).AddTo(this.disposables);
+
+            // 戻るボタン押下
+            InputManager.Instance.ObserveEveryValueChanged(x => x.Back)
+                .Where(x => x)
+                .Subscribe(_ =>
+                {
+                    TitleDataModel.Instance.PlayingState = DefineData.TitlePlayingState.TitleSelect;
+                }).AddTo(this.disposables);
         }
 
         /// <summary>

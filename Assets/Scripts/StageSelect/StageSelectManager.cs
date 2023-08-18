@@ -157,10 +157,18 @@ namespace VANITILE
                 .Where(_ => TitleDataModel.Instance.IsStageSelect)
                 .Subscribe(_ =>
                 {
-                    TitleDataModel.Instance.PlayingState = DefineData.TitlePlayingState.TitleSelect;
+                    Debug.Log($"[Scene]遷移");
+                    StageDataModel.Instance.CurrentStageId = this.currentSelectNum;
+                    SceneManager.LoadScene(SceneName.GameMainScene.ToString());
+                    
+                }).AddTo(this.disposables);
 
-                    //StageDataModel.Instance.CurrentStageId = this.currentSelectNum;
-                    //SceneManager.LoadScene(SceneName.GameMainScene.ToString());
+            // 戻るボタン押下
+            InputManager.Instance.ObserveEveryValueChanged(x => x.Back)
+                .Where(x => x)
+                .Subscribe(_ =>
+                {
+                    TitleDataModel.Instance.PlayingState = DefineData.TitlePlayingState.TitleSelect;
                 }).AddTo(this.disposables);
 
             // 上下移動
@@ -224,6 +232,14 @@ namespace VANITILE
             // 終了通知
             observer.OnNext(Unit.Default);
             observer.OnCompleted();
+        }
+
+        /// <summary>
+        /// 破棄時に呼ばれる
+        /// </summary>
+        private void OnDestroy()
+        {
+            this.disposables?.Clear();
         }
     }
 }

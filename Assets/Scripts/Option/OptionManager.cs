@@ -57,6 +57,15 @@ namespace VANITILE
                 .Where(x => x)
                 .Subscribe(_ =>
                 {
+                    this.SaveVolume();
+                    TitleDataModel.Instance.PlayingState = DefineData.TitlePlayingState.TitleSelect;
+                }).AddTo(this.disposables);
+
+            // 戻るボタン押下
+            InputManager.Instance.ObserveEveryValueChanged(x => x.Back)
+                .Where(x => x)
+                .Subscribe(_ =>
+                {
                     TitleDataModel.Instance.PlayingState = DefineData.TitlePlayingState.TitleSelect;
                 }).AddTo(this.disposables);
 
@@ -78,7 +87,6 @@ namespace VANITILE
         {
             yield return new WaitUntil(() => TitleDataModel.Instance.IsTitleSelect);
 
-            this.SaveVolume();
             this.disposables?.Clear();
             yield return this.Out();
 

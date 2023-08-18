@@ -29,6 +29,11 @@ namespace VANITILE
         public bool Decide { get { return Input.GetButtonDown("Decide"); } }
 
         /// <summary>
+        /// 戻る
+        /// </summary>
+        public bool Back { get { return Input.GetButtonDown("Back"); } }
+
+        /// <summary>
         /// 上下入力一回
         /// </summary>
         public Subject<int> VerticalOneSubject { get; } = new Subject<int>();
