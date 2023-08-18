@@ -172,12 +172,13 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  disappearLerpTime: 0.5
+  disappearLerpSpeed: 0.5
+  hitPlayerDisolveSpeed: 2
+  hitPlayerDisolveValue: 0.35
   spRenderer: {fileID: 3263207287192506343}
   col2Ds:
   - {fileID: 8854362374720373637}
   - {fileID: 6322806227462493508}
-  rig2D: {fileID: 0}
   text: {fileID: 8060678087840173146}
 --- !u!1 &2247405596781172637
 GameObject:

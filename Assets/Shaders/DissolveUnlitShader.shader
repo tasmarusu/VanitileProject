@@ -7,6 +7,7 @@ Shader "Unlit/DissolveUnlitShader"
         _DisolveTex("DisolveTex (RGB)", 2D) = "white" {}
         _Glossiness("Smoothness", Range(0,1)) = 0.5
         _Threshold("Threshold", Range(0,1)) = 0.0
+        _OutLine("OutLine", Range(0,1)) = 0.0
     }
     SubShader
     {
@@ -43,6 +44,7 @@ Shader "Unlit/DissolveUnlitShader"
 
             half _Glossiness;
             half _Threshold;
+            half _OutLine;
             fixed4 _Color;
 
             v2f vert (appdata v)
@@ -63,9 +65,16 @@ Shader "Unlit/DissolveUnlitShader"
                     discard;
                 }
 
-                // sample the texture
+                // テクスチャから色を取得
                 fixed4 col = tex2D(_MainTex, i.uv);
-                // apply fog
+
+                // 消える線にアウトラインの様な物を付ける
+                if (_Threshold > 0 && g - .1f < _Threshold) {
+                    col.r = _OutLine;
+                    col.g = _OutLine;
+                    col.b = _OutLine;
+                }
+
                 UNITY_APPLY_FOG(i.fogCoord, col);
                 return col;
             }

@@ -11,12 +11,22 @@ namespace VANITILE
         /// <summary>
         /// Dissolveの消えるAnimationCurve
         /// </summary>
-        [SerializeField] private AnimationCurve curve;
+        [SerializeField, Header("Dissolveの消えるAnimationCurve")] private AnimationCurve curve;
 
         /// <summary>
-        /// Dissolveの消える速度
+        /// 消える Dissolve 速度
         /// </summary>
-        [SerializeField] private float disappearLerpTime = .5f;
+        [SerializeField, Header("消える Dissolve 速度")] private float disappearLerpSpeed = .5f;
+
+        /// <summary>
+        /// 接触時 Dissolve 速度
+        /// </summary>
+        [SerializeField, Header("接触時 Dissolve 速度")] private float hitPlayerDisolveSpeed = 2.0f;
+
+        /// <summary>
+        /// 接触時 Dissolve 値
+        /// </summary>
+        [SerializeField, Header("接触時 Dissolve 値"), Range(0.0f, 1.0f)] private float hitPlayerDisolveValue = .35f;
 
         /// <summary>
         /// プレイヤー接触したか
@@ -88,6 +98,7 @@ namespace VANITILE
         public void HitPlayer(CollisionType type)
         {
             this.IsContactPlayer = true;
+            this.StartCoroutine(this.StartHitBlockDissolve());
             this.spRenderer.materials[0].SetColor("_Color", type == CollisionType.Ground ? Color.red : Color.green);
         }
 
@@ -113,6 +124,24 @@ namespace VANITILE
         }
 
         /// <summary>
+        /// ブロックの Dissolve 値を増やす
+        /// </summary>
+        /// <returns>IEnumerator</returns>
+        private IEnumerator StartHitBlockDissolve()
+        {
+            var timer = .0f;
+            while (timer <= this.hitPlayerDisolveValue)
+            {
+                timer += Time.deltaTime * this.hitPlayerDisolveSpeed;
+                var val = this.curve.Evaluate(timer);
+                this.spRenderer.materials[0].SetFloat("_Threshold", val);
+                yield return null;
+            }
+
+            this.spRenderer.materials[0].SetFloat("_Threshold", this.curve.Evaluate(this.hitPlayerDisolveValue));
+        }
+
+        /// <summary>
         /// 削除エフェクトの開始
         /// </summary>
         private IEnumerator StartDestroyEffect(AngleType angleType)
@@ -120,12 +149,12 @@ namespace VANITILE
             // 重力追加して指定方向に飛ばす
             this.AddForceRig(angleType);
 
-            var timer = .0f;
+            var timer = this.hitPlayerDisolveValue;
             var pos = this.spRenderer.transform.position;
             var scale = this.spRenderer.transform.localScale;
             while (timer <= 1.0f)
             {
-                timer += Time.deltaTime / this.disappearLerpTime;
+                timer += Time.deltaTime / this.disappearLerpSpeed;
                 var val = this.curve.Evaluate(timer);
                 this.spRenderer.materials[0].SetFloat("_Threshold", val);
                 this.spRenderer.materials[0].SetTextureOffset("_MainTex", new Vector2(.0f, val * 0.1f));
