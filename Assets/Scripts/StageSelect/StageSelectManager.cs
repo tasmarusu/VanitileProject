@@ -42,7 +42,7 @@ namespace VANITILE
         /// <summary>
         /// 初期化
         /// </summary>
-        public override void Init()
+        public override IEnumerator Init()
         {
             Debug.Log($"[StageSelectManager]Init");
 
@@ -50,7 +50,8 @@ namespace VANITILE
             this.SelectPart(this.currentSelectNum);
             this.UpdateNumberPart();
 
-            this.StartCoroutine(this.InitEnumrator());
+            yield return this.In();
+            this.InputController();
         }
 
         /// <summary>
@@ -59,8 +60,14 @@ namespace VANITILE
         /// <returns></returns>
         public override IEnumerator Finalize()
         {
+            // ポップアップ消えるまで待機
             yield return new WaitUntil(() => TitleDataModel.Instance.IsTitleSelect);
+
+            // 操作削除して閉じる
             this.disposables.Clear();
+            yield return this.Out();
+
+            // 完全削除
             GameObject.Destroy(this.gameObject);
         }
 
@@ -105,14 +112,11 @@ namespace VANITILE
         }
 
         /// <summary>
-        /// 初期化
-        /// TODO:アニメーションで出す事なったら絶対消す
+        /// 操作開始
         /// </summary>
         /// <returns></returns>
-        private IEnumerator InitEnumrator()
+        private void InputController()
         {
-            yield return null;
-
             // 決定ボタン押下
             InputManager.Instance.ObserveEveryValueChanged(x => x.Decide)
                 .Where(x => x)

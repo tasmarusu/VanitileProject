@@ -55,7 +55,7 @@ namespace VANITILE
                     return;
                 }
 
-                bgmSource.volume = value;
+                seSource.volume = value;
             }
         }
 

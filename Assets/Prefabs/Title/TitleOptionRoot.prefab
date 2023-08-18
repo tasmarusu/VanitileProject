@@ -50,8 +50,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 522b7f149da2f114c93ccca92218dbb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  rootObj: {fileID: 6721420928526379446}
+  root: {fileID: 6721420928526379441}
+  animationTime: 0.25
   selectables:
   - {fileID: 6721420929182566217}
   - {fileID: 1791273946401025553}

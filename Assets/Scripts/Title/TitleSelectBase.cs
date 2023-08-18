@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using DG.Tweening;
 
 namespace VANITILE
 {
@@ -12,12 +13,17 @@ namespace VANITILE
         /// <summary>
         /// Animator
         /// </summary>
-        [SerializeField] private Animator animator = null;
+        [SerializeField] private Transform root = null;
+
+        /// <summary>
+        /// Animation時間
+        /// </summary>
+        [SerializeField] private float animationTime = .25f;
 
         /// <summary>
         /// 初期化
         /// </summary>
-        public abstract void Init();
+        public abstract IEnumerator Init();
 
         /// <summary>
         /// 終了処理
@@ -30,9 +36,13 @@ namespace VANITILE
         /// <returns></returns>
         protected IEnumerator In()
         {
-            this.animator.Play("In", 0, .0f);
-            yield return null;
-            yield return new WaitUntil(() => this.animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f);
+            //this.animator.Play("TitleSelectOpenAnimation", 0, .0f);
+            //yield return null;
+            //yield return new WaitUntil(() => this.animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f);
+
+            this.root.localScale = Vector3.zero;
+            this.root.DOScale(Vector3.one, this.animationTime).SetEase(Ease.OutBack);
+            yield return new WaitForSeconds(this.animationTime);
         }
 
         /// <summary>
@@ -41,9 +51,12 @@ namespace VANITILE
         /// <returns></returns>
         protected IEnumerator Out()
         {
-            this.animator.Play("Out", 0, .0f);
-            yield return null;
-            yield return new WaitUntil(() => this.animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f);
+            //this.animator.Play("TitleSelectCloseAnimation", 0, .0f);
+            //yield return null;
+            //yield return new WaitUntil(() => this.animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f);
+
+            this.root.DOScale(Vector3.zero, this.animationTime).SetEase(Ease.InBack);
+            yield return new WaitForSeconds(this.animationTime);
         }
     }
 }

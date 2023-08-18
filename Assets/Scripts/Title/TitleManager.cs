@@ -79,13 +79,11 @@ namespace VANITILE
 
                     case TitleSelectType.StageSelect:
                         var select = GameObject.Instantiate(this.stageSelectManagerPrefab.gameObject, this.parent).GetComponent<StageSelectManager>();
-                        select.Init();
                         this.StartCoroutine(this.StartBackSelect(select, type));
                         break;
 
                     case TitleSelectType.Option:
                         var option = GameObject.Instantiate(this.optionManagerPrefab.gameObject, this.parent).GetComponent<OptionManager>();
-                        option.Init();
                         this.StartCoroutine(this.StartBackSelect(option, type));
                         break;
 
@@ -110,8 +108,8 @@ namespace VANITILE
         /// <returns>IEnumerator</returns>
         private IEnumerator StartBackSelect(TitleSelectBase select, TitleSelectType type)
         {
+            yield return select.Init();
             yield return select.Finalize();
-            yield return null;  // 反映まで1f待つが、Animation制御したらいらなくなるかも知れない
             this.titleSelectController.RestartInput();
         }
 

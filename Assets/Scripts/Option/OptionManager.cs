@@ -14,11 +14,6 @@ namespace VANITILE
     public class OptionManager : TitleSelectBase, IPointerMoveHandler
     {
         /// <summary>
-        /// 纏めるオブジェクト
-        /// </summary>
-        [SerializeField] private GameObject rootObj;
-
-        /// <summary>
         /// 選択UI群
         /// </summary>
         [SerializeField] private List<Selectable> selectables = new List<Selectable>();
@@ -46,7 +41,7 @@ namespace VANITILE
         /// <summary>
         /// 初期化
         /// </summary>
-        public override void Init()
+        public override IEnumerator Init()
         {
             TitleDataModel.Instance.PlayingState = DefineData.TitlePlayingState.Option;
             this.bgmProperity.Init();
@@ -54,6 +49,8 @@ namespace VANITILE
 
             // 一個目を選択中
             this.selectables[this.currentSelectNum].Select();
+
+            yield return this.In();
 
             // 上下移動
             InputManager.Instance.VerticalOneSubject
@@ -82,7 +79,10 @@ namespace VANITILE
         public override IEnumerator Finalize()
         {
             yield return new WaitUntil(() => TitleDataModel.Instance.IsTitleSelect);
+
             this.SaveVolume();
+            yield return this.Out();
+
             GameObject.Destroy(this.gameObject);
         }
 
