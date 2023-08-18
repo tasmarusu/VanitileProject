@@ -159,7 +159,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
+  m_BackGroundColor: {r: 0.3529412, g: 0.27450982, b: 0.23529412, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -538,7 +538,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f9cdf4e9292f5043a607794f86e9e58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stageNumberController: {fileID: 1391172410}
+  root: {fileID: 0}
+  animationTime: 0.25
+  stageTransitionData: {fileID: 0}
+  stageNumberParts: []
+  centerSelectNum: 3
 --- !u!1 &1391172408
 GameObject:
   m_ObjectHideFlags: 0
@@ -603,7 +607,6 @@ MonoBehaviour:
   - {fileID: 1228355088}
   - {fileID: 1862708649}
   - {fileID: 1187054111}
-  selectingNum: 2
   selectMax: 100
   selectInputTypes:
   - <count>k__BackingField: 3
