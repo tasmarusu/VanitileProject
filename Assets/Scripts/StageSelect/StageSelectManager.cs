@@ -5,7 +5,10 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using DG.Tweening;
 using static DefineData;
+using System.Linq;
+using System;
 
 namespace VANITILE
 {
@@ -30,9 +33,24 @@ namespace VANITILE
         [SerializeField] private int centerSelectNum = 3;
 
         /// <summary>
+        /// 選択する中心番号のオブジェクト
+        /// </summary>
+        private StageNumberPart centerSelectPart = null;
+
+        /// <summary>
         /// 選択中の番号
         /// </summary>
         private int currentSelectNum = 0;
+
+        /// <summary>
+        /// 移動時間
+        /// </summary>
+        private float moveTime = .1f;
+
+        /// <summary>
+        /// 操作可能か
+        /// </summary>
+        private bool isControll = false;
 
         /// <summary>
         /// CompositeDisposable
@@ -47,11 +65,24 @@ namespace VANITILE
             Debug.Log($"[StageSelectManager]Init");
 
             TitleDataModel.Instance.PlayingState = DefineData.TitlePlayingState.StageSelect;
-            this.SelectPart(this.currentSelectNum);
+
+            // 各ステージ番号パーツの初期化
+            foreach(var part in this.stageNumberParts)
+            {
+                part.Init();
+            }
+            this.IsSelectPart(this.currentSelectNum);
             this.UpdateNumberPart();
 
+            // ポップアップ開始
             yield return this.In();
+
+            // 操作開始
             this.InputController();
+
+            // 選択中のパーツを選定し、選択状態にする
+            this.centerSelectPart = this.stageNumberParts[this.centerSelectNum];
+            this.centerSelectPart.Selected();
         }
 
         /// <summary>
@@ -117,9 +148,12 @@ namespace VANITILE
         /// <returns></returns>
         private void InputController()
         {
+            this.isControll = true;
+
             // 決定ボタン押下
             InputManager.Instance.ObserveEveryValueChanged(x => x.Decide)
                 .Where(x => x)
+                .Where(_ => this.isControll)
                 .Where(_ => TitleDataModel.Instance.IsStageSelect)
                 .Subscribe(_ =>
                 {
@@ -131,11 +165,23 @@ namespace VANITILE
 
             // 上下移動
             InputManager.Instance.VerticalOneSubject
+                .Where(_ => this.isControll)
+                .Do(value => this.currentSelectNum -= value)
+                .Where(x => this.IsSelectPart(this.currentSelectNum) == false) // 数値が許容範囲なら移動開始
                 .Subscribe(value =>
                 {
-                    this.currentSelectNum -= value;
-                    this.SelectPart(this.currentSelectNum);
-                    this.UpdateNumberPart();
+                    this.isControll = false;
+                    this.centerSelectPart.Deselect();
+
+                    // 移動開始
+                    Observable.FromCoroutine<Unit>(observer => this.MovePart(value, observer))
+                        .TakeUntilDestroy(this)
+                        .Subscribe(x =>
+                        {
+                            this.isControll = true;
+                            this.centerSelectPart.Selected();
+                            this.UpdateNumberPart();
+                        });
 
                 }).AddTo(this.disposables);
         }
@@ -143,17 +189,41 @@ namespace VANITILE
         /// <summary>
         /// 選択
         /// </summary>
-        private void SelectPart(int num)
+        private bool IsSelectPart(int num)
         {
             this.currentSelectNum = Mathf.Clamp(num, 0, this.stageTransitionData.StageDatas.Count - 1);
+            return num < 0 || num > this.stageTransitionData.StageDatas.Count - 1;
         }
 
         /// <summary>
         /// ステージ番号の移動
         /// </summary>
-        private void MovePart()
+        private IEnumerator MovePart(int value,IObserver<Unit> observer)
         {
+            // Lerp で移動開始
+            var poses = this.stageNumberParts.Select(x => x.transform.position).ToArray();
+            var timer = .0f;
+            while (timer < 1.0f)
+            {
+                timer += Time.deltaTime / moveTime;
+                for (int i = 1; i < this.stageNumberParts.Count - 1; i++)
+                {
+                    var p = this.stageNumberParts[i].transform.position;
+                    this.stageNumberParts[i].transform.position = Vector3.Lerp(poses[i], poses[i + value], timer);
+                }
 
+                yield return null;
+            }
+
+            // 位置を元に戻す
+            for (int i = 0; i < this.stageNumberParts.Count; i++)
+            {
+                this.stageNumberParts[i].transform.position = poses[i];
+            }
+
+            // 終了通知
+            observer.OnNext(Unit.Default);
+            observer.OnCompleted();
         }
     }
 }

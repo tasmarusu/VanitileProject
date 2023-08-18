@@ -1,6 +1,7 @@
 ﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 namespace VANITILE
 {
@@ -20,26 +21,21 @@ namespace VANITILE
         [SerializeField, Header("Button")] private Button button = null;
 
         /// <summary>
-        /// 
+        /// テキストの元の大きさ
         /// </summary>
-        /// <returns></returns>
-        //public bool IsPlayingUpDownAnimation
-        //{
-        //    get
-        //    {
-        //        var info = this.animator.GetCurrentAnimatorStateInfo(0);
-        //        var playUp = info.IsName(AnimatorName.Up.ToString());
-        //        var playDown = info.IsName(AnimatorName.Down.ToString());
-        //        var time = info.normalizedTime < 1.0f;
-        //        return (playUp || playDown) && time;
-        //    }
-        //}
+        private Vector3 originTextScale;
+
+        /// <summary>
+        /// 拡縮変調Tween
+        /// </summary>
+        private Tween boundTween = null;
 
         /// <summary>
         /// 初期化
         /// </summary>
         public void Init()
         {
+            this.originTextScale = this.text.transform.localScale;
         }
 
         /// <summary>
@@ -57,7 +53,14 @@ namespace VANITILE
         public void Selected()
         {
             this.text.color = Color.red;
-            this.button.Select();
+            this.boundTween = this.text.transform
+                 .DOScale(new Vector3(1.5f, 1.5f, 1f), 0.3f)
+                 .SetLoops(int.MaxValue, LoopType.Yoyo)
+                 .SetEase(Ease.OutCirc)
+                 .OnKill(() =>
+                 {
+                     this.text.transform.localScale = this.originTextScale;
+                     });
         }
 
         /// <summary>
@@ -66,6 +69,8 @@ namespace VANITILE
         public void Deselect()
         {
             this.text.color = Color.white;
+            this.boundTween.Kill();
+            this.text.transform.localScale = this.originTextScale;
         }
     }
 }
