@@ -114,9 +114,9 @@
     public enum TitleSelectType
     {
         /// <summary>
-        /// はじめから
+        /// 操作方法
         /// </summary>
-        Start = 1,
+        HowToPlay = 1,
 
         /// <summary>
         /// 続きから
@@ -144,6 +144,11 @@
     /// </summary>
     public enum TitlePlayingState
     {
+        /// <summary>
+        /// 操作説明
+        /// </summary>
+        HowToPlay,
+
         /// <summary>
         /// タイトルの選択画面
         /// </summary>

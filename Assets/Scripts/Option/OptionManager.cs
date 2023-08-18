@@ -19,11 +19,6 @@ namespace VANITILE
         [SerializeField] private List<Selectable> selectables = new List<Selectable>();
 
         /// <summary>
-        /// 戻るボタン
-        /// </summary>
-        [SerializeField] private Button backButton = null;
-
-        /// <summary>
         /// BGM音量
         /// </summary>
         [SerializeField] private AudioProperity bgmProperity = null;
@@ -39,6 +34,11 @@ namespace VANITILE
         private int currentSelectNum = 0;
 
         /// <summary>
+        /// CompositeDisposable
+        /// </summary>
+        private CompositeDisposable disposables = new CompositeDisposable();
+
+        /// <summary>
         /// 初期化
         /// </summary>
         public override IEnumerator Init()
@@ -52,6 +52,14 @@ namespace VANITILE
 
             yield return this.In();
 
+            // 決定ボタン押下
+            InputManager.Instance.ObserveEveryValueChanged(x => x.Decide)
+                .Where(x => x)
+                .Subscribe(_ =>
+                {
+                    TitleDataModel.Instance.PlayingState = DefineData.TitlePlayingState.TitleSelect;
+                }).AddTo(this.disposables);
+
             // 上下移動
             InputManager.Instance.VerticalOneSubject
                 .TakeUntilDestroy(this)
@@ -60,16 +68,6 @@ namespace VANITILE
                     this.currentSelectNum -= value;
                     this.SelectPart(this.currentSelectNum);
                 });
-
-            this.backButton.onClick.AddListener(this.OnBackButton);
-        }
-
-        /// <summary>
-        /// State を変えて Finalize で勝手に終わる様に。
-        /// </summary>
-        public void OnBackButton()
-        {
-            TitleDataModel.Instance.PlayingState = DefineData.TitlePlayingState.TitleSelect;
         }
 
         /// <summary>
@@ -81,6 +79,7 @@ namespace VANITILE
             yield return new WaitUntil(() => TitleDataModel.Instance.IsTitleSelect);
 
             this.SaveVolume();
+            this.disposables?.Clear();
             yield return this.Out();
 
             GameObject.Destroy(this.gameObject);

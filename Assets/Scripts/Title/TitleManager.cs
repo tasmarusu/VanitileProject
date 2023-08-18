@@ -32,6 +32,11 @@ namespace VANITILE
         [SerializeField] private StageSelectManager stageSelectManagerPrefab = null;
 
         /// <summary>
+        /// HowToPlay
+        /// </summary>
+        [SerializeField] private HowToPlayManager howToPlayManager = null;
+
+        /// <summary>
         /// CompositeDisposable
         /// </summary>
         private CompositeDisposable disposables = new CompositeDisposable();
@@ -67,9 +72,9 @@ namespace VANITILE
 
                 switch (type)
                 {
-                    case TitleSelectType.Start:
-                        StageDataModel.Instance.CurrentStageId = 0;
-                        SceneManager.LoadScene(SceneName.GameMainScene.ToString());
+                    case TitleSelectType.HowToPlay:
+                        var howToPlay = GameObject.Instantiate(this.howToPlayManager.gameObject, this.parent).GetComponent<HowToPlayManager>();
+                        this.StartCoroutine(this.StartBackSelect(howToPlay, type));
                         break;
 
                     case TitleSelectType.Continue:

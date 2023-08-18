@@ -363,6 +363,7 @@ MonoBehaviour:
   titleSelectController: {fileID: 1169043390}
   optionManagerPrefab: {fileID: 6721420928316484437, guid: 72dcbb86aa26209478d52d1bea7c2907, type: 3}
   stageSelectManagerPrefab: {fileID: 750633598774796401, guid: ae87e0c2befaf8f4785d80e0242da2eb, type: 3}
+  howToPlayManager: {fileID: 8984012926784345177, guid: e12d3ee37dea21c45a028aef5be15403, type: 3}
 --- !u!1 &554992883
 GameObject:
   m_ObjectHideFlags: 0
@@ -665,6 +666,10 @@ PrefabInstance:
     - target: {fileID: 1621257271817374579, guid: 878167b35d89c6b4c986f815bf140851, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1621257271817374588, guid: 878167b35d89c6b4c986f815bf140851, type: 3}
+      propertyPath: m_Name
+      value: HowToPlay
       objectReference: {fileID: 0}
     - target: {fileID: 2063366756459094312, guid: 878167b35d89c6b4c986f815bf140851, type: 3}
       propertyPath: m_AnchorMax.y
