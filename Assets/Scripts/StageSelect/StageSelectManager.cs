@@ -92,6 +92,9 @@ namespace VANITILE
 
             // 操作削除して閉じる
             yield return this.Out();
+
+            // 削除
+            GameObject.Destroy(this.gameObject);
         }
 
         /// <summary>

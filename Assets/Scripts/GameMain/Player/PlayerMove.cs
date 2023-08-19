@@ -2,6 +2,7 @@
 using System.Collections;
 using UniRx;
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace VANITILE
 {
@@ -31,6 +32,16 @@ namespace VANITILE
         /// 壁滑り中の落下か
         /// </summary>
         private float wallDownValue = .0f;
+
+        /// <summary>
+        /// 重力保存 ポーズから戻る時に使用
+        /// </summary>
+        private Vector2 tempVerocity = Vector2.zero;
+
+        /// <summary>
+        /// 重力
+        /// </summary>
+        private float tempGravity = .0f;
 
         /// <summary>
         /// 右向きか
@@ -88,7 +99,6 @@ namespace VANITILE
         /// </summary>
         public Subject<MovementState> ChangeMovementStateSubject = new Subject<MovementState>();
 
-
         /// <summary>
         /// プレイヤーの挙動状態
         /// </summary>
@@ -125,16 +135,48 @@ namespace VANITILE
         /// </summary>
         public void Init()
         {
+            this.tempVerocity = this.rig2D.velocity;
+            this.tempGravity = this.rig2D.gravityScale;
+
             this.GravityStartSpeed = this.rig2D.gravityScale;
             this.StartCheckWallDetection();
             this.StartCheckGroundDetection();
             this.StartWallSticking();
+
+            // 挙動開始
+            Observable.EveryUpdate()
+                .Where(_ => StageDataModel.Instance.IsAbleMovePlayer())
+                .Subscribe(_ =>
+                {
+                    this.UpdateObservable();
+                }).AddTo(this);
+
+            // ポーズ状態の監視
+            StageDataModel.Instance.ObserveEveryValueChanged(x => x.IsPose())
+                .Where(isPose => StageDataModel.Instance.IsGamePlaying())
+                .Subscribe(isPose =>
+                {
+                    if (isPose)
+                    {
+                        // ポーズ開始 で加速度を止める
+                        this.tempVerocity = this.rig2D.velocity;
+                        this.tempGravity = this.rig2D.gravityScale;
+                        this.rig2D.velocity = Vector2.zero;
+                        this.rig2D.gravityScale = .0f;
+                    }
+                    else
+                    {
+                        // ポーズ終了 で加速度を戻す
+                        this.rig2D.velocity = this.tempVerocity;
+                        this.rig2D.gravityScale = this.tempGravity;
+                    }
+                }).AddTo(this);
         }
 
         /// <summary>
         /// Update
         /// </summary>
-        void Update()
+        private void UpdateObservable()
         {
             // 入力方向によって回転させる
             this.Rotate(InputManager.Instance.Horizontal);
@@ -345,6 +387,7 @@ namespace VANITILE
             var jumpOnlyTimer = .0f;    // 操作受付不可時間
             var wallDownTimer = .0f;    // 壁ジャンプ速度低下時間
             this.WallJumpDisposable = Observable.EveryUpdate()
+                .Where(_ => StageDataModel.Instance.IsAbleMovePlayer())
                 .Subscribe(_ =>
                 {
                     if (this.Movement != MovementState.Air)

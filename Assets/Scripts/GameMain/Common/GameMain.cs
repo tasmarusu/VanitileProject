@@ -37,6 +37,11 @@ namespace VANITILE
         [field: SerializeField, Header("GameMainTrans")] public GameMainTransition GameMainTrans { get; private set; } = null;
 
         /// <summary>
+        /// PlayerManager
+        /// </summary>
+        [field: SerializeField, Header("PlayerManager")] private PlayerManager playerManager = null;
+
+        /// <summary>
         /// シーン直起動時のロードステージid
         /// </summary>
         [field: SerializeField] public StageTransitionScriptable StageTransitionData { get; private set; } = null;
@@ -95,7 +100,7 @@ namespace VANITILE
             // 戻るボタン押下
             InputManager.Instance.ObserveEveryValueChanged(x => x.Back)
                 .Where(x => x)
-                .Where(_ => StageDataModel.Instance.IsPose() == false)
+                .Where(_=> StageDataModel.Instance.IsAbleMovePlayer())  // プレイヤーが動作可能
                 .Subscribe(_ =>
                 {
                     // ポーズ開く

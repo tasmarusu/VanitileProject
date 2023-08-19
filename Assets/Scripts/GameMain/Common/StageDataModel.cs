@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace VANITILE
 {
@@ -107,6 +108,35 @@ namespace VANITILE
         /// </summary>
         /// <returns></returns>
         public bool IsPose() => this.CurrentGameState == MainGameState.Pose;
+
+        /// <summary>
+        /// プレイヤーの操作許可
+        /// </summary>
+        /// <returns></returns>
+        public bool IsAbleMovePlayer()
+        {
+            var state = new List<MainGameState>() { MainGameState.NotAbleGoal, MainGameState.AbleGoal };
+            return state.Contains(this.CurrentGameState);
+        }
+
+        /// <summary>
+        /// ゲームプレイ中か
+        /// </summary>
+        /// <returns></returns>
+        public bool IsGamePlaying()
+        {
+            var state = new List<MainGameState>() { MainGameState.NotAbleGoal, MainGameState.AbleGoal, MainGameState.Pose };
+            return state.Contains(this.CurrentGameState);
+        }
+
+        /// <summary>
+        /// 特定のステート中か
+        /// </summary>
+        /// <returns>bool</returns>
+        public bool IsSpecificAction(List<MainGameState> actions)
+        {
+            return actions.Contains(this.CurrentGameState);
+        }
 
         /// <summary>
         /// ゲーム開始

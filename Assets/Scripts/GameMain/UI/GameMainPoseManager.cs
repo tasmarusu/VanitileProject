@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
+using static VANITILE.StageDataModel;
 
 namespace VANITILE
 {
@@ -34,11 +35,17 @@ namespace VANITILE
         private int currentSelectNum = 0;
 
         /// <summary>
+        /// ポーズ終了
+        /// </summary>
+        private bool IsPoseEnd = false;
+
+        /// <summary>
         /// 初期化
         /// </summary>
         /// <returns> IEnumerator </returns>
         public override IEnumerator Init()
         {
+            this.IsPoseEnd = false;
             StageDataModel.Instance.StartPoseMode();
 
             // 一個目を選択中
@@ -59,9 +66,13 @@ namespace VANITILE
         /// <returns> IEnumerator </returns>
         public override IEnumerator Finalize()
         {
-            yield return new WaitUntil(() => StageDataModel.Instance.IsPose() == false);
+            yield return new WaitUntil(() => this.IsPoseEnd || StageDataModel.Instance.IsGamePlaying() == false);
             yield return this.Out();
 
+            StageDataModel.Instance.EndPoseMode();
+
+            // 削除
+            GameObject.Destroy(this.gameObject);
         }
 
         /// <summary>
@@ -69,7 +80,7 @@ namespace VANITILE
         /// </summary>
         protected override void OnBackButton()
         {
-            StageDataModel.Instance.EndPoseMode();
+            this.IsPoseEnd = true;
         }
 
         /// <summary>
@@ -82,16 +93,18 @@ namespace VANITILE
             {
                 // 再開
                 case ButtonType.Resume:
-                    StageDataModel.Instance.EndPoseMode();
+                    this.IsPoseEnd = true;
                     break;
 
                 // リスタート
                 case ButtonType.Restart:
+                    GameObject.Destroy(this.gameObject);
                     GameMain.Instance.GameMainTrans.TransitionCurrentStage();
                     break;
 
                 // タイトルへ
                 case ButtonType.ToTitle:
+                    GameObject.Destroy(this.gameObject);
                     SceneManager.LoadScene(DefineData.SceneName.TitleScene.ToString());
                     break;
 
@@ -104,7 +117,6 @@ namespace VANITILE
 #endif
                     break;
             }
-
         }
 
         /// <summary>

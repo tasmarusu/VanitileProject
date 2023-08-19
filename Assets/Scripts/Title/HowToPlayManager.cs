@@ -37,6 +37,9 @@ namespace VANITILE
 
             // 操作を終了して閉じる
             yield return this.Out();
+
+            // 削除
+            GameObject.Destroy(this.gameObject);
         }
 
         /// <summary>

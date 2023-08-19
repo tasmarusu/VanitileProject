@@ -61,6 +61,9 @@ namespace VANITILE
             yield return new WaitUntil(() => TitleDataModel.Instance.IsTitleSelect);
 
             yield return this.Out();
+
+            // 削除
+            GameObject.Destroy(this.gameObject);
         }
 
         /// <summary>

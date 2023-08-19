@@ -31,6 +31,12 @@ namespace VANITILE
             this.move.Init();
             this.animator.Init();
             this.CheckMovementState();
+            Observable.EveryUpdate()
+                .Where(_ => StageDataModel.Instance.IsAbleMovePlayer())
+                .Subscribe(_ =>
+                {
+                    this.UpdateObservable();
+                }).AddTo(this);
         }
 
         /// <summary>
@@ -61,7 +67,7 @@ namespace VANITILE
         /// <summary>
         /// Update
         /// </summary>
-        private void Update()
+        private void UpdateObservable()
         {
             // 操作許可が無ければ終了
             if (this.IsControll == false)

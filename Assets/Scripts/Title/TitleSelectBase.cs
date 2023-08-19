@@ -59,7 +59,7 @@ namespace VANITILE
         }
 
         /// <summary>
-        /// 閉じるアニメーション再生後、削除する。
+        /// 閉じるアニメーション再生後、各々が削除する。
         /// </summary>
         /// <returns> IEnumerator </returns>
         protected IEnumerator Out()
@@ -74,9 +74,6 @@ namespace VANITILE
             // 閉じるアニメーション開始
             this.root.DOScale(Vector3.zero, this.animationTime).SetEase(Ease.InBack);
             yield return new WaitForSeconds(this.animationTime);
-
-            // 削除
-            GameObject.Destroy(this.gameObject);
         }
 
         /// <summary>
