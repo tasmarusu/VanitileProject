@@ -76,7 +76,7 @@ namespace VANITILE
             var commonParts = this.mono.GetComponentsInChildren<CommonPart>();
             for (int i = commonParts.Length - 1; i >= 0; i--)
             {
-                Debug.Log($"[Delete]削除名:{commonParts[i].gameObject.name}");
+                //Debug.Log($"[Delete]削除名:{commonParts[i].gameObject.name}");
                 GameObject.Destroy(commonParts[i].gameObject);
             }
         }

@@ -60,7 +60,7 @@ namespace VANITILE
                  .OnKill(() =>
                  {
                      this.text.transform.localScale = this.originTextScale;
-                     });
+                 });
         }
 
         /// <summary>

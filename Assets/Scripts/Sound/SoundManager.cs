@@ -24,7 +24,7 @@ namespace VANITILE
         {
             get
             {
-                return bgmSource.volume;
+                return this.bgmSource.volume;
             }
             set
             {
@@ -34,7 +34,7 @@ namespace VANITILE
                     return;
                 }
 
-                bgmSource.volume = value;
+                this.bgmSource.volume = value;
             }
         }
 
@@ -45,7 +45,7 @@ namespace VANITILE
         {
             get
             {
-                return seSource.volume;
+                return this.seSource.volume;
             }
             set
             {
@@ -55,7 +55,7 @@ namespace VANITILE
                     return;
                 }
 
-                seSource.volume = value;
+                this.seSource.volume = value;
             }
         }
 
@@ -77,8 +77,8 @@ namespace VANITILE
         public void PlayBgm(DefineData.BgmType type)
         {
             var clipName = Resources.Load<AudioClip>($"Sounds/Bgm/{type.ToString()}");
-            bgmSource.clip = (AudioClip)clipName;
-            bgmSource.Play();
+            this.bgmSource.clip = (AudioClip)clipName;
+            this.bgmSource.Play();
         }
 
         /// <summary>
@@ -88,8 +88,8 @@ namespace VANITILE
         public void PlaySe(DefineData.SeType type)
         {
             var clipName = Resources.Load<AudioClip>($"Sounds/Se/{type.ToString()}");
-            seSource.clip = (AudioClip)clipName;
-            seSource.Play();
+            this.seSource.clip = (AudioClip)clipName;
+            this.seSource.Play();
         }
 
         /// <summary>
@@ -104,7 +104,7 @@ namespace VANITILE
                 return;
             }
 
-            bgmSource.volume = value;
+            this.bgmSource.volume = value;
         }
     }
 }

@@ -22,7 +22,7 @@ namespace VANITILE
 
             // 終了直後に State の変更を行う
             // TODO:初期化後に配置するかも
-            StageDataModel.Instance.GameStart();
+            StageDataModel.Instance.StartGame();
 
             // 各モデルの初期化
             foreach (var mana in this.Managers)

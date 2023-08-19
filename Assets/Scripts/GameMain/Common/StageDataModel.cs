@@ -27,10 +27,28 @@ namespace VANITILE
         /// </summary>
         public int RemainBlockCount { get; private set; } = 0;
 
+        private MainGameState currentGameState = MainGameState.Before;
+
         /// <summary>
         /// 現在のゲームステート
         /// </summary>
-        public MainGameState CurrentGameState { get; private set; } = MainGameState.Before;
+        public MainGameState CurrentGameState
+        {
+            get
+            {
+                return this.currentGameState;
+            }
+            private set
+            {
+                this.BeforeGameState = this.currentGameState;
+                this.currentGameState = value;
+            }
+        }
+
+        /// <summary>
+        /// 1個前のゲームステート
+        /// </summary>
+        public MainGameState BeforeGameState { get; private set; } = MainGameState.Before;
 
         /// <summary>
         /// メインゲームステート
@@ -63,6 +81,11 @@ namespace VANITILE
             Miss = 40,
 
             /// <summary>
+            /// ポーズ
+            /// </summary>
+            Pose = 50,
+
+            /// <summary>
             /// 遷移中
             /// </summary>
             Transition = 80,
@@ -77,16 +100,19 @@ namespace VANITILE
         /// ゴール可能か
         /// </summary>
         /// <returns></returns>
-        public bool IsAbleGoal()
-        {
-            return this.CurrentGameState == MainGameState.AbleGoal;
-        }
+        public bool IsAbleGoal() => this.CurrentGameState == MainGameState.AbleGoal;
+
+        /// <summary>
+        /// ポーズ中
+        /// </summary>
+        /// <returns></returns>
+        public bool IsPose() => this.CurrentGameState == MainGameState.Pose;
 
         /// <summary>
         /// ゲーム開始
         /// TODO:ここにこれを書くことが間違っている可能性
         /// </summary>
-        public void GameStart()
+        public void StartGame()
         {
             this.CurrentGameState = MainGameState.NotAbleGoal;
         }
@@ -98,7 +124,7 @@ namespace VANITILE
         {
             Debug.Log($"[Player]Missしたので同ステージの再開");
             this.CurrentGameState = MainGameState.Miss;
-            GameMain.Instance.TransitionCurrentStage();
+            GameMain.Instance.GameMainTrans.TransitionCurrentStage();
         }
 
         /// <summary>
@@ -120,7 +146,7 @@ namespace VANITILE
             // 全鍵取得したら遷移
             if (this.RemainPlayerCount <= 0)
             {
-                GameMain.Instance.TransitionNextStage();
+                GameMain.Instance.GameMainTrans.TransitionNextStage();
             }
         }
 
@@ -167,6 +193,32 @@ namespace VANITILE
             }
 
             Debug.Log($"[]Block:{this.RemainBlockCount} State:{ this.CurrentGameState}");
+        }
+
+        /// <summary>
+        /// ポーズ開始
+        /// </summary>
+        public void StartPoseMode()
+        {
+            if (this.CurrentGameState == MainGameState.Pose)
+            {
+                Debug.LogError($"[Pose]ポーズ中にポーズを呼ぶとは何事か :{this.CurrentGameState}");
+            }
+
+            this.CurrentGameState = MainGameState.Pose;
+        }
+
+        /// <summary>
+        /// ポーズ終了
+        /// </summary>
+        public void EndPoseMode()
+        {
+            if (this.CurrentGameState != MainGameState.Pose)
+            {
+                Debug.LogError($"[Pose]ポーズ中じゃないのにポーズ終了を呼ぶとは何事か :{this.CurrentGameState}");
+            }
+
+            this.CurrentGameState = this.BeforeGameState;
         }
     }
 }

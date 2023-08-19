@@ -62,7 +62,7 @@ namespace VANITILE
                 {
                     this.goalParts.ForEach(x => x.StartCheckHitPlayer());
 
-                }).AddTo(this);
+                }).AddTo(this.goalParts[0]);
         }
     }
 }
