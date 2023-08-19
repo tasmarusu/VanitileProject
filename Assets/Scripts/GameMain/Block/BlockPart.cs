@@ -29,6 +29,11 @@ namespace VANITILE
         [SerializeField, Header("接触時 Dissolve 値"), Range(0.0f, 1.0f)] private float hitPlayerDisolveValue = .35f;
 
         /// <summary>
+        /// 接触時 ブロックの下がる 値
+        /// </summary>
+        [SerializeField, Header("接触時 ブロックの下がる 値")] private float hitPlayerDownValue = .05f;
+
+        /// <summary>
         /// プレイヤー接触したか
         /// </summary>
         public bool IsContactPlayer { get; private set; } = false;
@@ -135,6 +140,7 @@ namespace VANITILE
                 timer += Time.deltaTime * this.hitPlayerDisolveSpeed;
                 var val = this.curve.Evaluate(timer);
                 this.spRenderer.materials[0].SetFloat("_Threshold", val);
+                this.spRenderer.materials[0].SetFloat("_DownValue", val * this.hitPlayerDownValue);
                 yield return null;
             }
 

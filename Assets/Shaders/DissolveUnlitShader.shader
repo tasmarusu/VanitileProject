@@ -9,6 +9,7 @@ Shader "Unlit/DissolveUnlitShader"
         _Threshold("Threshold", Range(0,1)) = 0.0
         _OutLineColor("OutLineColor", Color) = (1,1,1,1)
         _OutLineSize("OutLineSize", Range(0,1)) = 0.1
+        _DownValue("DownValue", Range(0,1)) = 0.0
     }
     SubShader
     {
@@ -46,6 +47,7 @@ Shader "Unlit/DissolveUnlitShader"
             half _Glossiness;
             half _Threshold;
             half _OutLineSize;
+            half _DownValue;
             fixed4 _Color;
             fixed4 _OutLineColor;
 
@@ -54,6 +56,7 @@ Shader "Unlit/DissolveUnlitShader"
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+                o.vertex.y -= _DownValue;
                 UNITY_TRANSFER_FOG(o,o.vertex);
 
                 return o;

@@ -175,6 +175,7 @@ MonoBehaviour:
   disappearLerpSpeed: 0.5
   hitPlayerDisolveSpeed: 2
   hitPlayerDisolveValue: 0.35
+  hitPlayerDownValue: 0.05
   spRenderer: {fileID: 3263207287192506343}
   col2Ds:
   - {fileID: 8854362374720373637}
