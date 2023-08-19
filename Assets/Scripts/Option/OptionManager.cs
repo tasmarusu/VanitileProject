@@ -34,11 +34,6 @@ namespace VANITILE
         private int currentSelectNum = 0;
 
         /// <summary>
-        /// CompositeDisposable
-        /// </summary>
-        private CompositeDisposable disposables = new CompositeDisposable();
-
-        /// <summary>
         /// 初期化
         /// </summary>
         public override IEnumerator Init()
@@ -65,10 +60,7 @@ namespace VANITILE
         {
             yield return new WaitUntil(() => TitleDataModel.Instance.IsTitleSelect);
 
-            this.disposables?.Clear();
             yield return this.Out();
-
-            GameObject.Destroy(this.gameObject);
         }
 
         /// <summary>
@@ -99,7 +91,7 @@ namespace VANITILE
                 {
                     this.currentSelectNum -= value;
                     this.SelectPart(this.currentSelectNum);
-                }).AddTo(this.disposables);
+                }).AddTo(this.controllDisposables);
         }
 
         /// <summary>

@@ -24,7 +24,7 @@ namespace VANITILE
         /// <summary>
         /// CompositeDisposable
         /// </summary>
-        protected CompositeDisposable controllDisposables = new CompositeDisposable();
+        protected CompositeDisposable controllDisposables { get; } = new CompositeDisposable();
 
         /// <summary>
         /// 初期化
