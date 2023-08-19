@@ -7,7 +7,8 @@ Shader "Unlit/DissolveUnlitShader"
         _DisolveTex("DisolveTex (RGB)", 2D) = "white" {}
         _Glossiness("Smoothness", Range(0,1)) = 0.5
         _Threshold("Threshold", Range(0,1)) = 0.0
-        _OutLine("OutLine", Range(0,1)) = 0.0
+        _OutLineColor("OutLineColor", Color) = (1,1,1,1)
+        _OutLineSize("OutLineSize", Range(0,1)) = 0.1
     }
     SubShader
     {
@@ -44,8 +45,9 @@ Shader "Unlit/DissolveUnlitShader"
 
             half _Glossiness;
             half _Threshold;
-            half _OutLine;
+            half _OutLineSize;
             fixed4 _Color;
+            fixed4 _OutLineColor;
 
             v2f vert (appdata v)
             {
@@ -69,10 +71,10 @@ Shader "Unlit/DissolveUnlitShader"
                 fixed4 col = tex2D(_MainTex, i.uv);
 
                 // 消える線にアウトラインの様な物を付ける
-                if (_Threshold > 0 && g - .1f < _Threshold) {
-                    col.r = _OutLine;
-                    col.g = _OutLine;
-                    col.b = _OutLine;
+                if (_Threshold > 0 && g - _OutLineSize < _Threshold) {
+                    col.r = _OutLineColor.r;
+                    col.g = _OutLineColor.g;
+                    col.b = _OutLineColor.b;
                 }
 
                 UNITY_APPLY_FOG(i.fogCoord, col);
