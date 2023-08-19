@@ -1,5 +1,6 @@
 ﻿using UniRx;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace VANITILE
 {
@@ -54,6 +55,7 @@ namespace VANITILE
             obj.AddComponent<InputManager>();
             GameObject.DontDestroyOnLoad(obj);
 
+            //Cursor.lockState = CursorLockMode.Locked;
             //Cursor.visible = false;
         }
 
