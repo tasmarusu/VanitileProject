@@ -71,6 +71,7 @@ namespace VANITILE
         /// </summary>
         protected override void OnDecideButton()
         {
+            this.SaveVolume();
             TitleDataModel.Instance.PlayingState = DefineData.TitlePlayingState.TitleSelect;
         }
 
