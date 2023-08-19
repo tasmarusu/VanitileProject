@@ -28,6 +28,14 @@ namespace VANITILE
         /// </summary>
         public int RemainBlockCount { get; private set; } = 0;
 
+        /// <summary>
+        /// タイムマネージャー
+        /// </summary>
+        private TimeManager timeManager = null;
+
+        /// <summary>
+        /// 現在のステート
+        /// </summary>
         private MainGameState currentGameState = MainGameState.Before;
 
         /// <summary>
@@ -145,6 +153,8 @@ namespace VANITILE
         public void StartGame()
         {
             this.CurrentGameState = MainGameState.NotAbleGoal;
+            this.timeManager = null;
+            this.timeManager = new TimeManager();
         }
 
         /// <summary>
@@ -176,6 +186,10 @@ namespace VANITILE
             // 全鍵取得したら遷移
             if (this.RemainPlayerCount <= 0)
             {
+                // 時間を止めて取得
+                this.timeManager.Stop();
+                GameSaveDataModel.Instance.SetClearStageTime(GameMain.Instance.CurrentStageId, this.timeManager.processTimer);
+
                 GameMain.Instance.GameMainTrans.TransitionNextStage();
             }
         }

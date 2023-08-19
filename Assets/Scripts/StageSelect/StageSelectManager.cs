@@ -9,6 +9,7 @@ using DG.Tweening;
 using static DefineData;
 using System.Linq;
 using System;
+using TMPro;
 
 namespace VANITILE
 {
@@ -31,6 +32,11 @@ namespace VANITILE
         /// 選択する中心番号
         /// </summary>
         [SerializeField] private int centerSelectNum = 3;
+
+        /// <summary>
+        /// クリアタイムテキスト
+        /// </summary>
+        [SerializeField] private TextMeshProUGUI bestClearTimeText = null;
 
         /// <summary>
         /// 選択する中心番号のオブジェクト
@@ -62,12 +68,13 @@ namespace VANITILE
             TitleDataModel.Instance.PlayingState = DefineData.TitlePlayingState.StageSelect;
 
             // 各ステージ番号パーツの初期化
-            foreach(var part in this.stageNumberParts)
+            foreach (var part in this.stageNumberParts)
             {
                 part.Init();
             }
             this.IsSelectPart(this.currentSelectNum);
             this.UpdateNumberPart();
+            this.GetClearTimeStr();
 
             // ポップアップ開始
             yield return this.In();
@@ -157,7 +164,6 @@ namespace VANITILE
         /// <summary>
         /// 操作開始
         /// </summary>
-        /// <returns></returns>
         private void InputController()
         {
             this.isControll = true;
@@ -177,9 +183,13 @@ namespace VANITILE
                         .TakeUntilDestroy(this)
                         .Subscribe(x =>
                         {
+                            // 移動終了
                             this.isControll = true;
                             this.centerSelectPart.Selected();
                             this.UpdateNumberPart();
+
+                            // クリアタイムの設定
+                            this.GetClearTimeStr();
                         });
 
                 }).AddTo(this.controllDisposables);
@@ -197,7 +207,7 @@ namespace VANITILE
         /// <summary>
         /// ステージ番号の移動
         /// </summary>
-        private IEnumerator MovePart(int value,IObserver<Unit> observer)
+        private IEnumerator MovePart(int value, IObserver<Unit> observer)
         {
             // Lerp で移動開始
             var poses = this.stageNumberParts.Select(x => x.transform.position).ToArray();
@@ -223,6 +233,27 @@ namespace VANITILE
             // 終了通知
             observer.OnNext(Unit.Default);
             observer.OnCompleted();
+        }
+
+        /// <summary>
+        /// クリアタイムの秒数を文字で返す
+        /// </summary>
+        private void GetClearTimeStr()
+        {
+            var clearTime = GameSaveDataModel.Instance.GetClearStageTime(this.currentSelectNum);
+            Debug.Log($"[clearTime]:{clearTime}");
+
+            // データが存在しない
+            if (clearTime == 0)
+            {
+                this.bestClearTimeText.text = $"99:99:99";
+                return;
+            }
+
+            var span = new TimeSpan(0, 0, (int)clearTime);
+            var mmss = span.ToString(@"mm\:ss");
+            var decima = Mathf.Floor((clearTime - Mathf.Floor(clearTime)) * 100);
+            this.bestClearTimeText.text = $"{mmss}:{decima}";
         }
     }
 }
