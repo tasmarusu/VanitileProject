@@ -52,6 +52,13 @@ namespace VANITILE
         public void Stop()
         {
             this.timeDisposable?.Dispose();
+
+            // 記録がない ベストスコア更新した 場合上書きする
+            var clearTime = GameSaveDataModel.Instance.GetClearStageTime(StageDataModel.Instance.CurrentStageId);
+            if (clearTime == .0f || this.processTimer < clearTime)
+            {
+                GameSaveDataModel.Instance.SetClearStageTime(GameMain.Instance.CurrentStageId, this.processTimer);
+            }
         }
     }
 }
