@@ -54,6 +54,11 @@ namespace VANITILE
         private float moveTime = .1f;
 
         /// <summary>
+        /// クリアした最大値のステージ番号
+        /// </summary>
+        private int clearStageNum = 0;
+
+        /// <summary>
         /// 操作可能か
         /// </summary>
         private bool isControll = false;
@@ -67,14 +72,13 @@ namespace VANITILE
 
             TitleDataModel.Instance.PlayingState = DefineData.TitlePlayingState.StageSelect;
 
+            // ステージ数 ステージ数より多くは表示しない
+            var num = GameSaveDataModel.Instance.GetClearStageNum();
+            var dataMax = this.stageTransitionData.StageDatas.Count - 1;
+            this.clearStageNum = num >= dataMax ? dataMax : num;
+
             // 各ステージ番号パーツの初期化
-            foreach (var part in this.stageNumberParts)
-            {
-                part.Init();
-            }
-            this.IsSelectPart(this.currentSelectNum);
-            this.UpdateNumberPart();
-            this.GetClearTimeStr();
+            this.InitStageNubmer();
 
             // ポップアップ開始
             yield return this.In();
@@ -133,6 +137,7 @@ namespace VANITILE
 
         /// <summary>
         /// クリック
+        /// TODO:いる？
         /// </summary>
         /// <param name="eventData"></param>
         public void OnPointerClick(PointerEventData eventData)
@@ -151,7 +156,7 @@ namespace VANITILE
                 var str = "";
                 var num = this.currentSelectNum - this.centerSelectNum + i;
 
-                if (num >= 0 && num < this.stageTransitionData.StageDatas.Count)
+                if (num >= 0 && num <= this.clearStageNum)
                 {
                     // 0 始めなので 1 足す
                     str = (num + 1).ToString();
@@ -159,6 +164,20 @@ namespace VANITILE
 
                 this.stageNumberParts[i].UpdateStageText(str);
             }
+        }
+
+        /// <summary>
+        /// 各パーツの情報を初期化
+        /// </summary>
+        private void InitStageNubmer()
+        {
+            foreach (var part in this.stageNumberParts)
+            {
+                part.Init();
+            }
+            this.IsMoveSelectPart(this.clearStageNum);  // クリア番号の1個上を選択状態にしたい為
+            this.UpdateNumberPart();
+            this.SetClearTime();
         }
 
         /// <summary>
@@ -172,7 +191,7 @@ namespace VANITILE
             InputManager.Instance.VerticalOneSubject
                 .Where(_ => this.isControll)
                 .Do(value => this.currentSelectNum -= value)
-                .Where(x => this.IsSelectPart(this.currentSelectNum) == false) // 数値が許容範囲なら移動開始
+                .Where(x => this.IsMoveSelectPart(this.currentSelectNum) == false) // 数値が許容範囲なら移動開始
                 .Subscribe(value =>
                 {
                     this.isControll = false;
@@ -189,7 +208,7 @@ namespace VANITILE
                             this.UpdateNumberPart();
 
                             // クリアタイムの設定
-                            this.GetClearTimeStr();
+                            this.SetClearTime();
                         });
 
                 }).AddTo(this.controllDisposables);
@@ -198,10 +217,10 @@ namespace VANITILE
         /// <summary>
         /// 選択
         /// </summary>
-        private bool IsSelectPart(int num)
+        private bool IsMoveSelectPart(int num)
         {
-            this.currentSelectNum = Mathf.Clamp(num, 0, this.stageTransitionData.StageDatas.Count - 1);
-            return num < 0 || num > this.stageTransitionData.StageDatas.Count - 1;
+            this.currentSelectNum = Mathf.Clamp(num, 0, this.clearStageNum);
+            return num < 0 || num > this.clearStageNum;
         }
 
         /// <summary>
@@ -236,12 +255,11 @@ namespace VANITILE
         }
 
         /// <summary>
-        /// クリアタイムの秒数を文字で返す
+        /// クリアタイムの秒数を表示
         /// </summary>
-        private void GetClearTimeStr()
+        private void SetClearTime()
         {
             var clearTime = GameSaveDataModel.Instance.GetClearStageTime(this.currentSelectNum);
-            Debug.Log($"[clearTime]:{clearTime}");
 
             // データが存在しない
             if (clearTime == 0)

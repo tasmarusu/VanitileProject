@@ -188,6 +188,7 @@ namespace VANITILE
             {
                 // 時間を止めて取得
                 this.timeManager.Stop();
+                GameSaveDataModel.Instance.SetClearStageNum(this.CurrentStageId);
 
                 GameMain.Instance.GameMainTrans.TransitionNextStage();
             }

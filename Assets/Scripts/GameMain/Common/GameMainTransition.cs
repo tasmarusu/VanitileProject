@@ -70,10 +70,10 @@ namespace VANITILE
         private void NextStageId()
         {
             // クリアステージ数を保存
-            GameSaveDataModel.Instance.ClearStageCount = GameMain.Instance.CurrentStageId;
+            GameSaveDataModel.Instance.CurrentClearStageNum = StageDataModel.Instance.CurrentStageId;
 
             // 現在のステージで終了か
-            if (GameMain.Instance.StageTransitionData.StageDatas[GameMain.Instance.CurrentStageId].IsEndStage())
+            if (GameMain.Instance.StageTransitionData.StageDatas[StageDataModel.Instance.CurrentStageId].IsEndStage())
             {
                 Debug.Log($"[Stage]設定されているステージを全てクリア");
                 SceneManager.LoadScene(DefineData.SceneName.TitleScene.ToString());
@@ -81,12 +81,12 @@ namespace VANITILE
             else
             {
                 // 次のステージへ
-                GameMain.Instance.CurrentStageId++;
+                StageDataModel.Instance.CurrentStageId++;
 
                 // 最新のプレイステージIdを保存
-                GameSaveDataModel.Instance.PlayLastStageId = GameMain.Instance.CurrentStageId;
+                GameSaveDataModel.Instance.PlayLastStageId = StageDataModel.Instance.CurrentStageId;
 
-                Debug.Log($"[Stage]arrayId:{GameMain.Instance.CurrentStageId} :{GameMain.Instance.StageTransitionData.StageDatas.Count}");
+                Debug.Log($"[Stage]arrayId:{StageDataModel.Instance.CurrentStageId} :{GameMain.Instance.StageTransitionData.StageDatas.Count}");
             }
         }
 
@@ -98,7 +98,7 @@ namespace VANITILE
             // ステージ遷移
             var stageIds = GameMain.Instance.StageTransitionData.StageDatas;
             var changeStage = new ChangeStage(this);
-            changeStage.Transition(stageIds[GameMain.Instance.CurrentStageId]);
+            changeStage.Transition(stageIds[StageDataModel.Instance.CurrentStageId]);
             GameMain.Instance.CurrentStageData = changeStage.CurrentStageData;
 
             // 終了直後に State の変更を行う

@@ -57,7 +57,7 @@ namespace VANITILE
             var clearTime = GameSaveDataModel.Instance.GetClearStageTime(StageDataModel.Instance.CurrentStageId);
             if (clearTime == .0f || this.processTimer < clearTime)
             {
-                GameSaveDataModel.Instance.SetClearStageTime(GameMain.Instance.CurrentStageId, this.processTimer);
+                GameSaveDataModel.Instance.SetClearStageTime(StageDataModel.Instance.CurrentStageId, this.processTimer);
             }
         }
     }

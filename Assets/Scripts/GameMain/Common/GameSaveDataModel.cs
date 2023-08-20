@@ -25,12 +25,17 @@ namespace VANITILE
         /// <summary>
         /// クリアステージ数の保存
         /// </summary>
-        private const string ClearStageCountName = "ClearStageCount";
+        private const string CurrentClearStageNumName = "ClearStageCount";
 
         /// <summary>
         /// 各ステージのベストスコアタイム
         /// </summary>
         private const string ClearStageTimeName = "ClearStageTime";
+
+        /// <summary>
+        /// ステージクリア番号
+        /// </summary>
+        private const string ClearStageNumName = "ClearStageNum";
 
         /// <summary>
         /// Bgm音量
@@ -87,20 +92,20 @@ namespace VANITILE
         }
 
         /// <summary>
-        /// クリアステージ数
+        /// 現在クリアしたステージ数
         /// </summary>
-        public int ClearStageCount
+        public int CurrentClearStageNum
         {
             get
             {
-                var num = PlayerPrefs.GetInt(ClearStageCountName);
-                Debug.Log($"[UserData]ClearStageCount:{num}");
+                var num = PlayerPrefs.GetInt(CurrentClearStageNumName);
+                Debug.Log($"[UserData]CurrentClearStageNum:{num}");
                 return num;
             }
             set
             {
                 Debug.Log($"[GameSave]ClearStageCount の保存:{value}");
-                PlayerPrefs.SetInt(ClearStageCountName, value);
+                PlayerPrefs.SetInt(CurrentClearStageNumName, value);
             }
         }
 
@@ -111,7 +116,7 @@ namespace VANITILE
         /// <param name="clearTime">クリアタイム</param>
         public void SetClearStageTime(int stageNum, float clearTime)
         {
-            Debug.Log($"[GameSave]SetClearStageTime の保存:{stageNum} {clearTime}");
+            Debug.Log($"[GameSave]SetClearStageTime の保存:{stageNum} clearTime{clearTime}");
             PlayerPrefs.SetFloat($"{ClearStageTimeName}_{stageNum}", clearTime);
         }
 
@@ -122,8 +127,42 @@ namespace VANITILE
         /// <returns>クリアタイム</returns>
         public float GetClearStageTime(int stageNum)
         {
-            Debug.Log($"[GameSave]SetClearStageTime の取得:{stageNum}");
-            return PlayerPrefs.GetFloat($"{ClearStageTimeName}_{stageNum}");
+            var time= PlayerPrefs.GetFloat($"{ClearStageTimeName}_{stageNum}");
+            Debug.Log($"[GameSave]SetClearStageTime の取得:{stageNum} time:{time}");
+            return time;
+        }
+
+        /// <summary>
+        /// クリアしたステージの保存
+        /// ステージ1 クリアは番号 0 なので 1 加算する
+        /// </summary>
+        /// <param name="clearStageNum"></param>
+        /// <returns></returns>
+        public void SetClearStageNum(int clearStageNum)
+        {
+            var saveNum = PlayerPrefs.GetInt($"{ClearStageNumName}");
+            var clearNum = clearStageNum + 1;
+
+            // ステージ番号が大きければ更新する
+            if (clearNum > saveNum)
+            {
+                Debug.Log($"[GameSave]SetClearStageNum の保存:{clearNum} num{saveNum}");
+                PlayerPrefs.SetInt($"{ClearStageNumName}", clearNum);
+                return;
+            }
+
+            Debug.Log($"[GameSave]SetClearStageNum の保存しない:{clearNum} num{saveNum}");
+        }
+
+        /// <summary>
+        /// クリアしたステージの取得
+        /// </summary>
+        /// <returns>数字の大きいステージ番号</returns>
+        public int GetClearStageNum()
+        {
+            var num = PlayerPrefs.GetInt($"{ClearStageNumName}");
+            Debug.Log($"[GameSave]SetClearStageNum の取得:{num}");
+            return num;
         }
 
         /// <summary>

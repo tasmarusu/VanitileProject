@@ -47,11 +47,6 @@ namespace VANITILE
         private CompositeDisposable controllDisposables = new CompositeDisposable();
 
         /// <summary>
-        /// 現在のステージ番号
-        /// </summary>
-        public int CurrentStageId { get; set; } = -1;
-
-        /// <summary>
         /// StageDataManager
         /// </summary>
         public StageSaveData.Data CurrentStageData { get; set; }
@@ -76,7 +71,8 @@ namespace VANITILE
             if (SceneManager.GetActiveScene().name != $"StageDesignManager")
             {
                 // 開始ステージの設定 -1の初期値ならデバッグステージ番号の開始
-                this.CurrentStageId = StageDataModel.Instance.CurrentStageId == -1 ? this.debugStageId : StageDataModel.Instance.CurrentStageId;
+                var id = StageDataModel.Instance.CurrentStageId;
+                StageDataModel.Instance.CurrentStageId = id == -1 ? this.debugStageId : id;
                 this.GameMainTrans.Transition();
             }
 
