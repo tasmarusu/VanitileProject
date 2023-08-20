@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UniRx;
-using UnityEngine;
-
-
-namespace VANITILE
+﻿namespace VANITILE
 {
+    using System;
+    using UniRx;
+    using UnityEngine;
+
     /// <summary>
     /// ゲームプレイ中のゲーム進行タイム
     /// </summary>
@@ -18,14 +15,40 @@ namespace VANITILE
         private IDisposable timeDisposable = null;
 
         /// <summary>
-        /// 経過時間
-        /// </summary>
-        public float processTimer { get; private set; } = .0f;
-
-        /// <summary>
         /// ゲーム開始時のベストタイム
         /// </summary>
         private float gameStartBestTime = .0f;
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        public TimeManager()
+        {
+            var bestTime = GameSaveDataModel.Instance.GetClearStageTime(StageDataModel.Instance.CurrentStageId);
+            this.gameStartBestTime = bestTime == .0f ? float.MaxValue : bestTime;
+            this.ProcessTimer = .0f;
+            this.timeDisposable?.Dispose();
+
+            this.timeDisposable = Observable.EveryUpdate()
+                .Where(_ => StageDataModel.Instance.IsAbleMovePlayer())
+                .Subscribe(_ =>
+                {
+                    this.ProcessTimer += Time.deltaTime;
+                });
+        }
+
+        /// <summary>
+        /// デストラクタ
+        /// </summary>
+        ~TimeManager()
+        {
+            this.timeDisposable?.Dispose();
+        }
+
+        /// <summary>
+        /// 経過時間
+        /// </summary>
+        public float ProcessTimer { get; private set; } = .0f;
 
         /// <summary>
         /// 時間を文字列に変換
@@ -41,32 +64,6 @@ namespace VANITILE
         }
 
         /// <summary>
-        /// コンストラクタ
-        /// </summary>
-        public TimeManager()
-        {
-            var bestTime = GameSaveDataModel.Instance.GetClearStageTime(StageDataModel.Instance.CurrentStageId);
-            this.gameStartBestTime = bestTime == .0f ? float.MaxValue : bestTime;
-            this.processTimer = .0f;
-            this.timeDisposable?.Dispose();
-
-            this.timeDisposable = Observable.EveryUpdate()
-                .Where(_ => StageDataModel.Instance.IsAbleMovePlayer())
-                .Subscribe(_ =>
-                {
-                    this.processTimer += Time.deltaTime;
-                });
-        }
-
-        /// <summary>
-        /// デストラクタ
-        /// </summary>
-        ~TimeManager()
-        {
-            this.timeDisposable?.Dispose();
-        }
-
-        /// <summary>
         /// 時間停止
         /// </summary>
         public void Stop()
@@ -75,9 +72,9 @@ namespace VANITILE
 
             // 記録がない ベストスコア更新した 場合上書きする
             var clearTime = GameSaveDataModel.Instance.GetClearStageTime(StageDataModel.Instance.CurrentStageId);
-            if (clearTime == .0f || this.processTimer < clearTime)
+            if (clearTime == .0f || this.ProcessTimer < clearTime)
             {
-                GameSaveDataModel.Instance.SetClearStageTime(StageDataModel.Instance.CurrentStageId, this.processTimer);
+                GameSaveDataModel.Instance.SetClearStageTime(StageDataModel.Instance.CurrentStageId, this.ProcessTimer);
             }
         }
 
@@ -87,7 +84,7 @@ namespace VANITILE
         /// <returns></returns>
         public bool IsRewriteBestTime()
         {
-            return this.processTimer - this.gameStartBestTime < 0;
+            return this.ProcessTimer - this.gameStartBestTime < 0;
         }
     }
 }

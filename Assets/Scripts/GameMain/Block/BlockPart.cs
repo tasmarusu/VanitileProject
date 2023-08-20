@@ -1,11 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using TMPro;
-using UnityEngine;
-using static DefineData;
-
-namespace VANITILE
+﻿namespace VANITILE
 {
+    using System.Collections;
+    using System.Collections.Generic;
+    using TMPro;
+    using UnityEngine;
+    using static DefineData;
+
     public class BlockPart : CommonPart, IPart
     {
         /// <summary>
@@ -32,11 +32,6 @@ namespace VANITILE
         /// 接触時 ブロックの下がる 値
         /// </summary>
         [SerializeField, Header("接触時 ブロックの下がる 値")] private float hitPlayerDownValue = .05f;
-
-        /// <summary>
-        /// プレイヤー接触したか
-        /// </summary>
-        public bool IsContactPlayer { get; private set; } = false;
 
         /// <summary>
         /// SpriteRenderer
@@ -80,11 +75,16 @@ namespace VANITILE
         }
 
         /// <summary>
+        /// プレイヤー接触したか
+        /// </summary>
+        public bool IsContactPlayer { get; private set; } = false;
+
+        /// <summary>
         /// 初期化
         /// </summary>
         public void Initialize()
         {
-            //this.text.text = $"{this.gameObject.name}";
+            ////this.text.text = $"{this.gameObject.name}";
         }
 
         /// <summary>
@@ -180,6 +180,9 @@ namespace VANITILE
         /// </summary>
         private void AddForceRig(AngleType angleType)
         {
+            var force = Vector2.zero;
+            var euler = Vector3.zero;
+
             switch (angleType)
             {
                 case AngleType.Wait:
@@ -190,10 +193,10 @@ namespace VANITILE
                     break;
 
                 case AngleType.Right:
-                    var force = new Vector2(100.0f, 80.0f);
+                    force = new Vector2(100.0f, 80.0f);
                     this.gameObject.AddComponent<Rigidbody2D>().AddForce(force);
 
-                    var euler = this.transform.eulerAngles;
+                    euler = this.transform.eulerAngles;
                     this.transform.eulerAngles = new Vector3(euler.x, euler.y, euler.z + 5.0f);
 
                     break;

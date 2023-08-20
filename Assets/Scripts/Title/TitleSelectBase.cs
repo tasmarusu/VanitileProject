@@ -1,10 +1,10 @@
-﻿using System.Collections;
-using UnityEngine;
-using DG.Tweening;
-using UniRx;
-
-namespace VANITILE
+﻿namespace VANITILE
 {
+    using System.Collections;
+    using DG.Tweening;
+    using UniRx;
+    using UnityEngine;
+
     /// <summary>
     /// タイトルセレクトのベース
     /// オプションとステージセレクトで使用予定
@@ -24,7 +24,7 @@ namespace VANITILE
         /// <summary>
         /// CompositeDisposable
         /// </summary>
-        protected CompositeDisposable controllDisposables { get; } = new CompositeDisposable();
+        protected CompositeDisposable ControllDisposables { get; } = new CompositeDisposable();
 
         /// <summary>
         /// 初期化
@@ -64,12 +64,12 @@ namespace VANITILE
         /// <returns> IEnumerator </returns>
         protected IEnumerator Out()
         {
-            //this.animator.Play("TitleSelectCloseAnimation", 0, .0f);
-            //yield return null;
-            //yield return new WaitUntil(() => this.animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f);
+            ////this.animator.Play("TitleSelectCloseAnimation", 0, .0f);
+            ////yield return null;
+            ////yield return new WaitUntil(() => this.animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f);
 
             // 操作の終了
-            this.controllDisposables?.Clear();
+            this.ControllDisposables?.Clear();
 
             // 閉じるアニメーション開始
             this.root.DOScale(Vector3.zero, this.animationTime).SetEase(Ease.InBack);
@@ -85,13 +85,13 @@ namespace VANITILE
             InputManager.Instance.ObserveEveryValueChanged(x => x.Decide)
                 .Where(x => x)
                 .Subscribe(_ => this.OnDecideButton())
-                .AddTo(this.controllDisposables);
+                .AddTo(this.ControllDisposables);
 
             // 戻るボタン押下
             InputManager.Instance.ObserveEveryValueChanged(x => x.Back)
                 .Where(x => x)
                 .Subscribe(_ => this.OnBackButton())
-                .AddTo(this.controllDisposables);
+                .AddTo(this.ControllDisposables);
         }
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace VANITILE
         /// </summary>
         private void OnDestroy()
         {
-            this.controllDisposables?.Clear();
+            this.ControllDisposables?.Clear();
         }
     }
 }

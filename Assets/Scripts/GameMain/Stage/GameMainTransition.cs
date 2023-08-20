@@ -1,10 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.SceneManagement;
-
-namespace VANITILE
+﻿namespace VANITILE
 {
+    using System.Collections;
+    using UnityEngine;
+    using UnityEngine.SceneManagement;
+
     /// <summary>
     /// ゲームメインの遷移
     /// </summary>
@@ -24,6 +23,25 @@ namespace VANITILE
         public void TransitionCurrentStage()
         {
             this.StartCoroutine(this.TransitionNextStageImpl(false));
+        }
+
+        /// <summary>
+        /// ステージ遷移
+        /// </summary>
+        public void Transition()
+        {
+            // ステージ遷移
+            var stageIds = GameMain.Instance.StageTransitionData.StageDatas;
+            var changeStage = new ChangeStage(this);
+            changeStage.Transition(stageIds[StageDataModel.Instance.CurrentStageId]);
+            GameMain.Instance.CurrentStageData = changeStage.CurrentStageData;
+
+            // 終了直後に State の変更を行う
+            // TODO:初期化後に配置するかも
+            StageDataModel.Instance.StartGame();
+
+            // 各モデルの初期化
+            GameMain.Instance.StageManagerInit();
         }
 
         /// <summary>
@@ -88,25 +106,6 @@ namespace VANITILE
 
                 Debug.Log($"[Stage]arrayId:{StageDataModel.Instance.CurrentStageId} :{GameMain.Instance.StageTransitionData.StageDatas.Count}");
             }
-        }
-
-        /// <summary>
-        /// ステージ遷移
-        /// </summary>
-        public void Transition()
-        {
-            // ステージ遷移
-            var stageIds = GameMain.Instance.StageTransitionData.StageDatas;
-            var changeStage = new ChangeStage(this);
-            changeStage.Transition(stageIds[StageDataModel.Instance.CurrentStageId]);
-            GameMain.Instance.CurrentStageData = changeStage.CurrentStageData;
-
-            // 終了直後に State の変更を行う
-            // TODO:初期化後に配置するかも
-            StageDataModel.Instance.StartGame();
-
-            // 各モデルの初期化
-            GameMain.Instance.StageManagerInit();
         }
     }
 }

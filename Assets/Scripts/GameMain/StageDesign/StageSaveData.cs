@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using UnityEditor;
-using UnityEngine;
-
-namespace VANITILE
+﻿namespace VANITILE
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using UnityEditor;
+    using UnityEngine;
+
     /// <summary>
     /// ステージのセーブ/ロード
     /// </summary>
@@ -29,12 +29,12 @@ namespace VANITILE
 
                     AssetDatabase.Refresh(ImportAssetOptions.ForceUpdate);
 
-                    string[] guids = AssetDatabase.FindAssets("", new string[] { $"Assets/Data/Resources/StageData" });
+                    string[] guids = AssetDatabase.FindAssets(string.Empty, new string[] { $"Assets/Data/Resources/StageData" });
                     string[] paths = guids.Select(guid => AssetDatabase.GUIDToAssetPath(guid)).ToArray();
 
                     for (int i = 0; i < paths.Length; i++)
                     {
-                        if (paths[i].ToString().Replace("Assets/Data/Resources/StageData/Stage_", "").Substring(0, 3) == data.StageId.ToString("D3"))
+                        if (paths[i].ToString().Replace("Assets/Data/Resources/StageData/Stage_", string.Empty).Substring(0, 3) == data.StageId.ToString("D3"))
                         {
                             EditorGUIUtility.PingObject(AssetDatabase.LoadAllAssetsAtPath(paths[i])[0]);
                             break;
@@ -107,22 +107,16 @@ namespace VANITILE
         /// </summary>
         public class Data
         {
-            private const string resourcePath = "Prefabs/Stage/";
-
             /// <summary>
-            /// ステージid
+            /// リソースのパス
             /// </summary>
-            public int StageId { get; private set; }
+            private const string ResourcePath = "Prefabs/Stage/";
 
             /// <summary>
-            /// 保存されるモデル
-            /// </summary>
-            public List<StageLoadData> Parts { get; private set; } = new List<StageLoadData>();
-
-            /// <summary>
-            /// コンストラクタ 
+            /// コンストラクタ
             /// デザインシーンから入る際に使用
             /// </summary>
+            /// <param name="parts"> ステージに使うパーツ </param>
             public Data(List<StageLoadData> parts)
             {
                 for (int i = 0; i < parts.Count; i++)
@@ -152,25 +146,35 @@ namespace VANITILE
             }
 
             /// <summary>
+            /// ステージid
+            /// </summary>
+            public int StageId { get; private set; }
+
+            /// <summary>
+            /// 保存されるモデル
+            /// </summary>
+            public List<StageLoadData> Parts { get; private set; } = new List<StageLoadData>();
+
+            /// <summary>
             /// リソースからのロード
             /// Partを継承してるやつの名前を統一して 名前の後ろに Type の数字を入れる形が楽になりそう？管理怠い？
             /// </summary>
-            /// <returns></returns>
+            /// <returns> リソースからのロードしたオブジェクト </returns>
             private GameObject LoadPrefabFromResources(DefineData.StagePartType type)
             {
                 switch (type)
                 {
                     case DefineData.StagePartType.Block:
-                        return Resources.Load<GameObject>($"{resourcePath}BlockPart");
+                        return Resources.Load<GameObject>($"{ResourcePath}BlockPart");
 
                     case DefineData.StagePartType.Key:
-                        return Resources.Load<GameObject>($"{resourcePath}KeyPart");
+                        return Resources.Load<GameObject>($"{ResourcePath}KeyPart");
 
                     case DefineData.StagePartType.Goal:
-                        return Resources.Load<GameObject>($"{resourcePath}GoalPart");
+                        return Resources.Load<GameObject>($"{ResourcePath}GoalPart");
 
                     case DefineData.StagePartType.Player:
-                        return Resources.Load<GameObject>($"{resourcePath}PlayerController");
+                        return Resources.Load<GameObject>($"{ResourcePath}PlayerController");
 
                     default:
                         Debug.LogError($"[Load]defaultに入りました。Typeの指定が無いが??? :{type}");
@@ -185,6 +189,19 @@ namespace VANITILE
             public class StageLoadData
             {
                 /// <summary>
+                /// コンストラクタ
+                /// </summary>
+                /// <param name="Type">ステージパーツ</param>
+                /// <param name="Point">座標</param>
+                /// <param name="Prefab">プレハブ</param>
+                public StageLoadData(DefineData.StagePartType type, Vector2 point, GameObject prefab)
+                {
+                    this.Type = type;
+                    this.Point = point;
+                    this.Prefab = prefab;
+                }
+
+                /// <summary>
                 /// ステージの種類
                 /// </summary>
                 public DefineData.StagePartType Type { get; private set; }
@@ -198,19 +215,6 @@ namespace VANITILE
                 /// プレハブ
                 /// </summary>
                 public GameObject Prefab { get; private set; }
-
-                /// <summary>
-                /// コンストラクタ
-                /// </summary>
-                /// <param name="Type"></param>
-                /// <param name="Point"></param>
-                /// <param name="Prefab"></param>
-                public StageLoadData(DefineData.StagePartType type, Vector2 point, GameObject prefab)
-                {
-                    this.Type = type;
-                    this.Point = point;
-                    this.Prefab = prefab;
-                }
             }
 
             /// <summary>
@@ -262,8 +266,8 @@ namespace VANITILE
                 /// <summary>
                 /// コンストラクタ
                 /// </summary>
-                /// <param name="point"></param>
-                /// <param name="id"></param>
+                /// <param name="point">パーツ</param>
+                /// <param name="id">座標</param>
                 public StageEachData(DefineData.StagePartType type, Vector2 point)
                 {
                     this.Type = (int)type;

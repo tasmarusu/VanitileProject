@@ -1,14 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using TMPro;
-using UniRx;
-using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
-using static VANITILE.StageDataModel;
-
-namespace VANITILE
+﻿namespace VANITILE
 {
+    using System.Collections;
+    using System.Collections.Generic;
+    using TMPro;
+    using UniRx;
+    using UnityEngine;
+    using UnityEngine.SceneManagement;
+    using UnityEngine.UI;
+    using static VANITILE.StageDataModel;
+
     /// <summary>
     /// ゲームクリア時に出るUI
     /// </summary>
@@ -40,6 +40,27 @@ namespace VANITILE
         private int currentSelectNum = 0;
 
         /// <summary>
+        /// ボタンの種類
+        /// </summary>
+        public enum ButtonType
+        {
+            /// <summary>
+            /// 次のステージへ
+            /// </summary>
+            NextStage,
+
+            /// <summary>
+            /// リスタート
+            /// </summary>
+            Restart,
+
+            /// <summary>
+            /// タイトルシーンへ
+            /// </summary>
+            ToTitle,
+        }
+
+        /// <summary>
         /// 初期化
         /// </summary>
         /// <returns> IEnumerator </returns>
@@ -59,7 +80,7 @@ namespace VANITILE
 
             // 時間をテキストに反映
             this.scoreRankText.text = $"A_";
-            this.timeText.text = TimeManager.GetClearTimeStr(StageDataModel.Instance.TimeMana.processTimer);
+            this.timeText.text = TimeManager.GetClearTimeStr(StageDataModel.Instance.TimeMana.ProcessTimer);
             this.newRecordText.gameObject.SetActive(StageDataModel.Instance.TimeMana.IsRewriteBestTime());
 
             // in アニメーション
@@ -80,7 +101,7 @@ namespace VANITILE
             yield return new WaitUntil(() => StageDataModel.Instance.CurrentGameState == MainGameState.Transition);
 
             // 操作を先に終了
-            this.controllDisposables?.Clear();
+            this.ControllDisposables?.Clear();
 
             // 遷移から切り替わったら削除
             yield return new WaitUntil(() => StageDataModel.Instance.CurrentGameState != MainGameState.Transition);
@@ -128,7 +149,7 @@ namespace VANITILE
         /// </summary>
         private void InputController()
         {
-            this.controllDisposables.Add(InputManager.Instance.StartVerticalSubject());
+            this.ControllDisposables.Add(InputManager.Instance.StartVerticalSubject());
 
             InputManager.Instance.VerticalOneSubject
                 .TakeUntilDestroy(this)
@@ -136,7 +157,7 @@ namespace VANITILE
                 {
                     this.currentSelectNum -= value;
                     this.SelectPart(this.currentSelectNum);
-                }).AddTo(this.controllDisposables);
+                }).AddTo(this.ControllDisposables);
         }
 
         /// <summary>
@@ -153,7 +174,7 @@ namespace VANITILE
         /// </summary>
         private void OnDestroy()
         {
-            this.controllDisposables?.Clear();
+            this.ControllDisposables?.Clear();
         }
 
         /// <summary>
@@ -171,27 +192,6 @@ namespace VANITILE
             /// ボタンの種類
             /// </summary>
             [field: SerializeField] public ButtonType Type { get; private set; }
-        }
-
-        /// <summary>
-        /// ボタンの種類
-        /// </summary>
-        public enum ButtonType
-        {
-            /// <summary>
-            /// 次のステージへ
-            /// </summary>
-            NextStage,
-
-            /// <summary>
-            /// リスタート
-            /// </summary>
-            Restart,
-
-            /// <summary>
-            /// タイトルシーンへ
-            /// </summary>
-            ToTitle,
         }
     }
 }

@@ -1,9 +1,9 @@
-﻿using UniRx;
-using UniRx.Triggers;
-using UnityEngine;
-
-namespace VANITILE
+﻿namespace VANITILE
 {
+    using UniRx;
+    using UniRx.Triggers;
+    using UnityEngine;
+
     /// <summary>
     /// ゴール本体
     /// </summary>

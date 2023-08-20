@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using UnityEditor;
-using UnityEngine;
-
-namespace VANITILE
+﻿namespace VANITILE
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using UnityEditor;
+    using UnityEngine;
+
     public class StageDesignEditor : MonoBehaviour
     {
     }
@@ -31,7 +31,6 @@ namespace VANITILE
         public override void OnInspectorGUI()
         {
             // 何かしら画面上の更新が入ったらこのメソッドに入り続ける
-
             base.OnInspectorGUI();
 
             var baseEditor = target as StageDesignEditor;
@@ -49,19 +48,19 @@ namespace VANITILE
 
             if (GUILayout.Button("セーブ先の表示"))
             {
-                string[] guids = AssetDatabase.FindAssets("", new string[] { $"Assets/Data/Resources/StageData" });
+                string[] guids = AssetDatabase.FindAssets(string.Empty, new string[] { $"Assets/Data/Resources/StageData" });
                 string[] paths = guids.Select(guid => AssetDatabase.GUIDToAssetPath(guid)).ToArray();
                 EditorGUIUtility.PingObject(AssetDatabase.LoadAllAssetsAtPath(paths[0])[0]);
             }
 
             if (GUILayout.Button("ステージ順の調整"))
             {
-                string[] guids = AssetDatabase.FindAssets("", new string[] { $"Assets/Data" });
+                string[] guids = AssetDatabase.FindAssets(string.Empty, new string[] { $"Assets/Data" });
                 string[] paths = guids.Select(guid => AssetDatabase.GUIDToAssetPath(guid)).ToArray();
 
                 for (int i = 0; i < paths.Length; i++)
                 {
-                    if (paths[i].ToString().Replace("Assets/Data/", "").Substring(0, 5) == "Stage")
+                    if (paths[i].ToString().Replace("Assets/Data/", string.Empty).Substring(0, 5) == "Stage")
                     {
                         EditorGUIUtility.PingObject(AssetDatabase.LoadAllAssetsAtPath(paths[i])[0]);
                         break;
@@ -105,8 +104,6 @@ namespace VANITILE
                             blocks = this.manager.GetComponentsInChildren<BlockPart>().ToList();
                             array = blocks.Select(block => block.transform.position).Select(pos => new Vector2Int((int)pos.x, (int)pos.y)).ToList();
                         }
-
-
                     }
                 }
 
@@ -230,10 +227,11 @@ namespace VANITILE
             var result = new List<int>();
             foreach (var obj in loadCounts)
             {
-                var str = obj.name.ToString().Replace("Stage_", "");
+                var str = obj.name.ToString().Replace("Stage_", string.Empty);
                 var stageNum = int.Parse(str.Substring(0, 3));
                 result.Add(stageNum);
             }
+
             return result;
         }
 
@@ -260,6 +258,11 @@ namespace VANITILE
     public class PopUpCheckStageModelEditorWindow : EditorWindow
     {
         /// <summary>
+        /// セーブ番号
+        /// </summary>
+        private string specialStr = string.Empty;
+
+        /// <summary>
         /// 任意の文字を入れる
         /// </summary>
         public string Str { get; set; } = "セーブ";
@@ -267,7 +270,7 @@ namespace VANITILE
         /// <summary>
         /// ファイルパス
         /// </summary>
-        public string FilePath { get; set; } = "";
+        public string FilePath { get; set; } = string.Empty;
 
         /// <summary>
         /// 表示情報
@@ -283,11 +286,6 @@ namespace VANITILE
         /// セーブ番号
         /// </summary>
         public int SaveNum { get; private set; } = 0;
-
-        /// <summary>
-        /// セーブ番号
-        /// </summary>
-        private string specialStr = "";
 
         /// <summary>
         /// OnGui
@@ -309,7 +307,7 @@ namespace VANITILE
                     var str = j.ToString("D3").ToUpperInvariant();
                     str = isExist ? $"{str}[〇]" : $"{str}[✕]";
 
-                    if (Str == "ロード")
+                    if (this.Str == "ロード")
                     {
                         using (new EditorGUI.DisabledScope(!isExist))
                         {
@@ -348,6 +346,7 @@ namespace VANITILE
                 this.IsSave = false;
                 this.Close();
             }
+
             EditorGUILayout.EndHorizontal();
         }
     }

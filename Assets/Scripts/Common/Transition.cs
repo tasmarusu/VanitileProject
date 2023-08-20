@@ -1,9 +1,9 @@
-﻿using System.Collections;
-using UnityEngine;
-using UnityEngine.UI;
-
-namespace VANITILE
+﻿namespace VANITILE
 {
+    using System.Collections;
+    using UnityEngine;
+    using UnityEngine.UI;
+
     /// <summary>
     /// ステージ遷移
     /// Commonシーンに入れるべき

@@ -1,18 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UniRx;
-using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
-using DG.Tweening;
-using static DefineData;
-using System.Linq;
-using System;
-using TMPro;
-
-namespace VANITILE
+﻿namespace VANITILE
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Linq;
+    using TMPro;
+    using UniRx;
+    using UnityEngine;
+    using UnityEngine.EventSystems;
+    using UnityEngine.SceneManagement;
+    using static DefineData;
+
     /// <summary>
     /// ステージセレクトマネージャー
     /// </summary>
@@ -95,7 +93,7 @@ namespace VANITILE
         /// <summary>
         /// 事後処理
         /// </summary>
-        /// <returns></returns>
+        /// <returns>IEnumerator</returns>
         public override IEnumerator Finalize()
         {
             // ポップアップ消えるまで待機
@@ -106,6 +104,17 @@ namespace VANITILE
 
             // 削除
             GameObject.Destroy(this.gameObject);
+        }
+
+        /// <summary>
+        /// クリック
+        /// TODO:いる？
+        /// </summary>
+        /// <param name="eventData"> PointerEventData </param>
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            StageDataModel.Instance.CurrentStageId = GameSaveDataModel.Instance.PlayLastStageId;
+            SceneManager.LoadScene(SceneName.GameMainScene.ToString());
         }
 
         /// <summary>
@@ -125,27 +134,6 @@ namespace VANITILE
             TitleDataModel.Instance.PlayingState = DefineData.TitlePlayingState.TitleSelect;
         }
 
-        ///// <summary>
-        ///// マウスがUI上に来る
-        ///// </summary>
-        ///// <param name="eventData"></param>
-        //public void OnPointerMove(PointerEventData eventData)
-        //{
-        //    var index = this.selectables.FindIndex(x => x.gameObject.GetHashCode() == eventData.pointerEnter.gameObject.GetHashCode());
-        //    this.SelectPart(index);
-        //}
-
-        /// <summary>
-        /// クリック
-        /// TODO:いる？
-        /// </summary>
-        /// <param name="eventData"></param>
-        public void OnPointerClick(PointerEventData eventData)
-        {
-            StageDataModel.Instance.CurrentStageId = GameSaveDataModel.Instance.PlayLastStageId;
-            SceneManager.LoadScene(SceneName.GameMainScene.ToString());
-        }
-
         /// <summary>
         /// ステージ番号の更新
         /// </summary>
@@ -153,7 +141,7 @@ namespace VANITILE
         {
             for (int i = 0; i < this.stageNumberParts.Count; i++)
             {
-                var str = "";
+                var str = string.Empty;
                 var num = this.currentSelectNum - this.centerSelectNum + i;
 
                 if (num >= 0 && num <= this.clearStageNum)
@@ -175,6 +163,7 @@ namespace VANITILE
             {
                 part.Init();
             }
+
             this.IsMoveSelectPart(this.clearStageNum);  // クリア番号の1個上を選択状態にしたい為
             this.UpdateNumberPart();
             this.SetClearTime();
@@ -210,8 +199,7 @@ namespace VANITILE
                             // クリアタイムの設定
                             this.SetClearTime();
                         });
-
-                }).AddTo(this.controllDisposables);
+                }).AddTo(this.ControllDisposables);
         }
 
         /// <summary>
@@ -233,7 +221,7 @@ namespace VANITILE
             var timer = .0f;
             while (timer < 1.0f)
             {
-                timer += Time.deltaTime / moveTime;
+                timer += Time.deltaTime / this.moveTime;
                 for (int i = 1; i < this.stageNumberParts.Count - 1; i++)
                 {
                     var p = this.stageNumberParts[i].transform.position;

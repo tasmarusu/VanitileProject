@@ -43,7 +43,6 @@
         Player = 90,
     }
 
-
     /// <summary>
     /// 判定タイプ
     /// </summary>
@@ -158,21 +157,5 @@
         /// オプション
         /// </summary>
         Option,
-    }
-
-    /// <summary>
-    /// ロードするステージオブジェクトの種類
-    /// </summary>
-    public enum ResourcesStageType
-    {
-
-    }
-
-    /// <summary>
-    /// ロードするコモンオブジェクトの種類
-    /// </summary>
-    public enum ResourcesCommonType
-    {
-
     }
 }

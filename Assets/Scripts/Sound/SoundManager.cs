@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-
-namespace VANITILE
+﻿namespace VANITILE
 {
+    using UnityEngine;
+
     /// <summary>
     /// サウンドマネージャー
     /// </summary>
@@ -10,12 +10,12 @@ namespace VANITILE
         /// <summary>
         /// BGMの種類
         /// </summary>
-        [SerializeField] private AudioSource bgmSource = null;
+        [SerializeField] private AudioSource sourceBgm = null;
 
         /// <summary>
         /// BGMの種類
         /// </summary>
-        [SerializeField] private AudioSource seSource = null;
+        [SerializeField] private AudioSource sourceSe = null;
 
         /// <summary>
         /// BGM音量設定
@@ -24,8 +24,9 @@ namespace VANITILE
         {
             get
             {
-                return this.bgmSource.volume;
+                return this.sourceBgm.volume;
             }
+
             set
             {
                 if (value < .0f && value > 1.0f)
@@ -34,7 +35,7 @@ namespace VANITILE
                     return;
                 }
 
-                this.bgmSource.volume = value;
+                this.sourceBgm.volume = value;
             }
         }
 
@@ -45,8 +46,9 @@ namespace VANITILE
         {
             get
             {
-                return this.seSource.volume;
+                return this.sourceSe.volume;
             }
+
             set
             {
                 if (value < .0f && value > 1.0f)
@@ -55,19 +57,8 @@ namespace VANITILE
                     return;
                 }
 
-                this.seSource.volume = value;
+                this.sourceSe.volume = value;
             }
-        }
-
-        /// <summary>
-        /// ゲーム実行前に呼び出す
-        /// </summary>
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
-        static void Init()
-        {
-            var obj = Resources.Load<SoundManager>($"Prefabs/Common/SoundManager");
-            obj = GameObject.Instantiate(obj);
-            GameObject.DontDestroyOnLoad(obj);
         }
 
         /// <summary>
@@ -77,8 +68,8 @@ namespace VANITILE
         public void PlayBgm(DefineData.BgmType type)
         {
             var clipName = Resources.Load<AudioClip>($"Sounds/Bgm/{type.ToString()}");
-            this.bgmSource.clip = (AudioClip)clipName;
-            this.bgmSource.Play();
+            this.sourceBgm.clip = (AudioClip)clipName;
+            this.sourceBgm.Play();
         }
 
         /// <summary>
@@ -88,8 +79,8 @@ namespace VANITILE
         public void PlaySe(DefineData.SeType type)
         {
             var clipName = Resources.Load<AudioClip>($"Sounds/Se/{type.ToString()}");
-            this.seSource.clip = (AudioClip)clipName;
-            this.seSource.Play();
+            this.sourceSe.clip = (AudioClip)clipName;
+            this.sourceSe.Play();
         }
 
         /// <summary>
@@ -104,7 +95,18 @@ namespace VANITILE
                 return;
             }
 
-            this.bgmSource.volume = value;
+            this.sourceBgm.volume = value;
+        }
+
+        /// <summary>
+        /// ゲーム実行前に呼び出す
+        /// </summary>
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
+        private static void Init()
+        {
+            var obj = Resources.Load<SoundManager>($"Prefabs/Common/SoundManager");
+            obj = GameObject.Instantiate(obj);
+            GameObject.DontDestroyOnLoad(obj);
         }
     }
 }

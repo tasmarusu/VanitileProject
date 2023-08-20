@@ -1,11 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UniRx;
-using UnityEngine;
-using UnityEngine.SceneManagement;
-
-namespace VANITILE
+﻿namespace VANITILE
 {
+    using System.Collections.Generic;
+    using UniRx;
+    using UnityEngine;
+    using UnityEngine.SceneManagement;
+
     /// <summary>
     /// ゲームメイン
     /// </summary>
@@ -37,6 +36,11 @@ namespace VANITILE
         [field: SerializeField, Header("ClearManager")] private ClearManager clearPrefab = null;
 
         /// <summary>
+        /// 操作CompositeDisposable
+        /// </summary>
+        private CompositeDisposable controllDisposables = new CompositeDisposable();
+
+        /// <summary>
         /// GameMainTrans
         /// </summary>
         [field: SerializeField, Header("GameMainTrans")] public GameMainTransition GameMainTrans { get; private set; } = null;
@@ -45,11 +49,6 @@ namespace VANITILE
         /// シーン直起動時のロードステージid
         /// </summary>
         [field: SerializeField] public StageTransitionScriptable StageTransitionData { get; private set; } = null;
-
-        /// <summary>
-        /// 操作CompositeDisposable
-        /// </summary>
-        private CompositeDisposable controllDisposables = new CompositeDisposable();
 
         /// <summary>
         /// StageDataManager
@@ -106,7 +105,7 @@ namespace VANITILE
             // 戻るボタン押下
             InputManager.Instance.ObserveEveryValueChanged(x => x.Back)
                 .Where(x => x)
-                .Where(_=> StageDataModel.Instance.IsAbleMovePlayer())  // プレイヤーが動作可能
+                .Where(_ => StageDataModel.Instance.IsAbleMovePlayer())  // プレイヤーが動作可能
                 .Subscribe(_ =>
                 {
                     // ポーズ開く

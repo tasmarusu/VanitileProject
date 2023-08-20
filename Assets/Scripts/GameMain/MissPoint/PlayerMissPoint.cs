@@ -1,9 +1,9 @@
-﻿using UniRx;
-using UniRx.Triggers;
-using UnityEngine;
-
-namespace VANITILE
+﻿namespace VANITILE
 {
+    using UniRx;
+    using UniRx.Triggers;
+    using UnityEngine;
+
     /// <summary>
     /// プレイヤーの失敗位置
     /// </summary>
@@ -17,19 +17,19 @@ namespace VANITILE
         /// <summary>
         /// 初期化済みか
         /// </summary>
-        private bool IsInit = false;
+        private bool isInit = false;
 
         /// <summary>
         /// 初期化
         /// </summary>
         public void Init()
         {
-            if (this.IsInit)
+            if (this.isInit)
             {
                 return;
             }
 
-            this.IsInit = true;
+            this.isInit = true;
             this.boxCollider2D.OnTriggerEnter2DAsObservable()
                 .Where(collider => collider.CompareTag("Player"))
                 .Select(collider => collider.transform.parent.GetComponent<PlayerController>())

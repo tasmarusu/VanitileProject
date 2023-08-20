@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-
-namespace VANITILE
+﻿namespace VANITILE
 {
+    using UnityEngine;
+
     /// <summary>
     /// ステージ遷移
     /// ステージ作成シーンでの使用を兼ねて、Monoを継承しない
@@ -19,17 +19,18 @@ namespace VANITILE
         private StageTransitionScriptable.Data scriptable;
 
         /// <summary>
-        /// StageDataManager
-        /// </summary>
-        public StageSaveData.Data CurrentStageData { get; private set; }
-
-        /// <summary>
         /// コンストラクタ
         /// </summary>
+        /// <param name="mono">MonoBehaviour</param>
         public ChangeStage(MonoBehaviour mono)
         {
             this.mono = mono;
         }
+
+        /// <summary>
+        /// StageDataManager
+        /// </summary>
+        public StageSaveData.Data CurrentStageData { get; private set; }
 
         /// <summary>
         /// 指定シーンの情報へ変える
@@ -60,11 +61,11 @@ namespace VANITILE
             // ステージを配置していく
             // TODO:ここで生成もありだが、各々のManagerがやった方が今後の拡張性ありそうだから。無いかもだが…
             // やっぱりここに生成書くべきかも
-            //foreach (var part in this.StageData.Parts)
-            //{
-            //    var parent = this.managers.Find(x => x.PartTypes.Contains(part.Type)).transform;
-            //    GameObject.Instantiate(part.Prefab, part.Point, Quaternion.identity, parent);
-            //}
+            ////foreach (var part in this.StageData.Parts)
+            ////{
+            ////    var parent = this.managers.Find(x => x.PartTypes.Contains(part.Type)).transform;
+            ////    GameObject.Instantiate(part.Prefab, part.Point, Quaternion.identity, parent);
+            ////}
         }
 
         /// <summary>
@@ -76,24 +77,8 @@ namespace VANITILE
             var commonParts = this.mono.GetComponentsInChildren<CommonPart>();
             for (int i = commonParts.Length - 1; i >= 0; i--)
             {
-                //Debug.Log($"[Delete]削除名:{commonParts[i].gameObject.name}");
                 GameObject.Destroy(commonParts[i].gameObject);
             }
-        }
-
-        /// <summary>
-        /// プレハブのロード
-        /// </summary>
-        private Object LoadPrefabFromResources(string path)
-        {
-            var prefab = Resources.Load(path);
-            if (prefab == null)
-            {
-                Debug.LogError($"[Load]リソースのロードに失敗しました path:{path}");
-                return null;
-            }
-
-            return prefab;
         }
     }
 }

@@ -12,19 +12,44 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee9e5ebd7ea9ad249b6c9741f79c4dab, type: 3}
   m_Name: StageTransition
   m_EditorClassIdentifier: 
-  StageDataLists:
+  stageDataLists:
   - <Id>k__BackingField: 0
-    <nextDataType>k__BackingField: 0
+    <NextDataType>k__BackingField: 0
     <Json>k__BackingField: {fileID: 4900000, guid: e8cee56843eeadb48bfd3a8cd995397b, type: 3}
+    <clearScoreTimes>k__BackingField:
+      <STimer>k__BackingField: 10
+      <ATimer>k__BackingField: 20
+      <BTimer>k__BackingField: 30
+      <CTimer>k__BackingField: 40
   - <Id>k__BackingField: 0
-    <nextDataType>k__BackingField: 1
+    <NextDataType>k__BackingField: 1
     <Json>k__BackingField: {fileID: 4900000, guid: a84a5a43d3a4891468c12b47137b74df, type: 3}
+    <clearScoreTimes>k__BackingField:
+      <STimer>k__BackingField: 10
+      <ATimer>k__BackingField: 20
+      <BTimer>k__BackingField: 30
+      <CTimer>k__BackingField: 40
   - <Id>k__BackingField: 0
-    <nextDataType>k__BackingField: 1
+    <NextDataType>k__BackingField: 1
     <Json>k__BackingField: {fileID: 4900000, guid: f2ed3a53c26a950459f26cfe9e76a144, type: 3}
+    <clearScoreTimes>k__BackingField:
+      <STimer>k__BackingField: 10
+      <ATimer>k__BackingField: 20
+      <BTimer>k__BackingField: 30
+      <CTimer>k__BackingField: 40
   - <Id>k__BackingField: 0
-    <nextDataType>k__BackingField: 1
+    <NextDataType>k__BackingField: 1
     <Json>k__BackingField: {fileID: 4900000, guid: afb882a43384a6343bf6d9491d50610f, type: 3}
+    <clearScoreTimes>k__BackingField:
+      <STimer>k__BackingField: 10
+      <ATimer>k__BackingField: 20
+      <BTimer>k__BackingField: 30
+      <CTimer>k__BackingField: 40
   - <Id>k__BackingField: 0
-    <nextDataType>k__BackingField: 2
+    <NextDataType>k__BackingField: 2
     <Json>k__BackingField: {fileID: 4900000, guid: e4305c45f7e75dd4a886f2fb7f3486d1, type: 3}
+    <clearScoreTimes>k__BackingField:
+      <STimer>k__BackingField: 10
+      <ATimer>k__BackingField: 20
+      <BTimer>k__BackingField: 30
+      <CTimer>k__BackingField: 40

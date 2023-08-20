@@ -1,9 +1,9 @@
-﻿using UniRx;
-using UniRx.Triggers;
-using UnityEngine;
-
-namespace VANITILE
+﻿namespace VANITILE
 {
+    using UniRx;
+    using UniRx.Triggers;
+    using UnityEngine;
+
     /// <summary>
     /// 各鍵
     /// </summary>
@@ -43,7 +43,7 @@ namespace VANITILE
         /// </summary>
         public void SetId(int id)
         {
-            this.Id = Id;
+            this.Id = id;
         }
 
         /// <summary>

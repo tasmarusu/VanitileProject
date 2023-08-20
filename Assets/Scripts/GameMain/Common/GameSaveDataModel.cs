@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-
-namespace VANITILE
+﻿namespace VANITILE
 {
+    using UnityEngine;
+
     /// <summary>
     /// サウンドマネージャー
     /// </summary>
@@ -48,6 +48,7 @@ namespace VANITILE
                 Debug.Log($"[UserData]BgmVolume:{num}");
                 return num;
             }
+
             set
             {
                 Debug.Log($"[GameSave]BgmVolume の保存:{value}");
@@ -66,6 +67,7 @@ namespace VANITILE
                 Debug.Log($"[UserData]SeVolume:{num}");
                 return num;
             }
+
             set
             {
                 Debug.Log($"[GameSave]SeVolume の保存:{value}");
@@ -84,6 +86,7 @@ namespace VANITILE
                 Debug.Log($"[UserData]PlayLastStageId:{num}");
                 return num;
             }
+
             set
             {
                 Debug.Log($"[GameSave]PlayLastStage の保存:{value}");
@@ -102,6 +105,7 @@ namespace VANITILE
                 Debug.Log($"[UserData]CurrentClearStageNum:{num}");
                 return num;
             }
+
             set
             {
                 Debug.Log($"[GameSave]ClearStageCount の保存:{value}");
@@ -127,7 +131,7 @@ namespace VANITILE
         /// <returns>クリアタイム</returns>
         public float GetClearStageTime(int stageNum)
         {
-            var time= PlayerPrefs.GetFloat($"{ClearStageTimeName}_{stageNum}");
+            var time = PlayerPrefs.GetFloat($"{ClearStageTimeName}_{stageNum}");
             Debug.Log($"[GameSave]SetClearStageTime の取得:{stageNum} time:{time}");
             return time;
         }
@@ -169,7 +173,7 @@ namespace VANITILE
         /// ゲーム実行前に呼び出す
         /// </summary>
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        static void Init()
+        private static void Init()
         {
             var obj = Resources.Load<GameSaveDataModel>($"Prefabs/Common/GameSaveDataModel");
             obj = GameObject.Instantiate(obj);

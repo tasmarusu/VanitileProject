@@ -1,8 +1,8 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
-
-namespace VANITILE
+﻿namespace VANITILE
 {
+    using UnityEngine;
+    using UnityEngine.UI;
+
     /// <summary>
     /// タイトルセレクトの各パーツ
     /// TODO:いらないかも知れないぞ
@@ -10,6 +10,11 @@ namespace VANITILE
     [System.Serializable]
     public class TitleSelectPart
     {
+        /// <summary>
+        /// ボタンの文字
+        /// </summary>
+        [SerializeField] private string word = string.Empty;
+
         /// <summary>
         /// 選択中のボタン
         /// </summary>
@@ -19,11 +24,6 @@ namespace VANITILE
         /// タイトル画面の選択画面
         /// </summary>
         [field: SerializeField] public DefineData.TitleSelectType SelectType { get; private set; }
-
-        /// <summary>
-        /// ボタンの文字
-        /// </summary>
-        [SerializeField] private string word = string.Empty;
 
         /// <summary>
         /// 初期化

@@ -1,25 +1,20 @@
-﻿using System.Collections.Generic;
-using UniRx;
-using UnityEngine;
-using UnityEngine.EventSystems;
-using static DefineData;
-
-namespace VANITILE
+﻿namespace VANITILE
 {
+    using System.Collections.Generic;
+    using UniRx;
+    using UnityEngine;
+    using UnityEngine.EventSystems;
+    using static DefineData;
+
     /// <summary>
     /// タイトルの選択画面
     /// </summary>
-    public class TitleSelectController : MonoBehaviour, IPointerMoveHandler,IPointerClickHandler
+    public class TitleSelectController : MonoBehaviour, IPointerMoveHandler, IPointerClickHandler
     {
         /// <summary>
         /// タイトルセレクトの各パーツ
         /// </summary>
         [SerializeField] private List<TitleSelectPart> titleSelectParts = new List<TitleSelectPart>();
-
-        /// <summary>
-        /// 選択画面で決定ボタンを押下した時に流れる
-        /// </summary>
-        public Subject<TitleSelectType> SelectSubject { get; private set; } = new Subject<TitleSelectType>();
 
         /// <summary>
         /// 選択中の番号
@@ -30,6 +25,11 @@ namespace VANITILE
         /// CompositeDisposable
         /// </summary>
         private CompositeDisposable disposables = new CompositeDisposable();
+
+        /// <summary>
+        /// 選択画面で決定ボタンを押下した時に流れる
+        /// </summary>
+        public Subject<TitleSelectType> SelectSubject { get; private set; } = new Subject<TitleSelectType>();
 
         /// <summary>
         /// 初期化
@@ -102,7 +102,6 @@ namespace VANITILE
                 {
                     this.currentSelectNum -= value;
                     this.SelectPart(this.currentSelectNum);
-
                 }).AddTo(this.disposables);
         }
 

@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-
-namespace VANITILE
+﻿namespace VANITILE
 {
+    using System.Collections.Generic;
+    using UnityEngine;
+
     /// <summary>
     /// ステージに配置する基底クラス
     /// </summary>
@@ -11,7 +11,7 @@ namespace VANITILE
         /// <summary>
         /// 親になる地形種類の設定 TODO:なんでこれListなんやっけ？？？
         /// </summary>
-        [field: SerializeField, Header("親になる地形種類")] public List<DefineData.StagePartType> PartTypes = new List<DefineData.StagePartType>();
+        [field: SerializeField, Header("親になる地形種類")] public List<DefineData.StagePartType> PartTypes { get; private set; } = new List<DefineData.StagePartType>();
 
         /// <summary>
         /// 初期化

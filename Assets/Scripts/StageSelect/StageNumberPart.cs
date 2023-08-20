@@ -1,10 +1,10 @@
-﻿using TMPro;
-using UnityEngine;
-using UnityEngine.UI;
-using DG.Tweening;
-
-namespace VANITILE
+﻿namespace VANITILE
 {
+    using DG.Tweening;
+    using TMPro;
+    using UnityEngine;
+    using UnityEngine.UI;
+
     /// <summary>
     /// ステージ番号の各
     /// </summary>

@@ -1,11 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UniRx;
-using UnityEngine;
-
-
-namespace VANITILE
+﻿namespace VANITILE
 {
+    using System.Collections;
+    using System.Collections.Generic;
+    using UniRx;
+    using UnityEngine;
+
     /// <summary>
     /// ステージセレクトマネージャー
     /// </summary>

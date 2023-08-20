@@ -1,8 +1,7 @@
-﻿using UnityEngine;
-
-
-namespace VANITILE
+﻿namespace VANITILE
 {
+    using UnityEngine;
+
     /// <summary>
     /// ステージのコントローラー
     /// </summary>
@@ -13,7 +12,6 @@ namespace VANITILE
         /// </summary>
         public void Initailize()
         {
-
         }
     }
 }

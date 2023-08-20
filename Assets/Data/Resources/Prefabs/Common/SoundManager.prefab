@@ -46,8 +46,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef79e758f030c7c43a70f47601e5714c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bgmSource: {fileID: 3969265601208565423}
-  seSource: {fileID: 3969265600976363370}
+  sourceBgm: {fileID: 3969265601208565423}
+  sourceSe: {fileID: 3969265600976363370}
 --- !u!1 &3969265600976363380
 GameObject:
   m_ObjectHideFlags: 0

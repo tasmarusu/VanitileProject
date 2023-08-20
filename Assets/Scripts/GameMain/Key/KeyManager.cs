@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-
-
-namespace VANITILE
+﻿namespace VANITILE
 {
+    using System.Collections.Generic;
+    using UnityEngine;
+
     /// <summary>
     /// 鍵管理クラス
     /// </summary>

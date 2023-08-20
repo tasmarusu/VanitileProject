@@ -3,7 +3,7 @@
 /// <summary>
 /// MonoBehaviourではないシングルトン
 /// </summary>
-/// <typeparam name="T">クラスの型</typeparam>
+/// <typeparam name="T"> クラスの型 </typeparam>
 public class Singleton<T> where T : new()
 {
     /// <summary>

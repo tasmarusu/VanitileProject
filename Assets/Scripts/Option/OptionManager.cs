@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UniRx;
-using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
-
-namespace VANITILE
+﻿namespace VANITILE
 {
+    using System.Collections;
+    using System.Collections.Generic;
+    using UniRx;
+    using UnityEngine;
+    using UnityEngine.EventSystems;
+    using UnityEngine.UI;
+
     /// <summary>
     /// タイトルで使用するオプション画面 
     /// </summary>
@@ -21,12 +20,12 @@ namespace VANITILE
         /// <summary>
         /// BGM音量
         /// </summary>
-        [SerializeField] private AudioProperity bgmProperity = null;
+        [SerializeField] private AudioProperity properityBgm = null;
 
         /// <summary>
         /// SE音量
         /// </summary>
-        [SerializeField] private AudioProperity seProperity = null;
+        [SerializeField] private AudioProperity properitySe = null;
 
         /// <summary>
         /// 選択中の番号
@@ -36,11 +35,12 @@ namespace VANITILE
         /// <summary>
         /// 初期化
         /// </summary>
+        /// <returns> IEnumerator </returns>
         public override IEnumerator Init()
         {
             TitleDataModel.Instance.PlayingState = DefineData.TitlePlayingState.Option;
-            this.bgmProperity.Init();
-            this.seProperity.Init();
+            this.properityBgm.Init();
+            this.properitySe.Init();
 
             // 一個目を選択中
             this.selectables[this.currentSelectNum].Select();
@@ -64,6 +64,16 @@ namespace VANITILE
 
             // 削除
             GameObject.Destroy(this.gameObject);
+        }
+
+        /// <summary>
+        /// マウスがUI上に来る
+        /// </summary>
+        /// <param name="eventData"> PointerEventData </param>
+        public void OnPointerMove(PointerEventData eventData)
+        {
+            var index = this.selectables.FindIndex(x => x.gameObject.GetHashCode() == eventData.pointerEnter.gameObject.GetHashCode());
+            this.SelectPart(index);
         }
 
         /// <summary>
@@ -95,17 +105,7 @@ namespace VANITILE
                 {
                     this.currentSelectNum -= value;
                     this.SelectPart(this.currentSelectNum);
-                }).AddTo(this.controllDisposables);
-        }
-
-        /// <summary>
-        /// マウスがUI上に来る
-        /// </summary>
-        /// <param name="eventData"></param>
-        public void OnPointerMove(PointerEventData eventData)
-        {
-            var index = this.selectables.FindIndex(x => x.gameObject.GetHashCode() == eventData.pointerEnter.gameObject.GetHashCode());
-            this.SelectPart(index);
+                }).AddTo(this.ControllDisposables);
         }
 
         /// <summary>
@@ -164,14 +164,22 @@ namespace VANITILE
                 var volume = .0f;
                 switch (this.audioType)
                 {
-                    case AudioType.Bgm: volume = GameSaveDataModel.Instance.BgmVolume; break;
-                    case AudioType.Se: volume = GameSaveDataModel.Instance.SeVolume; break;
-                    default: Debug.LogError($"[Audio]はいるな"); break;
+                    case AudioType.Bgm:
+                        volume = GameSaveDataModel.Instance.BgmVolume;
+                        break;
+
+                    case AudioType.Se:
+                        volume = GameSaveDataModel.Instance.SeVolume;
+                        break;
+
+                    default:
+                        Debug.LogError($"[Audio]はいるな");
+                        break;
                 }
 
                 this.SetAudioVolume(volume);
                 this.slider.value = volume;
-                this.slider.onValueChanged.AddListener(SetAudioVolume);
+                this.slider.onValueChanged.AddListener(this.SetAudioVolume);
             }
 
             /// <summary>
@@ -182,9 +190,17 @@ namespace VANITILE
             {
                 switch (this.audioType)
                 {
-                    case AudioType.Bgm: SoundManager.Instance.BgmVolume = volume; break;
-                    case AudioType.Se: SoundManager.Instance.SeVolume = volume; break;
-                    default: Debug.LogError($"[Audio]はいるな"); break;
+                    case AudioType.Bgm:
+                        SoundManager.Instance.BgmVolume = volume;
+                        break;
+
+                    case AudioType.Se:
+                        SoundManager.Instance.SeVolume = volume;
+                        break;
+
+                    default:
+                        Debug.LogError($"[Audio]はいるな");
+                        break;
                 }
 
                 this.volumeText.text = volume.ToString("F2");

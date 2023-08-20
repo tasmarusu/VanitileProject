@@ -1,8 +1,8 @@
-﻿using UniRx;
-using UnityEngine;
-
-namespace VANITILE
+﻿namespace VANITILE
 {
+    using UniRx;
+    using UnityEngine;
+
     public partial class PlayerMove : MonoBehaviour
     {
         /// <summary>
@@ -42,7 +42,6 @@ namespace VANITILE
                     // ブロックの方向を指定 TODO:ここじゃないやり方がいいなぁ2
                     this.groundCollision.IsBlockAngleWait = true;
                     this.wallCollision.IsBlockAngleWait = true;
-
                 }).AddTo(this);
         }
 
@@ -110,7 +109,6 @@ namespace VANITILE
                     // ブロックの方向を指定 TODO:ここじゃないやり方がいいなぁ2
                     this.groundCollision.IsBlockAngleWait = true;
                     this.wallCollision.IsBlockAngleWait = true;
-
                 }).AddTo(this);
         }
     }

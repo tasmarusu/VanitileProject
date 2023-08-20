@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-using static DefineData;
-using static VANITILE.BlockPart;
-
-namespace VANITILE
+﻿namespace VANITILE
 {
+    using System.Collections.Generic;
+    using UnityEngine;
+    using static DefineData;
+    using static VANITILE.BlockPart;
+
     /// <summary>
     /// プレイヤーのコリジョン判定用クラス
     /// 壁と地面
@@ -142,4 +142,3 @@ namespace VANITILE
         }
     }
 }
-

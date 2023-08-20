@@ -1,14 +1,18 @@
-﻿using UniRx;
-using UnityEngine;
-
-
-namespace VANITILE
+﻿namespace VANITILE
 {
+    using UniRx;
+    using UnityEngine;
+
     /// <summary>
     /// プレイヤーアニメーション
     /// </summary>
     public class PlayerAnimation : MonoBehaviour
     {
+        /// <summary>
+        /// Animator
+        /// </summary>
+        [SerializeField, Header("Animator")] private Animator animator = null;
+
         /// <summary>
         /// Animatorのパラメーター名
         /// 1 -20 float
@@ -38,11 +42,6 @@ namespace VANITILE
             /// </summary>
             Jump = 41,
         }
-
-        /// <summary>
-        /// Animator
-        /// </summary>
-        [SerializeField, Header("Animator")] private Animator animator = null;
 
         /// <summary>
         /// 初期化

@@ -1,10 +1,11 @@
-﻿using UnityEngine;
-
-namespace VANITILE
+﻿namespace VANITILE
 {
+    using UnityEngine;
+
     /// <summary>
     /// Resources.Load の管理
     /// Addressables 使うか？
+    /// https://kiironomidori.hatenablog.com/entry/unity_save_json#SaveControllerTemplate%E3%82%92%E6%9B%B8%E3%81%8D%E6%8F%9B%E3%81%88%E3%81%9F%E3%82%AF%E3%83%A9%E3%82%B9
     /// </summary>
     public class ResourcesLoadModel : Singleton<ResourcesLoadModel>
     {

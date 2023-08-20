@@ -1,9 +1,8 @@
-﻿using UniRx;
-using UnityEngine;
-using UnityEngine.EventSystems;
-
-namespace VANITILE
+﻿namespace VANITILE
 {
+    using UniRx;
+    using UnityEngine;
+
     /// <summary>
     /// インプット操作
     /// </summary>
@@ -12,27 +11,57 @@ namespace VANITILE
         /// <summary>
         /// 横操作
         /// </summary>
-        public float Horizontal { get { return Input.GetAxis("Horizontal"); } }
+        public float Horizontal
+        {
+            get
+            {
+                return Input.GetAxis("Horizontal");
+            }
+        }
 
         /// <summary>
         /// 縦操作
         /// </summary>
-        public float Vertical { get { return Input.GetAxis("Vertical"); } }
+        public float Vertical
+        {
+            get
+            {
+                return Input.GetAxis("Vertical");
+            }
+        }
 
         /// <summary>
         /// ジャンプ
         /// </summary>
-        public bool Jump { get { return Input.GetKeyDown(KeyCode.Space); } }
+        public bool Jump
+        {
+            get
+            {
+                return Input.GetKeyDown(KeyCode.Space);
+            }
+        }
 
         /// <summary>
         /// 決定
         /// </summary>
-        public bool Decide { get { return Input.GetButtonDown("Decide"); } }
+        public bool Decide
+        {
+            get
+            {
+                return Input.GetButtonDown("Decide");
+            }
+        }
 
         /// <summary>
         /// 戻る
         /// </summary>
-        public bool Back { get { return Input.GetButtonDown("Back"); } }
+        public bool Back
+        {
+            get
+            {
+                return Input.GetButtonDown("Back");
+            }
+        }
 
         /// <summary>
         /// 上下入力一回
@@ -44,20 +73,6 @@ namespace VANITILE
         /// 一応 int にしてるが正直使いどころによっては bool でもいい気がする
         /// </summary>
         public Subject<int> ConsecutiveVerticalSubject { get; } = new Subject<int>();
-
-        /// <summary>
-        /// ゲーム実行前に呼び出す
-        /// </summary>
-        [RuntimeInitializeOnLoadMethod()]
-        static void Init()
-        {
-            var obj = GameObject.Instantiate(new GameObject("InputManager"));
-            obj.AddComponent<InputManager>();
-            GameObject.DontDestroyOnLoad(obj);
-
-            //Cursor.lockState = CursorLockMode.Locked;
-            //Cursor.visible = false;
-        }
 
         /// <summary>
         /// 上下入力一回
@@ -89,8 +104,8 @@ namespace VANITILE
         /// NOTE:徐々に早くする入力の場合、 take の入力を 3->6->Max にする。
         /// ◆必ず終了する時に Dispose する事◆
         /// </summary>
-        /// <param name="interval">移動間隔</param>
-        /// <param name="take">移動回数 MAX以上は流石に考慮しない</param>
+        /// <param name="interval"> 移動間隔 </param>
+        /// <param name="take"> 移動回数 MAX以上は流石に考慮しない </param>
         /// <returns> CompositeDisposable </returns>
         public CompositeDisposable StartConsecutiveVerticalSubject(float interval = 0.25f, int take = int.MaxValue)
         {
@@ -120,6 +135,20 @@ namespace VANITILE
                 }).AddTo(disposables);
 
             return disposables;
+        }
+
+        /// <summary>
+        /// ゲーム実行前に呼び出す
+        /// </summary>
+        [RuntimeInitializeOnLoadMethod]
+        private static void Init()
+        {
+            var obj = GameObject.Instantiate(new GameObject("InputManager"));
+            obj.AddComponent<InputManager>();
+            GameObject.DontDestroyOnLoad(obj);
+
+            ////Cursor.lockState = CursorLockMode.Locked;
+            ////Cursor.visible = false;
         }
     }
 }

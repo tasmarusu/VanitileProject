@@ -1,34 +1,41 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
+/// <summary>
+/// ボタンのクリック機能を消した拡張 StandaloneInputModule
+/// </summary>
 public class CustomStandaloneInputModule : StandaloneInputModule
 {
+    /// <summary>
+    /// 毎フレーム監視
+    /// </summary>
     public override void Process()
     {
-        if (!eventSystem.isFocused && this.CustomShouldIgnoreEventsOnNoFocus())
+        if (!this.eventSystem.isFocused && this.CustomShouldIgnoreEventsOnNoFocus())
+        {
             return;
+        }
 
-        bool usedEvent = SendUpdateEventToSelectedObject();
+        bool usedEvent = this.SendUpdateEventToSelectedObject();
 
-        // case 1004066 - touch / mouse events should be processed before navigation events in case
-        // they change the current selected gameobject and the submit button is a touch / mouse button.
-
-        // touch needs to take precedence because of the mouse emulation layer
-        //if (!CustomProcessTouchEvents() && input.mousePresent)
-        //    ProcessMouseEvent();
-
-        if (eventSystem.sendNavigationEvents)
+        if (this.eventSystem.sendNavigationEvents)
         {
             if (!usedEvent)
-                usedEvent |= SendMoveEventToSelectedObject();
+            {
+                usedEvent |= this.SendMoveEventToSelectedObject();
+            }
 
             if (!usedEvent)
-                SendSubmitEventToSelectedObject();
+            {
+                this.SendSubmitEventToSelectedObject();
+            }
         }
     }
 
+    /// <summary>
+    /// フォーカスされている EventObject の監視?
+    /// </summary>
+    /// <returns>bool</returns>
     private bool CustomShouldIgnoreEventsOnNoFocus()
     {
 #if UNITY_EDITOR
@@ -36,31 +43,5 @@ public class CustomStandaloneInputModule : StandaloneInputModule
 #else
             return true;
 #endif
-    }
-
-    private bool CustomProcessTouchEvents()
-    {
-        for (int i = 0; i < input.touchCount; ++i)
-        {
-            Touch touch = input.GetTouch(i);
-
-            if (touch.type == TouchType.Indirect)
-                continue;
-
-            bool released;
-            bool pressed;
-            var pointer = GetTouchPointerEventData(touch, out pressed, out released);
-
-            ProcessTouchPress(pointer, pressed, released);
-
-            if (!released)
-            {
-                ProcessMove(pointer);
-                ProcessDrag(pointer);
-            }
-            else
-                RemovePointerData(pointer);
-        }
-        return input.touchCount > 0;
     }
 }

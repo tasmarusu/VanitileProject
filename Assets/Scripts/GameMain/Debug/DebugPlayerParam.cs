@@ -1,9 +1,8 @@
-﻿using TMPro;
-using UnityEngine;
-
-
-namespace VANITILE
+﻿namespace VANITILE
 {
+    using TMPro;
+    using UnityEngine;
+
     public class DebugPlayerParam : MonoBehaviour
     {
         /// <summary>
@@ -37,21 +36,10 @@ namespace VANITILE
         [SerializeField, Header("移動速度")] private TextMeshProUGUI speedText;
 
         /// <summary>
-        /// 行動保存
+        /// Update
         /// </summary>
-        //private PlayerController.MovementState movementTemp = PlayerController.MovementState.Wait;
-
-        void Update()
+        private void Update()
         {
-            //if(this.movementTemp != PlayerController.Instance.Movement)
-            //{
-            //    this.movementTemp = PlayerController.Instance.Movement;
-            //    var prefab = GameObject.Instantiate(this.movementText.gameObject, this.movementTextTr);
-            //    prefab.GetComponent<TextMeshProUGUI>().text = $"State:{PlayerController.Instance.Movement.ToString()} {Time.frameCount}";
-            //    GameObject.Destroy(prefab, 5.0f);
-            //}
-
-
             this.isJumpText.text = $"RemKey:{StageDataModel.Instance.RemainKeyCount.ToString()}";
             this.speedText.text = $"RemPla:{StageDataModel.Instance.RemainPlayerCount.ToString()}";
             this.isWallText.text = $"RemBlo:{StageDataModel.Instance.RemainBlockCount.ToString()}";

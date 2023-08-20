@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-using static VANITILE.StageSaveData.Data;
-
-namespace VANITILE
+﻿namespace VANITILE
 {
+    using System.Collections.Generic;
+    using UnityEngine;
+    using static VANITILE.StageSaveData.Data;
+
     /// <summary>
     /// ステージ作成シーンのマネージャー
     /// </summary>
@@ -17,8 +17,6 @@ namespace VANITILE
         private void Start()
         {
             this.ReLoadStage();
-
-
 
             // 終了直後に State の変更を行う
             // TODO:初期化後に配置するかも
@@ -49,6 +47,7 @@ namespace VANITILE
                         {
                             parts.Add(new StageLoadData(mana.PartTypes[0], blocks[i].transform.position, null));
                         }
+
                         break;
 
                     case DefineData.StagePartType.Key:
@@ -57,6 +56,7 @@ namespace VANITILE
                         {
                             parts.Add(new StageLoadData(mana.PartTypes[0], keys[i].transform.position, null));
                         }
+
                         break;
 
                     case DefineData.StagePartType.Goal:
@@ -65,6 +65,7 @@ namespace VANITILE
                         {
                             parts.Add(new StageLoadData(mana.PartTypes[0], goals[i].transform.position, null));
                         }
+
                         break;
 
                     case DefineData.StagePartType.Player:
@@ -73,6 +74,7 @@ namespace VANITILE
                         {
                             parts.Add(new StageLoadData(mana.PartTypes[0], players[i].transform.position, null));
                         }
+
                         break;
 
                     default:

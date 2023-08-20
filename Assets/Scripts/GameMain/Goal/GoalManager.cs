@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using UniRx;
-using UnityEngine;
-
-namespace VANITILE
+﻿namespace VANITILE
 {
+    using System.Collections.Generic;
+    using UniRx;
+    using UnityEngine;
+
     /// <summary>
     /// ゴールマネージャー
     /// </summary>
@@ -61,7 +61,6 @@ namespace VANITILE
                 .Subscribe(x =>
                 {
                     this.goalParts.ForEach(x => x.StartCheckHitPlayer());
-
                 }).AddTo(this.goalParts[0]);
         }
     }

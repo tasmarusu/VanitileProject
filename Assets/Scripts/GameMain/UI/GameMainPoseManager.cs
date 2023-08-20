@@ -1,14 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UniRx;
-using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
-using TMPro;
-using static VANITILE.StageDataModel;
-
-namespace VANITILE
+﻿namespace VANITILE
 {
+    using System.Collections;
+    using System.Collections.Generic;
+    using TMPro;
+    using UniRx;
+    using UnityEngine;
+    using UnityEngine.SceneManagement;
+    using UnityEngine.UI;
+
     /// <summary>
     /// タイトルで使用するオプション画面 
     /// </summary>
@@ -37,7 +36,28 @@ namespace VANITILE
         /// <summary>
         /// ポーズ終了
         /// </summary>
-        private bool IsPoseEnd = false;
+        private bool isPoseEnd = false;
+
+        /// <summary>
+        /// ボタンの種類
+        /// </summary>
+        public enum ButtonType
+        {
+            /// <summary>
+            /// 再開
+            /// </summary>
+            Resume,
+
+            /// <summary>
+            /// リスタート
+            /// </summary>
+            Restart,
+
+            /// <summary>
+            /// タイトルシーンへ
+            /// </summary>
+            ToTitle,
+        }
 
         /// <summary>
         /// 初期化
@@ -45,7 +65,7 @@ namespace VANITILE
         /// <returns> IEnumerator </returns>
         public override IEnumerator Init()
         {
-            this.IsPoseEnd = false;
+            this.isPoseEnd = false;
             StageDataModel.Instance.StartPoseMode();
 
             // 一個目を選択中
@@ -66,7 +86,7 @@ namespace VANITILE
         /// <returns> IEnumerator </returns>
         public override IEnumerator Finalize()
         {
-            yield return new WaitUntil(() => this.IsPoseEnd || StageDataModel.Instance.IsGamePlaying() == false);
+            yield return new WaitUntil(() => this.isPoseEnd || StageDataModel.Instance.IsGamePlaying() == false);
             yield return this.Out();
 
             StageDataModel.Instance.EndPoseMode();
@@ -80,7 +100,7 @@ namespace VANITILE
         /// </summary>
         protected override void OnBackButton()
         {
-            this.IsPoseEnd = true;
+            this.isPoseEnd = true;
         }
 
         /// <summary>
@@ -93,7 +113,7 @@ namespace VANITILE
             {
                 // 再開
                 case ButtonType.Resume:
-                    this.IsPoseEnd = true;
+                    this.isPoseEnd = true;
                     break;
 
                 // リスタート
@@ -116,7 +136,7 @@ namespace VANITILE
         /// <returns></returns>
         private void InputController()
         {
-            this.controllDisposables.Add(InputManager.Instance.StartVerticalSubject());
+            this.ControllDisposables.Add(InputManager.Instance.StartVerticalSubject());
 
             InputManager.Instance.VerticalOneSubject
                 .TakeUntilDestroy(this)
@@ -124,7 +144,7 @@ namespace VANITILE
                 {
                     this.currentSelectNum -= value;
                     this.SelectPart(this.currentSelectNum);
-                }).AddTo(this.controllDisposables);
+                }).AddTo(this.ControllDisposables);
         }
 
         /// <summary>
@@ -141,7 +161,7 @@ namespace VANITILE
         /// </summary>
         private void OnDestroy()
         {
-            this.controllDisposables?.Clear();
+            this.ControllDisposables?.Clear();
         }
 
         /// <summary>
@@ -159,27 +179,6 @@ namespace VANITILE
             /// ボタンの種類
             /// </summary>
             [field: SerializeField] public ButtonType Type { get; private set; }
-        }
-
-        /// <summary>
-        /// ボタンの種類
-        /// </summary>
-        public enum ButtonType
-        {
-            /// <summary>
-            /// 再開
-            /// </summary>
-            Resume,
-
-            /// <summary>
-            /// リスタート
-            /// </summary>
-            Restart,
-
-            /// <summary>
-            /// タイトルシーンへ
-            /// </summary>
-            ToTitle,
         }
     }
 }

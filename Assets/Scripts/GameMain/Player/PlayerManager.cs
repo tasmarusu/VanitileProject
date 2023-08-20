@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-
-namespace VANITILE
+﻿namespace VANITILE
 {
+    using System.Collections.Generic;
+    using UnityEngine;
+
     /// <summary>
     /// プレイヤー操作
     /// </summary>
@@ -47,8 +47,7 @@ namespace VANITILE
                     model.Prefab,
                     model.Point,
                     Quaternion.identity,
-                    this.transform).
-                    GetComponent<PlayerController>();
+                    this.transform).GetComponent<PlayerController>();
 
                 this.playerControllers.Add(part);
                 part.Initialize();

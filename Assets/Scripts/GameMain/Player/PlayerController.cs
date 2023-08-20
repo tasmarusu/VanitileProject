@@ -1,8 +1,8 @@
-﻿using UniRx;
-using UnityEngine;
-
-namespace VANITILE
+﻿namespace VANITILE
 {
+    using UniRx;
+    using UnityEngine;
+
     /// <summary>
     /// プレイヤー操作
     /// </summary>

@@ -55,11 +55,11 @@ MonoBehaviour:
   selectables:
   - {fileID: 6721420929182566217}
   - {fileID: 1791273946401025553}
-  bgmProperity:
+  properityBgm:
     slider: {fileID: 6721420929182566217}
     volumeText: {fileID: 6721420929366723664}
     audioType: 0
-  seProperity:
+  properitySe:
     slider: {fileID: 1791273946401025553}
     volumeText: {fileID: 1791273945009169672}
     audioType: 1

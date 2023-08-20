@@ -1,63 +1,17 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-
-namespace VANITILE
+﻿namespace VANITILE
 {
+    using System.Collections.Generic;
+    using UnityEngine;
+
     /// <summary>
     /// 実行ステージの状況
     /// </summary>
     public class StageDataModel : Singleton<StageDataModel>
     {
         /// <summary>
-        /// 現在実行中のステージ番号
-        /// </summary>
-        public int CurrentStageId { get; set; } = -1;
-
-        /// <summary>
-        /// 残り鍵数
-        /// </summary>
-        public int RemainKeyCount { get; private set; } = 0;
-
-        /// <summary>
-        /// 残りプレイヤーゴール数
-        /// </summary>
-        public int RemainPlayerCount { get; private set; } = 0;
-
-        /// <summary>
-        /// 残りブロック数
-        /// </summary>
-        public int RemainBlockCount { get; private set; } = 0;
-
-        /// <summary>
-        /// タイムマネージャー
-        /// </summary>
-        public TimeManager TimeMana { get; private set; } = null;
-
-        /// <summary>
         /// 現在のステート
         /// </summary>
         private MainGameState currentGameState = MainGameState.Before;
-
-        /// <summary>
-        /// 現在のゲームステート
-        /// </summary>
-        public MainGameState CurrentGameState
-        {
-            get
-            {
-                return this.currentGameState;
-            }
-            private set
-            {
-                this.BeforeGameState = this.currentGameState;
-                this.currentGameState = value;
-            }
-        }
-
-        /// <summary>
-        /// 1個前のゲームステート
-        /// </summary>
-        public MainGameState BeforeGameState { get; private set; } = MainGameState.Before;
 
         /// <summary>
         /// メインゲームステート
@@ -104,6 +58,53 @@ namespace VANITILE
             /// </summary>
             After = 99,
         }
+
+        /// <summary>
+        /// 現在実行中のステージ番号
+        /// </summary>
+        public int CurrentStageId { get; set; } = -1;
+
+        /// <summary>
+        /// 残り鍵数
+        /// </summary>
+        public int RemainKeyCount { get; private set; } = 0;
+
+        /// <summary>
+        /// 残りプレイヤーゴール数
+        /// </summary>
+        public int RemainPlayerCount { get; private set; } = 0;
+
+        /// <summary>
+        /// 残りブロック数
+        /// </summary>
+        public int RemainBlockCount { get; private set; } = 0;
+
+        /// <summary>
+        /// タイムマネージャー
+        /// </summary>
+        public TimeManager TimeMana { get; private set; } = null;
+
+        /// <summary>
+        /// 現在のゲームステート
+        /// </summary>
+        public MainGameState CurrentGameState
+        {
+            get
+            {
+                return this.currentGameState;
+            }
+
+            private set
+            {
+                this.BeforeGameState = this.currentGameState;
+                this.currentGameState = value;
+            }
+        }
+
+        /// <summary>
+        /// 1個前のゲームステート
+        /// </summary>
+        public MainGameState BeforeGameState { get; private set; } = MainGameState.Before;
 
         /// <summary>
         /// ゴール可能か
@@ -195,8 +196,6 @@ namespace VANITILE
 
                 // クリアUIの表示
                 GameMain.Instance.AppearClearUI();
-
-                //GameMain.Instance.GameMainTrans.TransitionNextStage();
             }
         }
 
