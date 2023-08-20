@@ -44,11 +44,6 @@
         [SerializeField] private List<Collider2D> col2Ds = new List<Collider2D>();
 
         /// <summary>
-        /// テキスト
-        /// </summary>
-        [SerializeField] private TextMeshProUGUI text;
-
-        /// <summary>
         /// 角度種類
         /// </summary>
         public enum AngleType

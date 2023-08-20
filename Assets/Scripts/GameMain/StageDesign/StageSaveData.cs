@@ -227,12 +227,12 @@
                 /// <summary>
                 /// ステージID
                 /// </summary>
-                [SerializeField] public int StageId = 0;
+                public int StageId = 0;
 
                 /// <summary>
                 /// セーブデータ
                 /// </summary>
-                [SerializeField] public List<StageEachData> Datas = new List<StageEachData>();
+                public List<StageEachData> Datas = new List<StageEachData>();
 
                 /// <summary>
                 /// コンストラクタ
@@ -256,12 +256,12 @@
                 /// <summary>
                 /// ステージの種類
                 /// </summary>
-                [SerializeField] public int Type;
+                public int Type;
 
                 /// <summary>
                 /// 座標
                 /// </summary>
-                [SerializeField] public Vector2 Point;
+                public Vector2 Point;
 
                 /// <summary>
                 /// コンストラクタ

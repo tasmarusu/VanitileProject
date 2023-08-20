@@ -220,7 +220,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e171695f555322479a859337becb829, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PartTypes: 0a000000
+  <PartTypes>k__BackingField: 0a000000
 --- !u!4 &452796461
 Transform:
   m_ObjectHideFlags: 0
@@ -388,10 +388,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -521,7 +521,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2642c9168581c4a459c38c48b8ed7cff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PartTypes: 14000000
+  <PartTypes>k__BackingField: 14000000
 --- !u!4 &889472687
 Transform:
   m_ObjectHideFlags: 0
@@ -658,7 +658,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26d3672641afa854dafb40412b116fff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PartTypes: 01000000
+  <PartTypes>k__BackingField: 01000000
 --- !u!66 &1642714947
 CompositeCollider2D:
   m_ObjectHideFlags: 0
@@ -731,7 +731,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 285f34fc2fbc78c45bc0f7ff10ce0b9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PartTypes: 5a000000
+  <PartTypes>k__BackingField: 5a000000
   playerMissPoint: {fileID: 730316140}
 --- !u!4 &1753845815
 Transform:
