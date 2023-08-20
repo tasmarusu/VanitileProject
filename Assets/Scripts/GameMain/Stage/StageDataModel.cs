@@ -31,7 +31,7 @@ namespace VANITILE
         /// <summary>
         /// タイムマネージャー
         /// </summary>
-        private TimeManager timeManager = null;
+        public TimeManager TimeMana { get; private set; } = null;
 
         /// <summary>
         /// 現在のステート
@@ -80,9 +80,9 @@ namespace VANITILE
             AbleGoal = 20,
 
             /// <summary>
-            /// ゴール
+            /// クリア
             /// </summary>
-            InGoal = 30,
+            Clear = 30,
 
             /// <summary>
             /// 失敗
@@ -153,8 +153,8 @@ namespace VANITILE
         public void StartGame()
         {
             this.CurrentGameState = MainGameState.NotAbleGoal;
-            this.timeManager = null;
-            this.timeManager = new TimeManager();
+            this.TimeMana = null;
+            this.TimeMana = new TimeManager();
         }
 
         /// <summary>
@@ -183,14 +183,20 @@ namespace VANITILE
         {
             this.RemainPlayerCount--;
 
-            // 全鍵取得したら遷移
+            // 全プレイヤーがゴールしたら遷移
             if (this.RemainPlayerCount <= 0)
             {
+                // ゴールステートに遷移
+                this.CurrentGameState = MainGameState.Clear;
+
                 // 時間を止めて取得
-                this.timeManager.Stop();
+                this.TimeMana.Stop();
                 GameSaveDataModel.Instance.SetClearStageNum(this.CurrentStageId);
 
-                GameMain.Instance.GameMainTrans.TransitionNextStage();
+                // クリアUIの表示
+                GameMain.Instance.AppearClearUI();
+
+                //GameMain.Instance.GameMainTrans.TransitionNextStage();
             }
         }
 
@@ -263,6 +269,14 @@ namespace VANITILE
             }
 
             this.CurrentGameState = this.BeforeGameState;
+        }
+
+        /// <summary>
+        /// クリアステートの終了 遷移に移動する
+        /// </summary>
+        public void SetEndClearState()
+        {
+            this.currentGameState = MainGameState.Transition;
         }
     }
 }

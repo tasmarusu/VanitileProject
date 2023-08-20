@@ -32,6 +32,11 @@ namespace VANITILE
         [field: SerializeField, Header("GameMainPoseManager")] private GameMainPoseManager posePrefab = null;
 
         /// <summary>
+        /// ClearManager
+        /// </summary>
+        [field: SerializeField, Header("ClearManager")] private ClearManager clearPrefab = null;
+
+        /// <summary>
         /// GameMainTrans
         /// </summary>
         [field: SerializeField, Header("GameMainTrans")] public GameMainTransition GameMainTrans { get; private set; } = null;
@@ -60,6 +65,16 @@ namespace VANITILE
             {
                 mana.Init();
             }
+        }
+
+        /// <summary>
+        /// クリアUIの表示
+        /// </summary>
+        public void AppearClearUI()
+        {
+            var clear = GameObject.Instantiate(this.clearPrefab.gameObject, this.uiCanvas).GetComponent<ClearManager>();
+            this.StartCoroutine(clear.Init());
+            this.StartCoroutine(clear.Finalize());
         }
 
         /// <summary>

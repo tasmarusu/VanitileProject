@@ -268,10 +268,7 @@ namespace VANITILE
                 return;
             }
 
-            var span = new TimeSpan(0, 0, (int)clearTime);
-            var mmss = span.ToString(@"mm\:ss");
-            var decima = Mathf.Floor((clearTime - Mathf.Floor(clearTime)) * 100);
-            this.bestClearTimeText.text = $"{mmss}:{decima}";
+            this.bestClearTimeText.text = TimeManager.GetClearTimeStr(clearTime);
         }
     }
 }

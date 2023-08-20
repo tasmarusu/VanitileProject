@@ -69,7 +69,7 @@ namespace VANITILE
             //yield return new WaitUntil(() => this.animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f);
 
             // 操作の終了
-            this.controllDisposables.Clear();
+            this.controllDisposables?.Clear();
 
             // 閉じるアニメーション開始
             this.root.DOScale(Vector3.zero, this.animationTime).SetEase(Ease.InBack);
