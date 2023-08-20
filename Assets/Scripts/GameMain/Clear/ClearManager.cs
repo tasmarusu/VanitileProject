@@ -45,6 +45,15 @@ namespace VANITILE
         /// <returns> IEnumerator </returns>
         public override IEnumerator Init()
         {
+            // 次のステージが存在しなければ NextStage を表示しない
+            var isEndStage = GameMain.Instance.StageTransitionData.StageDatas[StageDataModel.Instance.CurrentStageId].IsEndStage();
+            if (isEndStage)
+            {
+                var selectable = this.selectables.Find(x => x.Type == ButtonType.NextStage);
+                selectable.MyButton.interactable = false;
+                this.selectables.Remove(selectable);
+            }
+
             // 一個目を選択中
             this.selectables[this.currentSelectNum].MyButton.Select();
 
