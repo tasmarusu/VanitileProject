@@ -107,15 +107,6 @@ namespace VANITILE
                     GameObject.Destroy(this.gameObject);
                     SceneManager.LoadScene(DefineData.SceneName.TitleScene.ToString());
                     break;
-
-                // ゲーム終了
-                case ButtonType.GameEnd:
-#if UNITY_EDITOR
-                    UnityEditor.EditorApplication.isPlaying = false;
-#elif !UNITY_EDITOR
-                        UnityEngine.Application.Quit();
-#endif
-                    break;
             }
         }
 
@@ -189,11 +180,6 @@ namespace VANITILE
             /// タイトルシーンへ
             /// </summary>
             ToTitle,
-            
-            /// <summary>
-            /// ゲーム終了
-            /// </summary>
-            GameEnd,
         }
     }
 }

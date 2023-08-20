@@ -119,11 +119,6 @@
         HowToPlay = 1,
 
         /// <summary>
-        /// 続きから
-        /// </summary>
-        Continue = 5,
-
-        /// <summary>
         /// ステージセレクト
         /// </summary>
         StageSelect = 10,

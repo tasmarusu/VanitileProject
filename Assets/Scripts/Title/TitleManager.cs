@@ -76,10 +76,10 @@ namespace VANITILE
                         this.StartCoroutine(this.StartBackSelect(howToPlay, type));
                         break;
 
-                    case TitleSelectType.Continue:
-                        StageDataModel.Instance.CurrentStageId = GameSaveDataModel.Instance.PlayLastStageId;
-                        SceneManager.LoadScene(SceneName.GameMainScene.ToString());
-                        break;
+                    //case TitleSelectType.Continue:
+                    //    StageDataModel.Instance.CurrentStageId = GameSaveDataModel.Instance.PlayLastStageId;
+                    //    SceneManager.LoadScene(SceneName.GameMainScene.ToString());
+                    //    break;
 
                     case TitleSelectType.StageSelect:
                         var select = GameObject.Instantiate(this.stageSelectManagerPrefab.gameObject, this.parent).GetComponent<StageSelectManager>();
