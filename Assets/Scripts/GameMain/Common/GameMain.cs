@@ -13,27 +13,12 @@
         /// <summary>
         /// 地形マネージャー
         /// </summary>
-        [SerializeField, Header("地形マネージャー")] private List<StageManagerBase> managers = new List<StageManagerBase>();
+        protected StageManagerBase[] managers = null;
 
         /// <summary>
         /// Canvas
         /// </summary>
-        [SerializeField, Header("Canvas")] private Transform uiCanvas = null;
-
-        /// <summary>
-        /// シーン直起動時のロードステージid
-        /// </summary>
-        [SerializeField, Header("デバッグ：ステージID")] private int debugStageId = 0;
-
-        /// <summary>
-        /// GameMainPoseManager
-        /// </summary>
-        [field: SerializeField, Header("GameMainPoseManager")] private GameMainPoseManager posePrefab = null;
-
-        /// <summary>
-        /// ClearManager
-        /// </summary>
-        [field: SerializeField, Header("ClearManager")] private ClearManager clearPrefab = null;
+        private Transform uiCanvas = null;
 
         /// <summary>
         /// 操作CompositeDisposable
@@ -43,12 +28,12 @@
         /// <summary>
         /// GameMainTrans
         /// </summary>
-        [field: SerializeField, Header("GameMainTrans")] public GameMainTransition GameMainTrans { get; private set; } = null;
+        public GameMainTransition GameMainTrans { get; private set; } = null;
 
         /// <summary>
-        /// シーン直起動時のロードステージid
+        /// StageTransitionScriptable
         /// </summary>
-        [field: SerializeField] public StageTransitionScriptable StageTransitionData { get; private set; } = null;
+        public StageTransitionScriptable StageTransitionData { get; private set; } = null;
 
         /// <summary>
         /// StageDataManager
@@ -71,7 +56,8 @@
         /// </summary>
         public void AppearClearUI()
         {
-            var clear = GameObject.Instantiate(this.clearPrefab.gameObject, this.uiCanvas).GetComponent<ClearManager>();
+            var clearPrefab = Resources.Load<ClearManager>("Prefabs/MainGameUI/GameMainClearRoot");
+            var clear = GameObject.Instantiate(clearPrefab.gameObject, this.uiCanvas).GetComponent<ClearManager>();
             this.StartCoroutine(clear.Init());
             this.StartCoroutine(clear.Finalize());
         }
@@ -82,11 +68,18 @@
         /// </summary>
         private void Start()
         {
+            // コンポーネントなど取得
+            this.uiCanvas = this.transform.GetComponentInChildren<Canvas>().transform;
+            this.GameMainTrans = this.transform.GetComponent<GameMainTransition>();
+            this.StageTransitionData = Resources.Load<StageTransitionScriptable>("Scriptable/StageTransition");
+            this.managers = this.transform.GetComponentsInChildren<StageManagerBase>();
+
+            // シーン開始
             if (SceneManager.GetActiveScene().name != $"StageDesignManager")
             {
                 // 開始ステージの設定 -1の初期値ならデバッグステージ番号の開始
                 var id = StageDataModel.Instance.CurrentStageId;
-                StageDataModel.Instance.CurrentStageId = id == -1 ? this.debugStageId : id;
+                StageDataModel.Instance.CurrentStageId = id == -1 ? 0 : id;
                 this.GameMainTrans.Transition();
             }
 
@@ -109,7 +102,8 @@
                 .Subscribe(_ =>
                 {
                     // ポーズ開く
-                    var select = GameObject.Instantiate(this.posePrefab.gameObject, this.uiCanvas).GetComponent<GameMainPoseManager>();
+                    var posePrefab = Resources.Load<GameMainPoseManager>("Prefabs/MainGameUI/GameMainPoseRoot");
+                    var select = GameObject.Instantiate(posePrefab.gameObject, this.uiCanvas).GetComponent<GameMainPoseManager>();
                     this.StartCoroutine(select.Init());
                     this.StartCoroutine(select.Finalize());
                 })

@@ -9,13 +9,15 @@
     /// </summary>
     public class StageDesignManager : GameMain
     {
-        [field: SerializeField] public List<StageManagerBase> Managers { get; private set; } = new List<StageManagerBase>();
-
         /// <summary>
         /// 初期化
         /// </summary>
         private void Start()
         {
+            // 地形取得
+            this.managers = this.transform.GetComponentsInChildren<StageManagerBase>();
+
+            // ステージ再生成
             this.ReLoadStage();
 
             // 終了直後に State の変更を行う
@@ -23,7 +25,7 @@
             StageDataModel.Instance.StartGame();
 
             // 各モデルの初期化
-            foreach (var mana in this.Managers)
+            foreach (var mana in this.managers)
             {
                 mana.Init();
             }
@@ -37,7 +39,7 @@
             // UnityEditor に配置されてるステージ情報を取得
             // これ作ってて思ったがこのやり方だと何かの種類増えた時の改修ポイント多くね～～～？
             var parts = new List<StageLoadData>();
-            foreach (var mana in this.Managers)
+            foreach (var mana in this.managers)
             {
                 switch (mana.PartTypes[0])
                 {
@@ -85,7 +87,7 @@
 
             this.CurrentStageData = new StageSaveData.Data(parts);
 
-            foreach (var mana in this.Managers)
+            foreach (var mana in this.managers)
             {
                 for (int i = mana.transform.childCount - 1; i >= 0; i--)
                 {

@@ -55,12 +55,12 @@
 
             if (GUILayout.Button("ステージ順の調整"))
             {
-                string[] guids = AssetDatabase.FindAssets(string.Empty, new string[] { $"Assets/Data" });
+                string[] guids = AssetDatabase.FindAssets(string.Empty, new string[] { $"Assets/Data/Resources/Scriptable" });
                 string[] paths = guids.Select(guid => AssetDatabase.GUIDToAssetPath(guid)).ToArray();
 
                 for (int i = 0; i < paths.Length; i++)
                 {
-                    if (paths[i].ToString().Replace("Assets/Data/", string.Empty).Substring(0, 5) == "Stage")
+                    if (paths[i].ToString().Contains("StageTransition"))
                     {
                         EditorGUIUtility.PingObject(AssetDatabase.LoadAllAssetsAtPath(paths[i])[0]);
                         break;
@@ -206,9 +206,10 @@
                 }
 
                 // ステージを配置していく
+                var managers = this.manager.GetComponentsInChildren<StageManagerBase>().ToList();
                 foreach (var part in loadData.Parts)
                 {
-                    var parent = this.manager.Managers.Find(x => x.PartTypes.Contains(part.Type)).transform;
+                    var parent = managers.Find(x => x.PartTypes.Contains(part.Type)).transform;
                     GameObject.Instantiate(part.Prefab, part.Point, Quaternion.identity, parent);
                 }
 
