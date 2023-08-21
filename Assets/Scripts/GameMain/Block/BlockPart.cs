@@ -150,6 +150,9 @@
             // 重力追加して指定方向に飛ばす
             this.AddForceRig(angleType);
 
+            // 上ジャンプSE
+            SoundManager.Instance.PlaySe(DefineData.SeType.BreakBlock);
+
             var timer = this.hitPlayerDisolveValue;
             var pos = this.spRenderer.transform.position;
             var scale = this.spRenderer.transform.localScale;
@@ -162,9 +165,6 @@
                 this.spRenderer.transform.localScale = scale + new Vector3(val * 0.1f, val, .0f);
                 yield return null;
             }
-
-            // 上ジャンプSE
-            SoundManager.Instance.PlaySe(DefineData.SeType.BreakBlock);
 
             // 時間経過後ブロック完全削除
             GameObject.Destroy(this.gameObject);

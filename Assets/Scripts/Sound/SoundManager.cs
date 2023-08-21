@@ -13,9 +13,9 @@
         [SerializeField] private AudioSource sourceBgm = null;
 
         /// <summary>
-        /// BGMの種類
+        /// SEの種類 10以上は考慮しない
         /// </summary>
-        [SerializeField] private AudioSource sourceSe = null;
+        [SerializeField] private AudioSource[] sourceSes = null;
 
         /// <summary>
         /// BGM音量設定
@@ -46,7 +46,7 @@
         {
             get
             {
-                return this.sourceSe.volume;
+                return this.sourceSes[0].volume;
             }
 
             set
@@ -57,7 +57,10 @@
                     return;
                 }
 
-                this.sourceSe.volume = value;
+                foreach(var source in this.sourceSes)
+                {
+                    source.volume = value;
+                }
             }
         }
 
@@ -79,8 +82,17 @@
         public void PlaySe(DefineData.SeType type)
         {
             var clipName = Resources.Load<AudioClip>($"Sounds/Se/{type.ToString()}");
-            this.sourceSe.clip = (AudioClip)clipName;
-            this.sourceSe.Play();
+
+            // SE再生していない source を取得して再生
+            foreach (var source in this.sourceSes)
+            {
+                if (source.isPlaying == false)
+                {
+                    source.clip = (AudioClip)clipName;
+                    source.Play();
+                    break;
+                }
+            }
         }
 
         /// <summary>
