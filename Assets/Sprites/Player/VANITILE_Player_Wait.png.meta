@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: a019176589bca6d4ca39a2f9cfbcd76b
+guid: 38a019922e3b98c49ab4e5ec1c94244c
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -47,7 +47,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 128
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -117,7 +117,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Player_Wait_0
+      name: VANITILE_Player_Wait_0
       rect:
         serializedVersion: 2
         x: 0
@@ -131,14 +131,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fbd7cf465e4e0684c921f97b7c4dacc2
-      internalID: 1957763229
+      spriteID: 3c640ddc4746f6047a0b18a7fb967abd
+      internalID: 75385391
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Wait_1
+      name: VANITILE_Player_Wait_1
       rect:
         serializedVersion: 2
         x: 128
@@ -152,14 +152,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 51ffc0e0fe4035b4d9fd3ff9b5c88ab1
-      internalID: 1062080100
+      spriteID: 16a604321a9199d4e91242a951189af5
+      internalID: 1848448463
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Wait_2
+      name: VANITILE_Player_Wait_2
       rect:
         serializedVersion: 2
         x: 256
@@ -173,14 +173,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: af972b6e178f3204696f27efcd219f5b
-      internalID: -1347743903
+      spriteID: 1483c22f9d5f28142827c2c528f4ac10
+      internalID: 2039509580
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Wait_3
+      name: VANITILE_Player_Wait_3
       rect:
         serializedVersion: 2
         x: 384
@@ -194,8 +194,50 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 687fbad8b1c4f6f42af525b89af37a19
-      internalID: 1654029438
+      spriteID: f964c9631ddb4574c809135a848a5978
+      internalID: 82559638
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VANITILE_Player_Wait_4
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d390c26a1a13d764d886aef90a589218
+      internalID: 2103828081
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VANITILE_Player_Wait_5
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8a9df63cc4790ea49aefc8d34998c4a5
+      internalID: 1516983981
       vertices: []
       indices: 
       edges: []
@@ -211,10 +253,12 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Player_Wait_2: -1347743903
-      Player_Wait_3: 1654029438
-      Player_Wait_0: 1957763229
-      Player_Wait_1: 1062080100
+      VANITILE_Player_Wait_1: 1848448463
+      VANITILE_Player_Wait_5: 1516983981
+      VANITILE_Player_Wait_0: 75385391
+      VANITILE_Player_Wait_2: 2039509580
+      VANITILE_Player_Wait_4: 2103828081
+      VANITILE_Player_Wait_3: 82559638
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

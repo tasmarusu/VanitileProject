@@ -9,6 +9,11 @@
     public class StageDataModel : Singleton<StageDataModel>
     {
         /// <summary>
+        /// ゴール可能ブロック数
+        /// </summary>
+        private const int AbleBlockCount = 1;
+
+        /// <summary>
         /// 現在のステート
         /// </summary>
         private MainGameState currentGameState = MainGameState.Before;
@@ -185,7 +190,7 @@
             this.RemainPlayerCount--;
 
             // 全プレイヤーがゴールしたら遷移
-            if (this.RemainPlayerCount <= 0)
+            if (this.RemainPlayerCount <= AbleBlockCount - 1)
             {
                 // ゴールステートに遷移
                 this.CurrentGameState = MainGameState.Clear;
@@ -233,10 +238,10 @@
             this.RemainBlockCount--;
 
             // 全ブロック破壊したらゴール可能へ
-            this.CurrentGameState = this.RemainBlockCount <= 0 ? MainGameState.AbleGoal : this.CurrentGameState;
+            this.CurrentGameState = this.RemainBlockCount <= AbleBlockCount ? MainGameState.AbleGoal : this.CurrentGameState;
 
             // ゴール可能になればSEならす。ここでいいのか
-            if (this.RemainBlockCount <= 0)
+            if (this.RemainBlockCount <= AbleBlockCount)
             {
                 SoundManager.Instance.PlaySe(DefineData.SeType.AbleGoal);
             }

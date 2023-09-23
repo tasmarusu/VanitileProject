@@ -13,7 +13,7 @@
     public partial class PlayerMove : MonoBehaviour
     {
         /// <summary>
-        /// プレイヤーオブジェクト
+        /// 重力
         /// </summary>
         [SerializeField, Header("Rigitbody")] private Rigidbody2D rig2D;
 
@@ -26,6 +26,11 @@
         /// PlayerDataScriptable
         /// </summary>
         [SerializeField, Header("PlayerDataScriptable")] private PlayerDataScriptable playerData;
+
+        /// <summary>
+        /// 重力
+        /// </summary>
+        public Rigidbody2D Rig2D => this.rig2D;
 
         /// <summary>
         /// 壁滑り中の落下か

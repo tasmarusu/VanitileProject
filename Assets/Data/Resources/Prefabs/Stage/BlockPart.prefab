@@ -24,7 +24,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 659193495883033258}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -74,7 +74,9 @@ MonoBehaviour:
   hitPlayerDisolveSpeed: 2
   hitPlayerDisolveValue: 0.35
   hitPlayerDownValue: 0.05
+  hitSpriteTex: {fileID: 21300000, guid: 69a7197548bffdd43869f101c3cb74f6, type: 3}
   spRenderer: {fileID: 3263207287192506343}
+  myAnimator: {fileID: 1763903375931669062}
   col2Ds:
   - {fileID: 8854362374720373637}
   - {fileID: 6322806227462493508}
@@ -89,6 +91,7 @@ GameObject:
   - component: {fileID: 4154155141402622199}
   - component: {fileID: 3263207287192506343}
   - component: {fileID: 8854362374720373637}
+  - component: {fileID: 1763903375931669062}
   m_Layer: 0
   m_Name: SpriteCollider
   m_TagString: Untagged
@@ -152,7 +155,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 5cfa52808cc090b44b846a8ec3fc7a40, type: 3}
+  m_Sprite: {fileID: -615610060, guid: 8e15a0d9ba530304ca82e4e643674662, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -189,6 +192,26 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!95 &1763903375931669062
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2247405596781172637}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 832a16670ad9f16468ab20163e10b8ae, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &3158940956274319037
 GameObject:
   m_ObjectHideFlags: 0

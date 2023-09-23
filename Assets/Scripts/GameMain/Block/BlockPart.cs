@@ -1,5 +1,6 @@
 ﻿namespace VANITILE
 {
+    using DG.Tweening;
     using System.Collections;
     using System.Collections.Generic;
     using TMPro;
@@ -34,9 +35,19 @@
         [SerializeField, Header("接触時 ブロックの下がる 値")] private float hitPlayerDownValue = .05f;
 
         /// <summary>
+        /// 接触時 切り替え画像
+        /// </summary>
+        [SerializeField, Header("接触時 切り替え画像")] private Sprite hitSpriteTex = null;
+
+        /// <summary>
         /// SpriteRenderer
         /// </summary>
         [SerializeField] private SpriteRenderer spRenderer = null;
+
+        /// <summary>
+        /// Animator
+        /// </summary>
+        [SerializeField] private Animator myAnimator = null;
 
         /// <summary>
         /// Collider
@@ -99,7 +110,8 @@
         {
             this.IsContactPlayer = true;
             this.StartCoroutine(this.StartHitBlockDissolve());
-            this.spRenderer.materials[0].SetColor("_Color", type == CollisionType.Ground ? Color.red : Color.green);
+            this.spRenderer.sprite = this.hitSpriteTex;
+            //this.spRenderer.materials[0].SetColor("_Color", type == CollisionType.Ground ? Color.red : Color.green);
         }
 
         /// <summary>
@@ -153,6 +165,8 @@
             // 上ジャンプSE
             SoundManager.Instance.PlaySe(DefineData.SeType.BreakBlock);
 
+            this.myAnimator.SetTrigger("Break");
+
             var timer = this.hitPlayerDisolveValue;
             var pos = this.spRenderer.transform.position;
             var scale = this.spRenderer.transform.localScale;
@@ -165,6 +179,10 @@
                 this.spRenderer.transform.localScale = scale + new Vector3(val * 0.1f, val, .0f);
                 yield return null;
             }
+
+            //this.myAnimator.SetTrigger("Break");
+            //yield return null;
+            //yield return new WaitUntil(() => this.myAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f);
 
             // 時間経過後ブロック完全削除
             GameObject.Destroy(this.gameObject);
@@ -191,8 +209,8 @@
                     force = new Vector2(100.0f, 80.0f);
                     this.gameObject.AddComponent<Rigidbody2D>().AddForce(force);
 
-                    euler = this.transform.eulerAngles;
-                    this.transform.eulerAngles = new Vector3(euler.x, euler.y, euler.z + 5.0f);
+                    euler = new Vector3(euler.x, euler.y, euler.z + 6.0f);
+                    this.transform.DOLocalRotate(euler, 3.0f).SetEase(Ease.OutQuint);
 
                     break;
 
@@ -200,8 +218,8 @@
                     force = new Vector2(-100.0f, 80.0f);
                     this.gameObject.AddComponent<Rigidbody2D>().AddForce(force);
 
-                    euler = this.transform.eulerAngles;
-                    this.transform.eulerAngles = new Vector3(euler.x, euler.y, euler.z - 5.0f);
+                    euler = new Vector3(euler.x, euler.y, euler.z - 6.0f);
+                    this.transform.DOLocalRotate(euler, 3.0f).SetEase(Ease.OutQuint);
 
                     break;
             }

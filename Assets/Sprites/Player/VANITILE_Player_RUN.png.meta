@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 8b5f6fc0db64803479feab87458b0750
+guid: ec841f277121ed441abfb425f6293c39
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -47,7 +47,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 128
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -117,7 +117,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Player_Walk_0
+      name: VANITILE_Player_RUN_0
       rect:
         serializedVersion: 2
         x: 0
@@ -131,14 +131,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5f7525736e29bc04384c81112446cc77
-      internalID: -1768996534
+      spriteID: 34ed95c5dcf51ee43ab95b04fd8bf5f2
+      internalID: 856170706
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Walk_1
+      name: VANITILE_Player_RUN_1
       rect:
         serializedVersion: 2
         x: 128
@@ -152,14 +152,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ce3da57bdd434b246a3df33e60566d5b
-      internalID: -202866039
+      spriteID: e5c0587e40c0aab4d9538251bf8c0f13
+      internalID: 985735904
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Walk_2
+      name: VANITILE_Player_RUN_2
       rect:
         serializedVersion: 2
         x: 256
@@ -173,14 +173,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f610e8dbf5a2be3429d2d34ee32ac1c5
-      internalID: 1382877304
+      spriteID: 6931c87d7491650469cc2f3fb3d95dd9
+      internalID: -1406231988
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Walk_3
+      name: VANITILE_Player_RUN_3
       rect:
         serializedVersion: 2
         x: 384
@@ -194,14 +194,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2d2aeb2fb699d584ca932d93d43d5b85
-      internalID: 1617653664
+      spriteID: eacdf739d542c8d4baee6ef0bf826a85
+      internalID: 1588491567
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Walk_4
+      name: VANITILE_Player_RUN_4
       rect:
         serializedVersion: 2
         x: 512
@@ -215,14 +215,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7315399655e61b74595bd90d6addea9a
-      internalID: 864771537
+      spriteID: 5d0fc1858ea77e14ebba728cbbbb345c
+      internalID: -652048988
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Walk_5
+      name: VANITILE_Player_RUN_5
       rect:
         serializedVersion: 2
         x: 640
@@ -236,14 +236,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 85389f20b24be3343a9ed3c72e7e4f78
-      internalID: 224901862
+      spriteID: 44f08388b85093246a045020e200b722
+      internalID: 214411903
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Walk_6
+      name: VANITILE_Player_RUN_6
       rect:
         serializedVersion: 2
         x: 768
@@ -257,14 +257,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0c273e30dc98c8b42bf4fa73abf7d142
-      internalID: -1248224539
+      spriteID: 68ec3e12afc2e3e468b00f99e36204cc
+      internalID: -220222332
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Walk_7
+      name: VANITILE_Player_RUN_7
       rect:
         serializedVersion: 2
         x: 896
@@ -278,14 +278,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 31e305afe9f3f684fb6d3c85bd5b13ec
-      internalID: -1133231047
+      spriteID: 9392a731b84d10244a8c0a42d5bee674
+      internalID: -1456836265
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Walk_8
+      name: VANITILE_Player_RUN_8
       rect:
         serializedVersion: 2
         x: 1024
@@ -299,14 +299,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f966056bf5e1c7b4db8b0b4b365b3a70
-      internalID: 570445710
+      spriteID: 577e7b061c49a0749a203c7b26d8152c
+      internalID: 912455015
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Walk_9
+      name: VANITILE_Player_RUN_9
       rect:
         serializedVersion: 2
         x: 1152
@@ -320,8 +320,92 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9c79e9ade17541e4f8dcebdb750b084b
-      internalID: 792900471
+      spriteID: 3cea0c2f190a8d54fad8e41e15be7b16
+      internalID: 1133779788
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VANITILE_Player_RUN_10
+      rect:
+        serializedVersion: 2
+        x: 1280
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7c4c20a262c3d444f8d324dcac104272
+      internalID: -1652560556
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VANITILE_Player_RUN_11
+      rect:
+        serializedVersion: 2
+        x: 1408
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e2cfa7ae558ca7249ad44f63f081008c
+      internalID: -983092295
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VANITILE_Player_RUN_12
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 26808d3a91614e5478131f90f06a0768
+      internalID: 675077263
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VANITILE_Player_RUN_13
+      rect:
+        serializedVersion: 2
+        x: 1664
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c8d69e080a4b917438905e3d99f6161e
+      internalID: 986157274
       vertices: []
       indices: 
       edges: []
@@ -337,16 +421,20 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Player_Walk_5: 224901862
-      Player_Walk_1: -202866039
-      Player_Walk_4: 864771537
-      Player_Walk_8: 570445710
-      Player_Walk_6: -1248224539
-      Player_Walk_0: -1768996534
-      Player_Walk_3: 1617653664
-      Player_Walk_2: 1382877304
-      Player_Walk_7: -1133231047
-      Player_Walk_9: 792900471
+      VANITILE_Player_RUN_11: -983092295
+      VANITILE_Player_RUN_12: 675077263
+      VANITILE_Player_RUN_9: 1133779788
+      VANITILE_Player_RUN_13: 986157274
+      VANITILE_Player_RUN_3: 1588491567
+      VANITILE_Player_RUN_7: -1456836265
+      VANITILE_Player_RUN_0: 856170706
+      VANITILE_Player_RUN_8: 912455015
+      VANITILE_Player_RUN_4: -652048988
+      VANITILE_Player_RUN_5: 214411903
+      VANITILE_Player_RUN_1: 985735904
+      VANITILE_Player_RUN_6: -220222332
+      VANITILE_Player_RUN_10: -1652560556
+      VANITILE_Player_RUN_2: -1406231988
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

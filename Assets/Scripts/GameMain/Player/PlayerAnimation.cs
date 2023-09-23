@@ -14,6 +14,11 @@
         [SerializeField, Header("Animator")] private Animator animator = null;
 
         /// <summary>
+        /// Rigidbody2D
+        /// </summary>
+        private Rigidbody2D rig2D = null;
+
+        /// <summary>
         /// Animatorのパラメーター名
         /// 1 -20 float
         /// 21-40 bool
@@ -26,6 +31,11 @@
             /// 歩行
             /// </summary>
             Walk = 1,
+
+            /// <summary>
+            /// 重力
+            /// </summary>
+            Gravity = 10,
 
             /// <summary>
             /// 壁タッチ
@@ -46,11 +56,12 @@
         /// <summary>
         /// 初期化
         /// </summary>
-        public void Init()
+        public void Init(Rigidbody2D rig2D)
         {
             Debug.Assert(this.animator != null, $"[Player]Animatorがオブジェクトにアタッチされていません");
 
             this.SetInputSpeed();
+            this.rig2D = rig2D;
         }
 
         /// <summary>
@@ -86,8 +97,13 @@
         {
             Observable.EveryUpdate().Subscribe(_ =>
             {
+                // 横移動
                 var input = Mathf.Abs(InputManager.Instance.Horizontal);
                 this.animator.SetFloat(StateName.Walk.ToString(), input);
+
+                // 重力方向
+                this.animator.SetFloat(StateName.Gravity.ToString(), this.rig2D.velocity.y);
+
             }).AddTo(this);
         }
     }

@@ -29,7 +29,7 @@
         public void Initialize()
         {
             this.move.Init();
-            this.animator.Init();
+            this.animator.Init(this.move.Rig2D);
             this.CheckMovementState();
             Observable.EveryUpdate()
                 .Where(_ => StageDataModel.Instance.IsAbleMovePlayer())

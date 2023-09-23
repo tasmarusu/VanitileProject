@@ -20,6 +20,11 @@
         [SerializeField] private Collider2D myCollider = null;
 
         /// <summary>
+        /// Animator
+        /// </summary>
+        [SerializeField] private Animator myAnimator = null;
+
+        /// <summary>
         /// 初期化
         /// </summary>
         public void Initialize()
@@ -40,7 +45,8 @@
         /// </summary>
         public void StartCheckHitPlayer()
         {
-            this.sprite.enabled = true;
+            //this.sprite.enabled = true;
+            this.myAnimator.SetTrigger("Able");
 
             // ゴール可能状態でプレイヤーと接触するとゴール
             // 可能になったら購読開始とかしたい
