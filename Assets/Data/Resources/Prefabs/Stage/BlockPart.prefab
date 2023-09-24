@@ -73,6 +73,10 @@ MonoBehaviour:
   disappearLerpSpeed: 0.5
   hitPlayerDisolveSpeed: 2
   hitPlayerDisolveValue: 0.35
+  forceValue: {x: 100, y: 60}
+  eulerValue: 30
+  eulerTime: 1
+  ease: 3
   hitPlayerDownValue: 0.05
   hitSpriteTex: {fileID: 21300000, guid: 69a7197548bffdd43869f101c3cb74f6, type: 3}
   spRenderer: {fileID: 3263207287192506343}

@@ -19,6 +19,8 @@ Shader "Unlit/DissolveUnlitShader"
 
         Pass
         {
+            Name "BASE" //本体部分を描画するパスの名前
+
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag

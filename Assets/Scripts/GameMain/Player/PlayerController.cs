@@ -124,7 +124,7 @@
                 switch (state)
                 {
                     case PlayerMove.MovementState.Wall:
-                        SoundManager.Instance.PlaySe(DefineData.SeType.Other);
+                        SoundManager.Instance.PlaySe(DefineData.SeType.WallTouch);
                         this.move.ResetParamOnContactWall();
                         this.move.StartWallFallCoroutine();
                         break;

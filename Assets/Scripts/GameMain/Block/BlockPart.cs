@@ -30,6 +30,26 @@
         [SerializeField, Header("接触時 Dissolve 値"), Range(0.0f, 1.0f)] private float hitPlayerDisolveValue = .35f;
 
         /// <summary>
+        /// 壁蹴り時の飛ぶ量
+        /// </summary>
+        [SerializeField, Header("壁蹴り時の飛ぶ量")] private Vector2 forceValue = new Vector2(100.0f, 50.0f);
+
+        /// <summary>
+        /// 壁蹴り時の飛ぶ角度
+        /// </summary>
+        [SerializeField, Header("壁蹴り時の飛ぶ角度")] private float eulerValue = 60.0f;
+
+        /// <summary>
+        /// 壁蹴り時の飛ぶ最大までの時間
+        /// </summary>
+        [SerializeField, Header("壁蹴り時の飛ぶ最大までの時間")] private float eulerTime = 2.0f;
+
+        /// <summary>
+        /// 壁蹴り時の飛ぶ最大までの遷移
+        /// </summary>
+        [SerializeField, Header("壁蹴り時の飛ぶ最大までの遷移")] private Ease ease = Ease.InOutCubic;
+
+        /// <summary>
         /// 接触時 ブロックの下がる 値
         /// </summary>
         [SerializeField, Header("接触時 ブロックの下がる 値")] private float hitPlayerDownValue = .05f;
@@ -112,6 +132,7 @@
             this.StartCoroutine(this.StartHitBlockDissolve());
             this.spRenderer.sprite = this.hitSpriteTex;
             //this.spRenderer.materials[0].SetColor("_Color", type == CollisionType.Ground ? Color.red : Color.green);
+
         }
 
         /// <summary>
@@ -193,8 +214,8 @@
         /// </summary>
         private void AddForceRig(AngleType angleType)
         {
-            var force = Vector2.zero;
-            var euler = Vector3.zero;
+            var force = this.forceValue;
+            var euler = new Vector3(.0f, .0f, this.eulerValue);
 
             switch (angleType)
             {
@@ -206,20 +227,17 @@
                     break;
 
                 case AngleType.Right:
-                    force = new Vector2(100.0f, 80.0f);
                     this.gameObject.AddComponent<Rigidbody2D>().AddForce(force);
-
-                    euler = new Vector3(euler.x, euler.y, euler.z + 6.0f);
-                    this.transform.DOLocalRotate(euler, 3.0f).SetEase(Ease.OutQuint);
+                    this.transform.DOLocalRotate(euler, this.eulerTime).SetEase(this.ease);
 
                     break;
 
                 case AngleType.Left:
-                    force = new Vector2(-100.0f, 80.0f);
-                    this.gameObject.AddComponent<Rigidbody2D>().AddForce(force);
+                    force.x *= -1.0f;
+                    euler.z *= -1.0f;
 
-                    euler = new Vector3(euler.x, euler.y, euler.z - 6.0f);
-                    this.transform.DOLocalRotate(euler, 3.0f).SetEase(Ease.OutQuint);
+                    this.gameObject.AddComponent<Rigidbody2D>().AddForce(force);
+                    this.transform.DOLocalRotate(euler, this.eulerTime).SetEase(this.ease);
 
                     break;
             }

@@ -76,7 +76,7 @@
         }
 
         /// <summary>
-        /// BGM再生
+        /// SE再生
         /// </summary>
         /// <param name="type">DefineData.SeType</param>
         public void PlaySe(DefineData.SeType type)

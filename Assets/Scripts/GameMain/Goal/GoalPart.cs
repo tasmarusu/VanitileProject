@@ -41,13 +41,19 @@
         }
 
         /// <summary>
+        /// ゴールの見た目変更
+        /// </summary>
+        public void StartChangeLooking()
+        {
+            //this.sprite.enabled = true;
+            this.myAnimator.SetTrigger("Able");
+        }
+
+        /// <summary>
         /// プレイヤーとの接触判定
         /// </summary>
         public void StartCheckHitPlayer()
         {
-            //this.sprite.enabled = true;
-            this.myAnimator.SetTrigger("Able");
-
             // ゴール可能状態でプレイヤーと接触するとゴール
             // 可能になったら購読開始とかしたい
             this.myCollider.OnTriggerStay2DAsObservable()

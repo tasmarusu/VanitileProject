@@ -27,6 +27,7 @@
             this.goalParts.Clear();
             base.Init();
             this.CheckAbleGoal();
+            this.CheckLookGoal();
         }
 
         /// <summary>
@@ -47,6 +48,21 @@
                 this.goalParts.Add(part);
                 part.Initialize();
             }
+        }
+
+        /// <summary>
+        /// 見た目変更監視か
+        /// </summary>
+        private void CheckLookGoal()
+        {
+            // 全鍵取得後、ゴール可能へ
+            this.ObserveEveryValueChanged(x => StageDataModel.Instance.IsChangeLookGoal())
+                .Where(isChangeLook => isChangeLook)
+                .First()
+                .Subscribe(x =>
+                {
+                    this.goalParts.ForEach(x => x.StartChangeLooking());
+                }).AddTo(this.goalParts[0]);
         }
 
         /// <summary>

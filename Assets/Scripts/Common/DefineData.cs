@@ -87,6 +87,11 @@
         Jump = 1,
 
         /// <summary>
+        /// 壁張り付き
+        /// </summary>
+        WallTouch = 5,
+
+        /// <summary>
         /// ブロック破壊
         /// </summary>
         BreakBlock = 10,

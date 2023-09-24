@@ -589,17 +589,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a8d1c50740d748449be8335dc6bde57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  managers:
-  - {fileID: 1642714946}
-  - {fileID: 452796460}
-  - {fileID: 889472686}
-  - {fileID: 1753845814}
-  uiCanvas: {fileID: 665802419}
-  debugStageId: 0
-  posePrefab: {fileID: 6271611729988218221, guid: 61cf0c607d042754c937d9323019c027, type: 3}
-  clearPrefab: {fileID: 7286040109471513910, guid: 1f96caad509cadf438def0c75c0c7309, type: 3}
-  <GameMainTrans>k__BackingField: {fileID: 1458406393}
-  <StageTransitionData>k__BackingField: {fileID: 11400000, guid: 2e9bbf47dc5e0534e954cc3fa3266922, type: 2}
 --- !u!114 &1458406393
 MonoBehaviour:
   m_ObjectHideFlags: 0

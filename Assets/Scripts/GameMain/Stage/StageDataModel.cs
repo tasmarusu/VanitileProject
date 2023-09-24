@@ -11,7 +11,12 @@
         /// <summary>
         /// ゴール可能ブロック数
         /// </summary>
-        private const int AbleBlockCount = 1;
+        private const int AbleBlockCount = 0;
+
+        /// <summary>
+        /// 見た目変更数
+        /// </summary>
+        private const int ChangeGoalLookCount = 1;
 
         /// <summary>
         /// 現在のステート
@@ -34,9 +39,14 @@
             NotAbleGoal = 10,
 
             /// <summary>
+            /// ゴールの見た目変更
+            /// </summary>
+            ChangeGoalLook = 20,
+
+            /// <summary>
             /// 全鍵取得後
             /// </summary>
-            AbleGoal = 20,
+            AbleGoal = 21,
 
             /// <summary>
             /// クリア
@@ -118,6 +128,12 @@
         public bool IsAbleGoal() => this.CurrentGameState == MainGameState.AbleGoal;
 
         /// <summary>
+        /// ゴールの見た目変更
+        /// </summary>
+        /// <returns></returns>
+        public bool IsChangeLookGoal() => this.CurrentGameState == MainGameState.ChangeGoalLook;
+
+        /// <summary>
         /// ポーズ中
         /// </summary>
         /// <returns></returns>
@@ -129,7 +145,7 @@
         /// <returns></returns>
         public bool IsAbleMovePlayer()
         {
-            var state = new List<MainGameState>() { MainGameState.NotAbleGoal, MainGameState.AbleGoal };
+            var state = new List<MainGameState>() { MainGameState.NotAbleGoal, MainGameState.AbleGoal, MainGameState.ChangeGoalLook };
             return state.Contains(this.CurrentGameState);
         }
 
@@ -139,7 +155,7 @@
         /// <returns></returns>
         public bool IsGamePlaying()
         {
-            var state = new List<MainGameState>() { MainGameState.NotAbleGoal, MainGameState.AbleGoal, MainGameState.Pose };
+            var state = new List<MainGameState>() { MainGameState.NotAbleGoal, MainGameState.AbleGoal, MainGameState.Pose, MainGameState.ChangeGoalLook };
             return state.Contains(this.CurrentGameState);
         }
 
@@ -190,7 +206,7 @@
             this.RemainPlayerCount--;
 
             // 全プレイヤーがゴールしたら遷移
-            if (this.RemainPlayerCount <= AbleBlockCount - 1)
+            if (this.RemainPlayerCount <= AbleBlockCount)
             {
                 // ゴールステートに遷移
                 this.CurrentGameState = MainGameState.Clear;
@@ -231,22 +247,30 @@
         }
 
         /// <summary>
-        /// ブロックと接触
+        /// ブロックと離れる
         /// </summary>
         public void TouchBlockInPlayer()
         {
             this.RemainBlockCount--;
 
             // 全ブロック破壊したらゴール可能へ
-            this.CurrentGameState = this.RemainBlockCount <= AbleBlockCount ? MainGameState.AbleGoal : this.CurrentGameState;
+            this.CurrentGameState = this.RemainBlockCount <= AbleBlockCount - 1 ? MainGameState.AbleGoal : this.CurrentGameState;
 
             // ゴール可能になればSEならす。ここでいいのか
             if (this.RemainBlockCount <= AbleBlockCount)
             {
+                this.CurrentGameState = MainGameState.AbleGoal;
+
                 SoundManager.Instance.PlaySe(DefineData.SeType.AbleGoal);
+                return;
             }
 
-            Debug.Log($"[]Block:{this.RemainBlockCount} State:{ this.CurrentGameState}");
+            // ゴール見た目変更
+            if (this.RemainBlockCount <= ChangeGoalLookCount)
+            {
+                this.CurrentGameState = MainGameState.ChangeGoalLook;
+                return;
+            }
         }
 
         /// <summary>
